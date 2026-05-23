@@ -103,9 +103,12 @@ function AdjacentPostNav({
       aria-label="Adjacent posts"
     >
       {prev?.path && (
-        <Link href={`/${prev.path}`} className="flex w-full gap-1 hover:opacity-75">
-          <ArrowLeftIcon className="inline-block flex-none" />
-          <div>
+        <Link
+          href={`/${prev.path}`}
+          className="group flex w-full items-start gap-2 hover:opacity-75"
+        >
+          <ArrowLeftIcon className="mt-0.5 size-5 flex-none transition-transform group-hover:-translate-x-0.5" />
+          <div className="min-w-0">
             <span>Previous post</span>
             <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
               <PostTitleTransition title={prev.title}>{prev.title}</PostTitleTransition>
@@ -117,15 +120,15 @@ function AdjacentPostNav({
       {next?.path && (
         <Link
           href={`/${next.path}`}
-          className="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
+          className="group flex w-full items-start justify-end gap-2 text-end hover:opacity-75 sm:col-start-2"
         >
-          <div>
+          <div className="min-w-0">
             <span>Next post</span>
             <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
               <PostTitleTransition title={next.title}>{next.title}</PostTitleTransition>
             </div>
           </div>
-          <ArrowRightIcon className="inline-block flex-none" />
+          <ArrowRightIcon className="mt-0.5 size-5 flex-none transition-transform group-hover:translate-x-0.5" />
         </Link>
       )}
     </nav>
