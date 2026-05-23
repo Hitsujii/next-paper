@@ -1,168 +1,181 @@
 import { ReactNode } from 'react'
+import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
-import type { Blog, Authors } from 'contentlayer/generated'
+import type { Authors, Blog } from 'contentlayer/generated'
 import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
-import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 
-const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
-const discussUrl = (path) =>
-  `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`
-
-const postDateTemplate: Intl.DateTimeFormatOptions = {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-}
-
 interface LayoutProps {
   content: CoreContent<Blog>
-  authorDetails: CoreContent<Authors>[]
+  authorDetails?: CoreContent<Authors>[]
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
   children: ReactNode
 }
 
-export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags } = content
-  const basePath = path.split('/')[0]
+const CalendarIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M8 2v4" />
+    <path d="M16 2v4" />
+    <rect width="18" height="18" x="3" y="4" rx="2" />
+    <path d="M3 10h18" />
+  </svg>
+)
+
+const ArrowLeftIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M19 12H5" />
+    <path d="m12 19-7-7 7-7" />
+  </svg>
+)
+
+const ArrowRightIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
+)
+
+function Datetime({ date, lastmod }: { date: string; lastmod?: string }) {
+  const isModified = Boolean(lastmod && lastmod > date)
+  const displayDate = isModified ? lastmod : date
+
+  return (
+    <dl className="mt-3">
+      <dt className="sr-only">{isModified ? 'Updated on' : 'Published on'}</dt>
+      <dd className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)] sm:text-base">
+        <CalendarIcon className="inline-block size-6 min-w-5.5 scale-90" />
+        {isModified && <span>Updated:</span>}
+        <time dateTime={displayDate}>{formatDate(displayDate, siteMetadata.locale)}</time>
+      </dd>
+    </dl>
+  )
+}
+
+function AdjacentPostNav({
+  next,
+  prev,
+}: {
+  next?: { path: string; title: string }
+  prev?: { path: string; title: string }
+}) {
+  if (!next && !prev) return null
+
+  return (
+    <nav
+      data-pagefind-ignore
+      className="my-8 grid grid-cols-1 gap-6 sm:grid-cols-2"
+      aria-label="Adjacent posts"
+    >
+      {prev?.path && (
+        <Link href={`/${prev.path}`} className="flex w-full gap-1 hover:opacity-75">
+          <ArrowLeftIcon className="inline-block flex-none" />
+          <div>
+            <span>Previous post</span>
+            <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
+              {prev.title}
+            </div>
+          </div>
+        </Link>
+      )}
+
+      {next?.path && (
+        <Link
+          href={`/${next.path}`}
+          className="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
+        >
+          <div>
+            <span>Next post</span>
+            <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
+              {next.title}
+            </div>
+          </div>
+          <ArrowRightIcon className="inline-block flex-none" />
+        </Link>
+      )}
+    </nav>
+  )
+}
+
+export default function PostLayout({ content, next, prev, children }: LayoutProps) {
+  const { path, slug, date, lastmod, title, tags } = content
+  const basePath = path?.split('/')[0] || 'blog'
 
   return (
     <SectionContainer>
       <ScrollTopAndComment />
-      <article>
-        <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
-          <header className="pt-6 xl:pb-6">
-            <div className="space-y-1 text-center">
-              <dl className="space-y-10">
-                <div>
-                  <dt className="sr-only">Published on</dt>
-                  <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
-                    <time dateTime={date}>
-                      {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
-                    </time>
-                  </dd>
-                </div>
-              </dl>
-              <div>
-                <PageTitle>{title}</PageTitle>
-              </div>
-            </div>
+
+      <div className="mt-8">
+        <Link
+          href={`/${basePath}`}
+          className="mb-6 inline-flex items-center gap-1 text-[var(--accent)] hover:opacity-75"
+          aria-label="Back to the blog"
+        >
+          <ArrowLeftIcon className="size-5" />
+          Back
+        </Link>
+      </div>
+
+      <main id="main-content" className="pb-4" data-pagefind-body>
+        <article>
+          <header>
+            <PageTitle>{title}</PageTitle>
+            <Datetime date={date} lastmod={lastmod} />
+
+            {tags?.length > 0 && (
+              <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+                {tags.map((tag) => (
+                  <Tag key={tag} text={tag} />
+                ))}
+              </ul>
+            )}
           </header>
-          <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0 dark:divide-gray-700">
-            <dl className="pt-6 pb-10 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
-              <dt className="sr-only">Authors</dt>
-              <dd>
-                <ul className="flex flex-wrap justify-center gap-4 sm:space-x-12 xl:block xl:space-y-8 xl:space-x-0">
-                  {authorDetails.map((author) => (
-                    <li className="flex items-center space-x-2" key={author.name}>
-                      {author.avatar && (
-                        <Image
-                          src={author.avatar}
-                          width={38}
-                          height={38}
-                          alt="avatar"
-                          className="h-10 w-10 rounded-full"
-                        />
-                      )}
-                      <dl className="text-sm leading-5 font-medium whitespace-nowrap">
-                        <dt className="sr-only">Name</dt>
-                        <dd className="text-gray-900 dark:text-gray-100">{author.name}</dd>
-                        <dt className="sr-only">Twitter</dt>
-                        <dd>
-                          {author.twitter && (
-                            <Link
-                              href={author.twitter}
-                              className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                            >
-                              {author.twitter
-                                .replace('https://twitter.com/', '@')
-                                .replace('https://x.com/', '@')}
-                            </Link>
-                          )}
-                        </dd>
-                      </dl>
-                    </li>
-                  ))}
-                </ul>
-              </dd>
-            </dl>
-            <div className="divide-y divide-gray-200 xl:col-span-3 xl:row-span-2 xl:pb-0 dark:divide-gray-700">
-              <div className="prose dark:prose-invert max-w-none pt-10 pb-8">{children}</div>
-              <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
-                <Link href={discussUrl(path)} rel="nofollow">
-                  Discuss on Twitter
-                </Link>
-                {` • `}
-                <Link href={editUrl(filePath)}>View on GitHub</Link>
-              </div>
-              {siteMetadata.comments && (
-                <div
-                  className="pt-6 pb-6 text-center text-gray-700 dark:text-gray-300"
-                  id="comment"
-                >
-                  <Comments slug={slug} />
-                </div>
-              )}
-            </div>
-            <footer>
-              <div className="divide-gray-200 text-sm leading-5 font-medium xl:col-start-1 xl:row-start-2 xl:divide-y dark:divide-gray-700">
-                {tags && (
-                  <div className="py-4 xl:py-8">
-                    <h2 className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
-                      Tags
-                    </h2>
-                    <div className="flex flex-wrap">
-                      {tags.map((tag) => (
-                        <Tag key={tag} text={tag} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {(next || prev) && (
-                  <div className="flex justify-between py-4 xl:block xl:space-y-8 xl:py-8">
-                    {prev && prev.path && (
-                      <div>
-                        <h2 className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
-                          Previous Article
-                        </h2>
-                        <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/${prev.path}`}>{prev.title}</Link>
-                        </div>
-                      </div>
-                    )}
-                    {next && next.path && (
-                      <div>
-                        <h2 className="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
-                          Next Article
-                        </h2>
-                        <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/${next.path}`}>{next.title}</Link>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-              <div className="pt-4 xl:pt-8">
-                <Link
-                  href={`/${basePath}`}
-                  className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                  aria-label="Back to the blog"
-                >
-                  &larr; Back to the blog
-                </Link>
-              </div>
-            </footer>
+
+          <div className="post-content prose max-w-none pt-8 pb-6 dark:prose-invert">
+            {children}
           </div>
-        </div>
-      </article>
+
+          {siteMetadata.comments && (
+            <div className="pt-6 pb-6 text-center text-[var(--muted-foreground)]" id="comment">
+              <Comments slug={slug} />
+            </div>
+          )}
+
+          <AdjacentPostNav prev={prev} next={next} />
+        </article>
+      </main>
     </SectionContainer>
   )
 }

@@ -293,3 +293,40 @@ input:-webkit-autofill:focus {
     text-underline-offset: 8px;
   }
 }
+
+/* NextPaper AstroPaper post content */
+.post-content {
+  color: var(--foreground);
+}
+
+.post-content :where(h2, h3, h4, h5, h6) {
+  scroll-margin-top: 6rem;
+}
+
+.post-content :where(a) {
+  color: var(--accent);
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+.post-content :where(a:hover) {
+  opacity: 0.8;
+}
+
+.post-content :where(blockquote) {
+  border-inline-start-color: var(--accent);
+  color: var(--foreground);
+}
+
+.post-content :where(code) {
+  color: var(--foreground);
+}
+
+.post-content :where(hr) {
+  border-color: var(--border);
+}
+
+.post-content :where(table) {
+  margin-block: 0;
+}
