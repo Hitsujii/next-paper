@@ -43,6 +43,25 @@ const CloseIcon = ({ className = '' }: { className?: string }) => (
   </svg>
 )
 
+const ArchiveIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M4 7h16" />
+    <path d="M6 7v12h12V7" />
+    <path d="M9 11h6" />
+    <path d="M9 15h6" />
+    <path d="M8 3h8l1 4H7l1-4Z" />
+  </svg>
+)
+
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = normalizePath(usePathname() || '/')
@@ -53,10 +72,7 @@ const Header = () => {
     const current = normalizePath(pathname)
     const target = normalizePath(href)
 
-    if (target === '/') {
-      return current === '/'
-    }
-
+    if (target === '/') return current === '/'
     return current === target || current.startsWith(`${target}/`)
   }
 
@@ -70,7 +86,7 @@ const Header = () => {
         Skip to content
       </a>
 
-      <header className="flex flex-col items-center justify-between sm:flex-row">
+      <header className="app-layout flex flex-col items-center justify-between sm:flex-row">
         <div className="relative flex w-full items-baseline justify-between border-b border-[var(--border)] bg-[var(--background)] py-4 sm:items-center sm:py-6">
           <Link
             href="/"
@@ -108,23 +124,37 @@ const Header = () => {
                 menuOpen ? 'grid grid-cols-2' : 'hidden',
               ].join(' ')}
             >
-              {headerNavLinks
-                .filter((link) => link.href !== '/')
-                .map((link) => (
-                  <li key={link.title} className="col-span-2">
-                    <Link
-                      href={link.href}
-                      className={isActive(link.href) ? 'active-nav' : undefined}
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {link.title}
-                    </Link>
-                  </li>
-                ))}
+              {headerNavLinks.map((link) => (
+                <li key={link.title} className="col-span-2">
+                  <Link
+                    href={link.href}
+                    className={isActive(link.href) ? 'active-nav' : undefined}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {link.title}
+                  </Link>
+                </li>
+              ))}
+
+              <li className="col-span-1 flex items-center justify-center">
+                <Link
+                  href="/projects"
+                  className={[
+                    'focus-outline relative flex size-12 items-center justify-center p-4 hover:text-[var(--accent)] sm:size-8 sm:p-0',
+                    isActive('/projects') ? 'active-nav' : '',
+                  ].join(' ')}
+                  aria-label="Projects"
+                  title="Projects"
+                >
+                  <ArchiveIcon className="size-6" />
+                  <span className="sr-only">Projects</span>
+                </Link>
+              </li>
 
               <li className="col-span-1 flex items-center justify-center">
                 <SearchButton />
               </li>
+
               <li className="col-span-1 flex items-center justify-center">
                 <ThemeSwitch />
               </li>

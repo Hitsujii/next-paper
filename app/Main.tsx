@@ -1,5 +1,4 @@
 import Link from '@/components/Link'
-import Tag from '@/components/Tag'
 import SocialIcon from '@/components/social-icons'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
@@ -11,7 +10,7 @@ const MAX_DISPLAY = 4
 
 const socialLinks = [
   { kind: 'github', href: siteMetadata.github },
-  { kind: 'x', href: siteMetadata.twitter },
+  { kind: 'x', href: siteMetadata.twitter || siteMetadata.x },
   { kind: 'linkedin', href: siteMetadata.linkedin },
   { kind: 'mail', href: siteMetadata.email ? `mailto:${siteMetadata.email}` : undefined },
 ] as const
@@ -68,9 +67,11 @@ const ArrowRightIcon = ({ className = '' }: { className?: string }) => (
 )
 
 function PostCard({ post, heading = 'h2' }) {
-  const { date, path, slug, summary, tags, title } = post
+  const { date, lastmod, path, slug, summary, title } = post
   const href = path ? `/${path}` : `/blog/${slug}`
   const Heading = heading
+  const isModified = Boolean(lastmod && lastmod > date)
+  const displayDate = isModified ? lastmod : date
 
   return (
     <li className="my-6">
@@ -85,24 +86,15 @@ function PostCard({ post, heading = 'h2' }) {
         </Link>
 
         <dl className="mt-1">
-          <dt className="sr-only">Published on</dt>
+          <dt className="sr-only">{isModified ? 'Updated on' : 'Published on'}</dt>
           <dd className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)]">
-            <CalendarIcon className="inline-block size-5 min-w-5" />
-            <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+            <CalendarIcon className="inline-block size-6 min-w-5.5 scale-90" />
+            {isModified && <span>Updated:</span>}
+            <time dateTime={displayDate}>{formatDate(displayDate, siteMetadata.locale)}</time>
           </dd>
         </dl>
 
-        {summary && <p className="mt-2">{summary}</p>}
-
-        {tags?.length > 0 && (
-          <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
-            {tags.map((tag) => (
-              <li key={tag}>
-                <Tag text={tag} />
-              </li>
-            ))}
-          </ul>
-        )}
+        {summary && <p>{summary}</p>}
       </article>
     </li>
   )
@@ -114,17 +106,20 @@ function SectionTitle({ children }) {
 
 export default function Home({ posts }) {
   const featuredPosts = posts.filter((post) => Boolean(post.featured)).slice(0, MAX_DISPLAY)
+  const fallbackFeaturedPosts = featuredPosts.length > 0 ? featuredPosts : posts.slice(0, 3)
+  const featuredPaths = new Set(fallbackFeaturedPosts.map((post) => post.path ?? post.slug))
   const recentPosts = posts
-    .filter((post) => !post.featured)
-    .slice(0, featuredPosts.length > 0 ? MAX_DISPLAY : MAX_DISPLAY)
+    .filter((post) => !featuredPaths.has(post.path ?? post.slug))
+    .slice(0, MAX_DISPLAY)
 
   return (
     <>
       <RememberBackUrl />
+
       <main id="main-content" data-layout="index">
         <section id="hero" className="border-b border-[var(--border)] pt-8 pb-6">
           <h1 className="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-            {siteMetadata.title}
+            Mingalaba
           </h1>
 
           <Link href="/feed.xml" className="inline-block" aria-label="RSS Feed" title="RSS Feed">
@@ -132,16 +127,22 @@ export default function Home({ posts }) {
             <span className="sr-only">RSS Feed</span>
           </Link>
 
-          <p>{siteMetadata.description}</p>
+          <p>
+            NextPaper is a minimal, responsive, accessible and SEO-friendly Next.js blog
+            template. This template follows AstroPaper visual patterns while keeping the
+            Tailwind Nextjs Starter Blog content pipeline.
+          </p>
 
           <p className="mt-4">
-            NextPaper is a minimal, responsive, accessible and SEO-friendly Next.js blog template.
-            It keeps the Tailwind Nextjs Starter Blog content pipeline while matching the AstroPaper
-            interface.
+            Read the blog posts or check{' '}
+            <Link href="/about" className="underline decoration-dashed underline-offset-4">
+              README
+            </Link>{' '}
+            for more info.
           </p>
 
           <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-            <span>Follow the project on</span>
+            <span>Social Links:</span>
             <div className="flex flex-wrap items-center gap-1">
               {socialLinks.map(({ kind, href }) => (
                 <SocialIcon key={kind} kind={kind} href={href} size={24} />
@@ -150,26 +151,25 @@ export default function Home({ posts }) {
           </div>
         </section>
 
-        {featuredPosts.length > 0 && (
-          <section aria-labelledby="featured-posts">
-            <SectionTitle>Featured</SectionTitle>
+        <section aria-labelledby="featured-posts">
+          <SectionTitle>Featured</SectionTitle>
+          <ul>
+            {fallbackFeaturedPosts.map((post) => (
+              <PostCard key={post.path ?? post.slug} post={post} heading="h3" />
+            ))}
+          </ul>
+        </section>
+
+        {recentPosts.length > 0 && (
+          <section aria-labelledby="recent-posts" className="border-t border-[var(--border)] pt-6">
+            <SectionTitle>Recent Posts</SectionTitle>
             <ul>
-              {featuredPosts.map((post) => (
+              {recentPosts.map((post) => (
                 <PostCard key={post.path ?? post.slug} post={post} heading="h3" />
               ))}
             </ul>
           </section>
         )}
-
-        <section aria-labelledby="recent-posts">
-          <SectionTitle>Recent Posts</SectionTitle>
-          <ul>
-            {!recentPosts.length && 'No posts found.'}
-            {recentPosts.map((post) => (
-              <PostCard key={post.path ?? post.slug} post={post} heading="h3" />
-            ))}
-          </ul>
-        </section>
 
         {posts.length > MAX_DISPLAY && (
           <div className="my-8 flex justify-start">
