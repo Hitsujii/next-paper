@@ -6,7 +6,6 @@ import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
 import Link from '@/components/Link'
-import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import RememberBackUrl from '@/components/RememberBackUrl'
 import PostTitleTransition from '@/components/PostTitleTransition'
@@ -89,7 +88,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
 }
 
 function PostListItem({ post }: { post: CoreContent<Blog> }) {
-  const { date, path, slug, summary, tags, title } = post
+  const { date, path, slug, summary, title } = post
   const href = path ? `/${path}` : `/blog/${slug}`
 
   return (
@@ -112,15 +111,7 @@ function PostListItem({ post }: { post: CoreContent<Blog> }) {
           </dd>
         </dl>
 
-        {summary && <p className="mt-2">{summary}</p>}
-
-        {tags?.length > 0 && (
-          <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
-            {tags.map((tag) => (
-              <Tag key={tag} text={tag} />
-            ))}
-          </ul>
-        )}
+        {summary && <p>{summary}</p>}
       </article>
     </li>
   )
