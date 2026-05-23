@@ -6,7 +6,6 @@ import BackButton from '@/components/BackButton'
 import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
-import SectionContainer from '@/components/SectionContainer'
 import ShareLinks from '@/components/ShareLinks'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
@@ -140,7 +139,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
   const basePath = path?.split('/')[0] || 'blog'
 
   return (
-    <SectionContainer>
+    <>
       <ScrollTopAndComment />
 
       <div className="mt-8">
@@ -193,6 +192,6 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
           <AdjacentPostNav prev={prev} next={next} />
         </article>
       </main>
-    </SectionContainer>
+    </>
   )
 }
