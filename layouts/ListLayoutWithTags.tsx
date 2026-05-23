@@ -9,6 +9,7 @@ import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
+import RememberBackUrl from '@/components/RememberBackUrl'
 
 interface PaginationProps {
   totalPages: number
@@ -138,6 +139,7 @@ export default function ListLayoutWithTags({
 
   return (
     <>
+      <RememberBackUrl />
       <main id="main-content" className="pb-4">
         <div className="pt-8 pb-6">
           <h1 className="text-2xl font-semibold sm:text-3xl">{title}</h1>

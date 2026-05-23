@@ -4,6 +4,7 @@ import SocialIcon from '@/components/social-icons'
 import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
+import RememberBackUrl from '@/components/RememberBackUrl'
 
 const MAX_DISPLAY = 4
 
@@ -116,6 +117,7 @@ export default function Home({ posts }) {
 
   return (
     <>
+      <RememberBackUrl />
       <main id="main-content" data-layout="index">
         <section id="hero" className="border-b border-[var(--border)] pt-8 pb-6">
           <h1 className="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">

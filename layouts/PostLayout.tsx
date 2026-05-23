@@ -5,6 +5,7 @@ import type { Authors, Blog } from 'contentlayer/generated'
 import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
+import BackButton from '@/components/BackButton'
 import SectionContainer from '@/components/SectionContainer'
 import ShareLinks from '@/components/ShareLinks'
 import Tag from '@/components/Tag'
@@ -139,14 +140,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
       <ScrollTopAndComment />
 
       <div className="mt-8">
-        <Link
-          href={`/${basePath}`}
-          className="mb-6 inline-flex items-center gap-1 text-[var(--accent)] hover:opacity-75"
-          aria-label="Back to the blog"
-        >
-          <ArrowLeftIcon className="size-5" />
-          Back
-        </Link>
+        <BackButton fallbackHref={`/${basePath}`} />
       </div>
 
       <main id="main-content" className="pb-4" data-pagefind-body>

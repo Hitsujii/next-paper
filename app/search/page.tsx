@@ -1,5 +1,6 @@
 import { genPageMetadata } from 'app/seo'
 import SearchClient from './SearchClient'
+import RememberBackUrl from '@/components/RememberBackUrl'
 
 export const metadata = genPageMetadata({
   title: 'Search',
@@ -8,12 +9,15 @@ export const metadata = genPageMetadata({
 
 export default function SearchPage() {
   return (
-    <main id="main-content" className="pb-4">
+    <>
+      <RememberBackUrl />
+      <main id="main-content" className="pb-4">
       <div className="pt-8 pb-6">
         <h1 className="text-2xl font-semibold sm:text-3xl">Search</h1>
         <p className="mt-2 mb-6 italic">Search articles by title, summary and tag.</p>
         <SearchClient />
       </div>
     </main>
+    </>
   )
 }
