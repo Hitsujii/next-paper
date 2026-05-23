@@ -1,34 +1,33 @@
-import { AlgoliaButton } from 'pliny/search/AlgoliaButton'
-import { KBarButton } from 'pliny/search/KBarButton'
-import siteMetadata from '@/data/siteMetadata'
+import Link from './Link'
+
+const SearchIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="m21 21-4.34-4.34" />
+    <circle cx="11" cy="11" r="8" />
+  </svg>
+)
 
 const SearchButton = () => {
-  if (
-    siteMetadata.search &&
-    (siteMetadata.search.provider === 'algolia' || siteMetadata.search.provider === 'kbar')
-  ) {
-    const SearchButtonWrapper =
-      siteMetadata.search.provider === 'algolia' ? AlgoliaButton : KBarButton
-
-    return (
-      <SearchButtonWrapper aria-label="Search">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="hover:text-primary-500 dark:hover:text-primary-400 h-6 w-6 text-gray-900 dark:text-gray-100"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-          />
-        </svg>
-      </SearchButtonWrapper>
-    )
-  }
+  return (
+    <Link
+      href="/search"
+      className="focus-outline relative flex size-12 items-center justify-center p-4 hover:text-[var(--accent)] sm:size-8 sm:p-0"
+      aria-label="Search"
+      title="Search"
+    >
+      <SearchIcon className="size-6" />
+      <span className="sr-only">Search</span>
+    </Link>
+  )
 }
 
 export default SearchButton
