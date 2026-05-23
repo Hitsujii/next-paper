@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from '@/components/Link'
-import Tag from '@/components/Tag'
 import PostTitleTransition from '@/components/PostTitleTransition'
 
 type SearchDocument = {
@@ -11,7 +10,6 @@ type SearchDocument = {
   path?: string
   slug?: string
   tags?: string[]
-  date?: string
 }
 
 const SearchIcon = ({ className = '' }: { className?: string }) => (
@@ -39,22 +37,17 @@ export default function SearchClient() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    const initialQuery = params.get('q') ?? ''
-    setQuery(initialQuery)
+    setQuery(params.get('q') ?? '')
 
     fetch('/search.json')
       .then((response) => {
-        if (!response.ok) {
-          throw new Error('Search index not found')
-        }
+        if (!response.ok) throw new Error('Search index not found')
         return response.json()
       })
       .then((data: SearchDocument[]) => {
         setDocuments(Array.isArray(data) ? data : [])
       })
-      .catch(() => {
-        setDocuments([])
-      })
+      .catch(() => setDocuments([]))
       .finally(() => setLoaded(true))
   }, [])
 
@@ -75,12 +68,17 @@ export default function SearchClient() {
 
   const results = useMemo(() => {
     const term = normalize(query)
-
     if (!term) return []
 
     return documents.filter((document) => {
       const haystack = normalize(
-        [document.title, document.summary, document.path, document.slug, ...(document.tags ?? [])]
+        [
+          document.title,
+          document.summary,
+          document.path,
+          document.slug,
+          ...(document.tags ?? []),
+        ]
           .filter(Boolean)
           .join(' ')
       )
@@ -102,7 +100,7 @@ export default function SearchClient() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           autoFocus
-          placeholder="Search articles"
+          placeholder="Search"
           className="w-full rounded border border-[var(--border)] bg-[var(--background)] py-3 pr-12 pl-4 text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--accent)] focus:ring-[var(--accent)]"
         />
         <SearchIcon className="absolute top-1/2 right-4 size-5 -translate-y-1/2 text-[var(--muted-foreground)]" />
@@ -112,7 +110,7 @@ export default function SearchClient() {
 
       {loaded && !query && (
         <p className="mt-6 text-[var(--muted-foreground)]">
-          Type a keyword to search titles, summaries and tags.
+          Enter a keyword to search posts.
         </p>
       )}
 
@@ -138,17 +136,7 @@ export default function SearchClient() {
                     </PostTitleTransition>
                   </Link>
 
-                  {result.summary && <p className="mt-2">{result.summary}</p>}
-
-                  {result.tags && result.tags.length > 0 && (
-                    <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
-                      {result.tags.map((tag) => (
-                        <li key={tag}>
-                          <Tag text={tag} />
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                  {result.summary && <p>{result.summary}</p>}
                 </article>
               </li>
             )

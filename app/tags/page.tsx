@@ -15,7 +15,7 @@ export default async function Page() {
     <main id="main-content" className="pb-4">
       <div className="pt-8 pb-6">
         <h1 className="text-2xl font-semibold sm:text-3xl">Tags</h1>
-        <p className="mt-2 mb-6 italic">All topics covered in the blog.</p>
+        <p className="mt-2 mb-6 italic">All tags used in posts.</p>
 
         {sortedTags.length === 0 ? (
           <p>No tags found.</p>
