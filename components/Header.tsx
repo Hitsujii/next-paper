@@ -104,24 +104,36 @@ const Header = () => {
           >
             <button
               id="menu-btn"
-              className="focus-outline self-end p-2 sm:hidden"
+              className="focus-outline relative flex size-10 items-center justify-center self-end p-2 sm:hidden"
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
               aria-controls="menu-items"
               onClick={() => setMenuOpen((open) => !open)}
               type="button"
             >
-              <CloseIcon className={menuOpen ? 'size-6' : 'hidden'} />
-              <MenuIcon className={menuOpen ? 'hidden' : 'size-6'} />
+              <CloseIcon
+                className={[
+                  'absolute size-6 transition-all duration-200',
+                  menuOpen ? 'scale-100 rotate-0 opacity-100' : 'scale-75 -rotate-90 opacity-0',
+                ].join(' ')}
+              />
+              <MenuIcon
+                className={[
+                  'absolute size-6 transition-all duration-200',
+                  menuOpen ? 'scale-75 rotate-90 opacity-0' : 'scale-100 rotate-0 opacity-100',
+                ].join(' ')}
+              />
             </button>
 
             <ul
               id="menu-items"
               className={[
-                'mt-4 w-44 place-content-center gap-2 sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0 sm:[&>li]:h-8',
+                'grid w-44 grid-cols-2 place-content-center gap-2 overflow-hidden transition-all duration-200 ease-out sm:mt-0 sm:flex sm:w-auto sm:translate-y-0 sm:scale-100 sm:gap-x-5 sm:gap-y-0 sm:overflow-visible sm:opacity-100 sm:[&>li]:h-8',
                 '[&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium [&>li>a]:hover:text-[var(--accent)]',
                 'sm:[&>li>a]:px-2 sm:[&>li>a]:py-1',
-                menuOpen ? 'grid grid-cols-2' : 'hidden',
+                menuOpen
+                  ? 'mt-4 max-h-96 translate-y-0 scale-100 opacity-100'
+                  : 'pointer-events-none mt-0 max-h-0 -translate-y-2 scale-95 opacity-0 sm:pointer-events-auto sm:max-h-none',
               ].join(' ')}
             >
               {headerNavLinks.map((link) => (
@@ -145,6 +157,7 @@ const Header = () => {
                   ].join(' ')}
                   aria-label="Projects"
                   title="Projects"
+                  onClick={() => setMenuOpen(false)}
                 >
                   <ArchiveIcon className="size-6" />
                   <span className="sr-only">Projects</span>

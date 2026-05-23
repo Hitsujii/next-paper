@@ -652,3 +652,34 @@ html[data-view-transition='running'] a {
   background: transparent;
   padding: 0;
 }
+
+/* NextPaper AstroPaper mobile polish */
+@layer base {
+  html {
+    overflow-x: hidden;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  @media (max-width: 639px) {
+    .app-layout {
+      padding-inline: 1rem;
+    }
+
+    #menu-items a,
+    #menu-items button {
+      -webkit-tap-highlight-color: transparent;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #menu-items,
+    #menu-btn svg {
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
