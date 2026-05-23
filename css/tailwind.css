@@ -611,3 +611,44 @@ html[data-view-transition='running'] a {
     outline-color: var(--accent);
   }
 }
+
+/* NextPaper AstroPaper post page polish */
+.post-content {
+  color: var(--foreground);
+  line-height: 1.75;
+}
+
+.post-content :where(h2, h3, h4, h5, h6) {
+  scroll-margin-top: 6rem;
+}
+
+.post-content :where(a) {
+  color: var(--accent);
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+.post-content :where(a:hover) {
+  opacity: 0.8;
+}
+
+.post-content :where(blockquote) {
+  border-inline-start: 4px solid var(--accent);
+  color: var(--foreground);
+  padding-inline-start: 1rem;
+  font-style: italic;
+}
+
+.post-content :where(hr) {
+  border-color: var(--border);
+}
+
+.post-content :where(code) {
+  color: var(--foreground);
+}
+
+.post-content :where(pre code) {
+  background: transparent;
+  padding: 0;
+}

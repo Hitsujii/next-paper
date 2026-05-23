@@ -2,16 +2,16 @@ import { ReactNode } from 'react'
 import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Authors, Blog } from 'contentlayer/generated'
+import BackButton from '@/components/BackButton'
 import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
-import BackButton from '@/components/BackButton'
 import SectionContainer from '@/components/SectionContainer'
 import ShareLinks from '@/components/ShareLinks'
-import PostTitleTransition from '@/components/PostTitleTransition'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import PostTitleTransition from '@/components/PostTitleTransition'
 
 interface LayoutProps {
   content: CoreContent<Blog>
@@ -153,13 +153,15 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
             {tags?.length > 0 && (
               <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
                 {tags.map((tag) => (
-                  <Tag key={tag} text={tag} transition />
+                  <li key={tag}>
+                    <Tag text={tag} transition />
+                  </li>
                 ))}
               </ul>
             )}
           </header>
 
-          <div className="post-content prose dark:prose-invert max-w-none pt-8 pb-6">
+          <div className="post-content prose max-w-none pt-8 pb-6 dark:prose-invert">
             {children}
           </div>
 
@@ -168,7 +170,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
           {tags?.length > 0 && (
             <ul className="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
               {tags.map((tag) => (
-                <Tag key={tag} text={tag} />
+                <li key={tag}>
+                  <Tag text={tag} />
+                </li>
               ))}
             </ul>
           )}
