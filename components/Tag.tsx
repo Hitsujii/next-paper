@@ -1,16 +1,50 @@
 import Link from 'next/link'
 import { slug } from 'github-slugger'
+
 interface Props {
   text: string
+  size?: 'sm' | 'lg'
+  count?: number
 }
 
-const Tag = ({ text }: Props) => {
+const HashIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M5 9h14" />
+    <path d="M5 15h14" />
+    <path d="M11 4 7 20" />
+    <path d="m17 4-4 16" />
+  </svg>
+)
+
+const Tag = ({ text, size = 'sm', count }: Props) => {
+  const tagSlug = slug(text)
+  const label = text.split(' ').join('-')
+
   return (
     <Link
-      href={`/tags/${slug(text)}`}
-      className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 mr-3 text-sm font-medium uppercase"
+      href={`/tags/${tagSlug}`}
+      className={[
+        'inline-flex items-center gap-0.5 border-b-2 border-dashed border-[var(--foreground)]',
+        'hover:-mt-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]',
+        'focus-visible:border-transparent focus-visible:text-[var(--accent)]',
+        size === 'lg' ? 'text-lg' : 'text-sm',
+      ].join(' ')}
+      aria-label={count ? `View ${count} posts tagged ${label}` : `View posts tagged ${label}`}
     >
-      {text.split(' ').join('-')}
+      <HashIcon className={size === 'lg' ? 'size-5 opacity-80' : 'size-4 opacity-80'} />
+      <span>{label}</span>
+      {typeof count === 'number' && (
+        <span className="ml-1 text-sm text-[var(--muted-foreground)]">({count})</span>
+      )}
     </Link>
   )
 }
