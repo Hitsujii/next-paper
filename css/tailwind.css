@@ -498,3 +498,26 @@ input:-webkit-autofill:focus {
   padding: 0.125rem 0.375rem;
   font-size: 0.875em;
 }
+
+
+/* NextPaper View Transition lock */
+html[data-view-transition='running'] a {
+  pointer-events: none;
+}
+
+/* NextPaper AstroPaper shared element transitions */
+@supports (view-transition-name: root) {
+  ::view-transition-group(post-title-*),
+  ::view-transition-group(tag-*) {
+    animation-duration: 220ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  ::view-transition-old(post-title-*),
+  ::view-transition-new(post-title-*),
+  ::view-transition-old(tag-*),
+  ::view-transition-new(tag-*) {
+    animation-duration: 220ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}

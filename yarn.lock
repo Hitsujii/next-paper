@@ -9256,6 +9256,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-view-transitions@npm:^0.3.5":
+  version: 0.3.5
+  resolution: "next-view-transitions@npm:0.3.5"
+  peerDependencies:
+    next: ">=14.0.0"
+    react: ">=18.2.0 || ^19.0.0"
+    react-dom: ">=18.2.0 || ^19.0.0"
+  checksum: 84fdcca67968ddd0d757cb52a46c0c993bb71254965291c5c4f45d218706e81a6b944992f93ba7155cc68498beefc2f9941776b53a62d88c91b04721065df083
+  languageName: node
+  linkType: hard
+
 "next@npm:15.5.12":
   version: 15.5.12
   resolution: "next@npm:15.5.12"
@@ -9314,6 +9325,65 @@ __metadata:
   checksum: 9deec1039e169ca994874a7ae089fff42f22b9561ade0ca5335ad3fa29d0876c92f1d754b779c067d2db2ccadf1bb77466d928fbee71421c660f0dcb5796bdbd
   languageName: node
   linkType: hard
+
+"nextpaper@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "nextpaper@workspace:."
+  dependencies:
+    "@eslint/eslintrc": ^3.3.3
+    "@eslint/js": ^9.18.0
+    "@headlessui/react": 2.2.9
+    "@next/bundle-analyzer": 15.5.12
+    "@svgr/webpack": ^8.1.0
+    "@tailwindcss/forms": ^0.5.11
+    "@tailwindcss/postcss": ^4.1.18
+    "@tailwindcss/typography": ^0.5.19
+    "@types/mdx": ^2.0.13
+    "@types/react": ^19.2.13
+    "@typescript-eslint/eslint-plugin": ^8.54.0
+    "@typescript-eslint/parser": ^8.54.0
+    body-scroll-lock: ^3.1.5
+    contentlayer2: 0.5.8
+    cross-env: ^10.1.0
+    esbuild: 0.27.3
+    eslint: ^9.18.0
+    eslint-config-next: 15.5.12
+    eslint-config-prettier: ^10.1.8
+    eslint-plugin-prettier: ^5.5.5
+    github-slugger: ^2.0.0
+    globals: ^17.3.0
+    gray-matter: ^4.0.3
+    hast-util-from-html-isomorphic: ^2.0.0
+    husky: ^9.1.7
+    image-size: 2.0.2
+    lint-staged: ^16.2.7
+    next: 15.5.12
+    next-contentlayer2: 0.5.8
+    next-themes: ^0.4.6
+    next-view-transitions: ^0.3.5
+    pliny: 0.4.1
+    postcss: ^8.5.6
+    prettier: ^3.8.1
+    prettier-plugin-tailwindcss: ^0.7.2
+    react: 19.2.4
+    react-dom: 19.2.4
+    reading-time: 1.5.0
+    rehype-autolink-headings: ^7.1.0
+    rehype-citation: ^2.3.2
+    rehype-katex: ^7.0.1
+    rehype-katex-notranslate: ^1.1.4
+    rehype-preset-minify: 7.0.1
+    rehype-prism-plus: ^2.0.2
+    rehype-slug: ^6.0.0
+    remark: ^15.0.1
+    remark-gfm: ^4.0.1
+    remark-github-blockquote-alert: ^2.0.1
+    remark-math: ^6.0.0
+    tailwindcss: ^4.1.18
+    typescript: ^5.9.3
+    unist-util-visit: ^5.1.0
+  languageName: unknown
+  linkType: soft
 
 "no-case@npm:^3.0.4":
   version: 3.0.4
@@ -11573,64 +11643,6 @@ __metadata:
   checksum: 7084cba269ebbc7dcdeed5aca7f90c0a0fb59a295dd1e83703ab89cca5e6c53b78d02020e3d1065481984cd64bba7dd1ea3c0a48e92fdba83d586e6e86d62a74
   languageName: node
   linkType: hard
-
-"tailwind-nextjs-starter-blog@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "tailwind-nextjs-starter-blog@workspace:."
-  dependencies:
-    "@eslint/eslintrc": ^3.3.3
-    "@eslint/js": ^9.18.0
-    "@headlessui/react": 2.2.9
-    "@next/bundle-analyzer": 15.5.12
-    "@svgr/webpack": ^8.1.0
-    "@tailwindcss/forms": ^0.5.11
-    "@tailwindcss/postcss": ^4.1.18
-    "@tailwindcss/typography": ^0.5.19
-    "@types/mdx": ^2.0.13
-    "@types/react": ^19.2.13
-    "@typescript-eslint/eslint-plugin": ^8.54.0
-    "@typescript-eslint/parser": ^8.54.0
-    body-scroll-lock: ^3.1.5
-    contentlayer2: 0.5.8
-    cross-env: ^10.1.0
-    esbuild: 0.27.3
-    eslint: ^9.18.0
-    eslint-config-next: 15.5.12
-    eslint-config-prettier: ^10.1.8
-    eslint-plugin-prettier: ^5.5.5
-    github-slugger: ^2.0.0
-    globals: ^17.3.0
-    gray-matter: ^4.0.3
-    hast-util-from-html-isomorphic: ^2.0.0
-    husky: ^9.1.7
-    image-size: 2.0.2
-    lint-staged: ^16.2.7
-    next: 15.5.12
-    next-contentlayer2: 0.5.8
-    next-themes: ^0.4.6
-    pliny: 0.4.1
-    postcss: ^8.5.6
-    prettier: ^3.8.1
-    prettier-plugin-tailwindcss: ^0.7.2
-    react: 19.2.4
-    react-dom: 19.2.4
-    reading-time: 1.5.0
-    rehype-autolink-headings: ^7.1.0
-    rehype-citation: ^2.3.2
-    rehype-katex: ^7.0.1
-    rehype-katex-notranslate: ^1.1.4
-    rehype-preset-minify: 7.0.1
-    rehype-prism-plus: ^2.0.2
-    rehype-slug: ^6.0.0
-    remark: ^15.0.1
-    remark-gfm: ^4.0.1
-    remark-github-blockquote-alert: ^2.0.1
-    remark-math: ^6.0.0
-    tailwindcss: ^4.1.18
-    typescript: ^5.9.3
-    unist-util-visit: ^5.1.0
-  languageName: unknown
-  linkType: soft
 
 "tailwindcss@npm:4.1.18, tailwindcss@npm:^4.1.18":
   version: 4.1.18

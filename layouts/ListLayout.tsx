@@ -9,6 +9,7 @@ import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import RememberBackUrl from '@/components/RememberBackUrl'
+import PostTitleTransition from '@/components/PostTitleTransition'
 
 interface PaginationProps {
   totalPages: number
@@ -65,7 +66,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           ← Previous
         </Link>
       ) : (
-        <span className="select-none opacity-50">← Previous</span>
+        <span className="opacity-50 select-none">← Previous</span>
       )}
 
       <span>
@@ -81,7 +82,7 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
           Next →
         </Link>
       ) : (
-        <span className="select-none opacity-50">Next →</span>
+        <span className="opacity-50 select-none">Next →</span>
       )}
     </nav>
   )
@@ -98,7 +99,9 @@ function PostListItem({ post }: { post: CoreContent<Blog> }) {
           href={href}
           className="inline-block text-lg font-medium text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
         >
-          <h2>{title}</h2>
+          <PostTitleTransition title={title}>
+            <h2>{title}</h2>
+          </PostTitleTransition>
         </Link>
 
         <dl className="mt-1">

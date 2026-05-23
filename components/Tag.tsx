@@ -1,10 +1,15 @@
-import Link from 'next/link'
+'use client'
+
+import type { CSSProperties } from 'react'
+import Link from '@/components/Link'
 import { slug } from 'github-slugger'
+import { tagViewTransitionName } from './view-transitions'
 
 interface Props {
   text: string
   size?: 'sm' | 'lg'
   count?: number
+  transition?: boolean
 }
 
 const HashIcon = ({ className = '' }: { className?: string }) => (
@@ -25,13 +30,17 @@ const HashIcon = ({ className = '' }: { className?: string }) => (
   </svg>
 )
 
-const Tag = ({ text, size = 'sm', count }: Props) => {
+const Tag = ({ text, size = 'sm', count, transition = false }: Props) => {
   const tagSlug = slug(text)
   const label = text.split(' ').join('-')
+  const style = transition
+    ? ({ viewTransitionName: tagViewTransitionName(text) } as CSSProperties)
+    : undefined
 
   return (
     <Link
       href={`/tags/${tagSlug}`}
+      style={style}
       className={[
         'inline-flex items-center gap-0.5 border-b-2 border-dashed border-[var(--foreground)]',
         'hover:-mt-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]',

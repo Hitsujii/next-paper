@@ -5,6 +5,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import RememberBackUrl from '@/components/RememberBackUrl'
+import PostTitleTransition from '@/components/PostTitleTransition'
 
 const MAX_DISPLAY = 4
 
@@ -78,7 +79,9 @@ function PostCard({ post, heading = 'h2' }) {
           href={href}
           className="inline-block text-lg font-medium text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
         >
-          <Heading>{title}</Heading>
+          <PostTitleTransition title={title}>
+            <Heading>{title}</Heading>
+          </PostTitleTransition>
         </Link>
 
         <dl className="mt-1">
@@ -124,12 +127,7 @@ export default function Home({ posts }) {
             {siteMetadata.title}
           </h1>
 
-          <Link
-            href="/feed.xml"
-            className="inline-block"
-            aria-label="RSS Feed"
-            title="RSS Feed"
-          >
+          <Link href="/feed.xml" className="inline-block" aria-label="RSS Feed" title="RSS Feed">
             <RssIcon className="size-5 scale-125 stroke-[var(--accent)]" />
             <span className="sr-only">RSS Feed</span>
           </Link>

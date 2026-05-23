@@ -23,7 +23,7 @@ export default async function Page() {
           <ul className="flex flex-wrap gap-x-5 gap-y-4">
             {sortedTags.map((tag) => (
               <li key={tag}>
-                <Tag text={tag} size="lg" count={tagCounts[tag]} />
+                <Tag text={tag} size="lg" count={tagCounts[tag]} transition />
               </li>
             ))}
           </ul>

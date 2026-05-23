@@ -8,6 +8,7 @@ import PageTitle from '@/components/PageTitle'
 import BackButton from '@/components/BackButton'
 import SectionContainer from '@/components/SectionContainer'
 import ShareLinks from '@/components/ShareLinks'
+import PostTitleTransition from '@/components/PostTitleTransition'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
@@ -107,7 +108,7 @@ function AdjacentPostNav({
           <div>
             <span>Previous post</span>
             <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
-              {prev.title}
+              <PostTitleTransition title={prev.title}>{prev.title}</PostTitleTransition>
             </div>
           </div>
         </Link>
@@ -121,7 +122,7 @@ function AdjacentPostNav({
           <div>
             <span>Next post</span>
             <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
-              {next.title}
+              <PostTitleTransition title={next.title}>{next.title}</PostTitleTransition>
             </div>
           </div>
           <ArrowRightIcon className="inline-block flex-none" />
@@ -146,19 +147,19 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
       <main id="main-content" className="pb-4" data-pagefind-body>
         <article>
           <header>
-            <PageTitle>{title}</PageTitle>
+            <PageTitle viewTransitionTitle={title}>{title}</PageTitle>
             <Datetime date={date} lastmod={lastmod} />
 
             {tags?.length > 0 && (
               <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
                 {tags.map((tag) => (
-                  <Tag key={tag} text={tag} />
+                  <Tag key={tag} text={tag} transition />
                 ))}
               </ul>
             )}
           </header>
 
-          <div className="post-content prose max-w-none pt-8 pb-6 dark:prose-invert">
+          <div className="post-content prose dark:prose-invert max-w-none pt-8 pb-6">
             {children}
           </div>
 

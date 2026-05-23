@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
+import PostTitleTransition from '@/components/PostTitleTransition'
 
 type SearchDocument = {
   title?: string
@@ -79,13 +80,7 @@ export default function SearchClient() {
 
     return documents.filter((document) => {
       const haystack = normalize(
-        [
-          document.title,
-          document.summary,
-          document.path,
-          document.slug,
-          ...(document.tags ?? []),
-        ]
+        [document.title, document.summary, document.path, document.slug, ...(document.tags ?? [])]
           .filter(Boolean)
           .join(' ')
       )
@@ -113,9 +108,7 @@ export default function SearchClient() {
         <SearchIcon className="absolute top-1/2 right-4 size-5 -translate-y-1/2 text-[var(--muted-foreground)]" />
       </div>
 
-      {!loaded && (
-        <p className="mt-6 text-[var(--muted-foreground)]">Loading search index...</p>
-      )}
+      {!loaded && <p className="mt-6 text-[var(--muted-foreground)]">Loading search index...</p>}
 
       {loaded && !query && (
         <p className="mt-6 text-[var(--muted-foreground)]">
@@ -140,7 +133,9 @@ export default function SearchClient() {
                     href={href}
                     className="inline-block text-lg font-medium text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
                   >
-                    <h2>{result.title}</h2>
+                    <PostTitleTransition title={result.title}>
+                      <h2>{result.title}</h2>
+                    </PostTitleTransition>
                   </Link>
 
                   {result.summary && <p className="mt-2">{result.summary}</p>}
