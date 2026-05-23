@@ -5,7 +5,7 @@ const currentYear = new Date().getFullYear()
 
 const socialLinks = [
   { kind: 'github', href: siteMetadata.github },
-  { kind: 'x', href: siteMetadata.twitter },
+  { kind: 'x', href: siteMetadata.twitter || siteMetadata.x },
   { kind: 'linkedin', href: siteMetadata.linkedin },
   { kind: 'mail', href: siteMetadata.email ? `mailto:${siteMetadata.email}` : undefined },
 ] as const
