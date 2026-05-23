@@ -11,7 +11,17 @@ import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
+import { Google_Sans_Code } from 'next/font/google'
 import { ViewTransitions } from 'next-view-transitions'
+
+const googleSansCode = Google_Sans_Code({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-google-sans-code',
+})
+
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -66,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ViewTransitions>
       <html
         lang={siteMetadata.language}
-        className={`${space_grotesk.variable} scroll-smooth`}
+        className={`${googleSansCode.variable} ${space_grotesk.variable} scroll-smooth`}
         suppressHydrationWarning
       >
         <link
