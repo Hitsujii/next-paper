@@ -100,8 +100,8 @@ function PostCard({ post, heading = 'h2' }) {
   )
 }
 
-function SectionTitle({ children }) {
-  return <h2 className="mt-12 text-2xl font-semibold sm:text-3xl">{children}</h2>
+function SectionTitle({ children, className = '' }) {
+  return <h2 className={`text-2xl font-semibold sm:text-3xl ${className}`}>{children}</h2>
 }
 
 export default function Home({ posts }) {
@@ -151,7 +151,7 @@ export default function Home({ posts }) {
           </div>
         </section>
 
-        <section aria-labelledby="featured-posts">
+        <section aria-labelledby="featured-posts" className="pt-12">
           <SectionTitle>Featured</SectionTitle>
           <ul>
             {fallbackFeaturedPosts.map((post) => (
@@ -161,7 +161,10 @@ export default function Home({ posts }) {
         </section>
 
         {recentPosts.length > 0 && (
-          <section aria-labelledby="recent-posts" className="border-t border-[var(--border)] pt-6">
+          <section
+            aria-labelledby="recent-posts"
+            className="mt-12 border-t border-[var(--border)] pt-6"
+          >
             <SectionTitle>Recent Posts</SectionTitle>
             <ul>
               {recentPosts.map((post) => (
