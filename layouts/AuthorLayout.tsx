@@ -31,8 +31,16 @@ export default function AuthorLayout({ children, content }: Props) {
 
             <h2 className="pt-4 pb-2 text-xl font-semibold">{name}</h2>
 
-            {occupation && <div className="text-center text-sm text-[var(--muted-foreground)]">{occupation}</div>}
-            {company && <div className="text-center text-sm text-[var(--muted-foreground)]">{company}</div>}
+            {occupation && (
+              <div className="text-center text-sm text-[var(--muted-foreground)]">
+                {occupation}
+              </div>
+            )}
+            {company && (
+              <div className="text-center text-sm text-[var(--muted-foreground)]">
+                {company}
+              </div>
+            )}
 
             <div className="flex flex-wrap items-center justify-center gap-1 pt-4">
               <SocialIcon kind="mail" href={email ? `mailto:${email}` : undefined} size={24} />

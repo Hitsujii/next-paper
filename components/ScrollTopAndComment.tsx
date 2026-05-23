@@ -55,7 +55,7 @@ const FloatingButton = ({
   </button>
 )
 
-const ScrollTopAndComment = () => {
+export default function ScrollTopAndComment() {
   const [show, setShow] = useState(false)
   const [progress, setProgress] = useState(0)
 
@@ -80,17 +80,9 @@ const ScrollTopAndComment = () => {
     }
   }, [])
 
-  const handleScrollTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  const handleScrollToComment = () => {
-    document.getElementById('comment')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
     <>
-      <div className="fixed top-0 right-0 left-0 z-50 h-1 bg-[var(--background)]">
+      <div className="fixed top-0 right-0 left-0 z-50 h-1 bg-transparent">
         <div
           className="h-full bg-[var(--accent)] transition-[width] duration-150"
           style={{ width: `${progress}%` }}
@@ -106,17 +98,21 @@ const ScrollTopAndComment = () => {
         ].join(' ')}
       >
         {siteMetadata.comments?.provider && (
-          <FloatingButton label="Scroll to comment" onClick={handleScrollToComment}>
+          <FloatingButton
+            label="Scroll to comment"
+            onClick={() => document.getElementById('comment')?.scrollIntoView({ behavior: 'smooth' })}
+          >
             <CommentIcon className="size-5" />
           </FloatingButton>
         )}
 
-        <FloatingButton label="Scroll to top" onClick={handleScrollTop}>
+        <FloatingButton
+          label="Scroll to top"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
           <ArrowUpIcon className="size-5" />
         </FloatingButton>
       </div>
     </>
   )
 }
-
-export default ScrollTopAndComment
