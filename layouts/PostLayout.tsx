@@ -6,6 +6,7 @@ import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
+import ShareLinks from '@/components/ShareLinks'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
@@ -166,6 +167,20 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
           <div className="post-content prose max-w-none pt-8 pb-6 dark:prose-invert">
             {children}
           </div>
+
+          <hr className="my-8 border-dashed border-[var(--border)]" />
+
+          {tags?.length > 0 && (
+            <ul className="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
+              {tags.map((tag) => (
+                <Tag key={tag} text={tag} />
+              ))}
+            </ul>
+          )}
+
+          <ShareLinks path={path} title={title} />
+
+          <hr className="my-8 border-dashed border-[var(--border)]" />
 
           {siteMetadata.comments && (
             <div className="pt-6 pb-6 text-center text-[var(--muted-foreground)]" id="comment">
