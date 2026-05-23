@@ -14,6 +14,7 @@ interface PaginationProps {
   totalPages: number
   currentPage: number
 }
+
 interface ListLayoutProps {
   posts: CoreContent<Blog>[]
   title: string
@@ -21,48 +22,104 @@ interface ListLayoutProps {
   pagination?: PaginationProps
 }
 
+const CalendarIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M8 2v4" />
+    <path d="M16 2v4" />
+    <rect width="18" height="18" x="3" y="4" rx="2" />
+    <path d="M3 10h18" />
+  </svg>
+)
+
 function Pagination({ totalPages, currentPage }: PaginationProps) {
   const pathname = usePathname()
-  const segments = pathname.split('/')
-  const lastSegment = segments[segments.length - 1]
   const basePath = pathname
-    .replace(/^\//, '') // Remove leading slash
-    .replace(/\/page\/\d+\/?$/, '') // Remove any trailing /page
-    .replace(/\/$/, '') // Remove trailing slash
+    .replace(/^\//, '')
+    .replace(/\/page\/\d+\/?$/, '')
+    .replace(/\/$/, '')
+
   const prevPage = currentPage - 1 > 0
   const nextPage = currentPage + 1 <= totalPages
 
   return (
-    <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-      <nav className="flex justify-between">
-        {!prevPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
-            Previous
-          </button>
+    <nav
+      className="mt-auto mb-8 flex justify-center gap-4"
+      role="navigation"
+      aria-label="Pagination Navigation"
+    >
+      {prevPage ? (
+        <Link
+          href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
+          rel="prev"
+          className="select-none hover:text-[var(--accent)]"
+        >
+          ← Previous
+        </Link>
+      ) : (
+        <span className="select-none opacity-50">← Previous</span>
+      )}
+
+      <span>
+        {currentPage} / {totalPages}
+      </span>
+
+      {nextPage ? (
+        <Link
+          href={`/${basePath}/page/${currentPage + 1}`}
+          rel="next"
+          className="select-none hover:text-[var(--accent)]"
+        >
+          Next →
+        </Link>
+      ) : (
+        <span className="select-none opacity-50">Next →</span>
+      )}
+    </nav>
+  )
+}
+
+function PostListItem({ post }: { post: CoreContent<Blog> }) {
+  const { date, path, slug, summary, tags, title } = post
+  const href = path ? `/${path}` : `/blog/${slug}`
+
+  return (
+    <li className="my-6">
+      <article>
+        <Link
+          href={href}
+          className="inline-block text-lg font-medium text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
+        >
+          <h2>{title}</h2>
+        </Link>
+
+        <dl className="mt-1">
+          <dt className="sr-only">Published on</dt>
+          <dd className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)]">
+            <CalendarIcon className="inline-block size-5 min-w-5" />
+            <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+          </dd>
+        </dl>
+
+        {summary && <p className="mt-2">{summary}</p>}
+
+        {tags?.length > 0 && (
+          <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
+            {tags.map((tag) => (
+              <Tag key={tag} text={tag} />
+            ))}
+          </ul>
         )}
-        {prevPage && (
-          <Link
-            href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
-            rel="prev"
-          >
-            Previous
-          </Link>
-        )}
-        <span>
-          {currentPage} of {totalPages}
-        </span>
-        {!nextPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
-            Next
-          </button>
-        )}
-        {nextPage && (
-          <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-            Next
-          </Link>
-        )}
-      </nav>
-    </div>
+      </article>
+    </li>
   )
 }
 
@@ -74,96 +131,62 @@ export default function ListLayoutWithTags({
 }: ListLayoutProps) {
   const pathname = usePathname()
   const tagCounts = tagData as Record<string, number>
-  const tagKeys = Object.keys(tagCounts)
-  const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
-
+  const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a])
   const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
+
+  const currentTag = decodeURI(pathname.split('/tags/')[1]?.split('/')[0] ?? '')
 
   return (
     <>
-      <div>
-        <div className="pt-6 pb-6">
-          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:hidden sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
-            {title}
-          </h1>
-        </div>
-        <div className="flex sm:space-x-24">
-          <div className="hidden h-full max-h-screen max-w-[280px] min-w-[280px] flex-wrap overflow-auto rounded-sm bg-gray-50 pt-5 shadow-md sm:flex dark:bg-gray-900/70 dark:shadow-gray-800/40">
-            <div className="px-6 py-4">
-              {pathname.startsWith('/blog') ? (
-                <h3 className="text-primary-500 font-bold uppercase">All Posts</h3>
-              ) : (
-                <Link
-                  href={`/blog`}
-                  className="hover:text-primary-500 dark:hover:text-primary-500 font-bold text-gray-700 uppercase dark:text-gray-300"
-                >
-                  All Posts
-                </Link>
-              )}
-              <ul>
-                {sortedTags.map((t) => {
-                  return (
-                    <li key={t} className="my-3">
-                      {decodeURI(pathname.split('/tags/')[1]) === slug(t) ? (
-                        <h3 className="text-primary-500 inline px-3 py-2 text-sm font-bold uppercase">
-                          {`${t} (${tagCounts[t]})`}
-                        </h3>
-                      ) : (
-                        <Link
-                          href={`/tags/${slug(t)}`}
-                          className="hover:text-primary-500 dark:hover:text-primary-500 px-3 py-2 text-sm font-medium text-gray-500 uppercase dark:text-gray-300"
-                          aria-label={`View posts tagged ${t}`}
-                        >
-                          {`${t} (${tagCounts[t]})`}
-                        </Link>
-                      )}
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          </div>
-          <div>
-            <ul>
-              {displayPosts.map((post) => {
-                const { path, date, title, summary, tags } = post
+      <main id="main-content" className="pb-4">
+        <div className="pt-8 pb-6">
+          <h1 className="text-2xl font-semibold sm:text-3xl">{title}</h1>
+
+          <nav aria-label="Tags" className="mt-6">
+            <ul className="flex flex-wrap gap-x-4 gap-y-2">
+              <li>
+                {pathname.startsWith('/blog') ? (
+                  <span className="font-medium text-[var(--accent)]">All Posts</span>
+                ) : (
+                  <Link href="/blog" className="font-medium hover:text-[var(--accent)]">
+                    All Posts
+                  </Link>
+                )}
+              </li>
+
+              {sortedTags.map((tag) => {
+                const tagSlug = slug(tag)
+                const isActive = currentTag === tagSlug
+
                 return (
-                  <li key={path} className="py-5">
-                    <article className="flex flex-col space-y-2 xl:space-y-0">
-                      <dl>
-                        <dt className="sr-only">Published on</dt>
-                        <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
-                          <time dateTime={date} suppressHydrationWarning>
-                            {formatDate(date, siteMetadata.locale)}
-                          </time>
-                        </dd>
-                      </dl>
-                      <div className="space-y-3">
-                        <div>
-                          <h2 className="text-2xl leading-8 font-bold tracking-tight">
-                            <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
-                              {title}
-                            </Link>
-                          </h2>
-                          <div className="flex flex-wrap">
-                            {tags?.map((tag) => <Tag key={tag} text={tag} />)}
-                          </div>
-                        </div>
-                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                          {summary}
-                        </div>
-                      </div>
-                    </article>
+                  <li key={tag}>
+                    {isActive ? (
+                      <span className="font-medium text-[var(--accent)]">
+                        #{tag} <span className="text-sm text-[var(--muted-foreground)]">({tagCounts[tag]})</span>
+                      </span>
+                    ) : (
+                      <Link href={`/tags/${tagSlug}`} className="font-medium hover:text-[var(--accent)]">
+                        #{tag} <span className="text-sm text-[var(--muted-foreground)]">({tagCounts[tag]})</span>
+                      </Link>
+                    )}
                   </li>
                 )
               })}
             </ul>
-            {pagination && pagination.totalPages > 1 && (
-              <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
-            )}
-          </div>
+          </nav>
         </div>
-      </div>
+
+        <ul>
+          {!displayPosts.length && 'No posts found.'}
+          {displayPosts.map((post) => (
+            <PostListItem key={post.path ?? post.slug} post={post} />
+          ))}
+        </ul>
+      </main>
+
+      {pagination && pagination.totalPages > 1 && (
+        <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
+      )}
     </>
   )
 }
