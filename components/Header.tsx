@@ -1,52 +1,138 @@
+'use client'
+
+import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
-import Logo from '@/data/logo.svg'
 import Link from './Link'
-import MobileNav from './MobileNav'
-import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
+import ThemeSwitch from './ThemeSwitch'
+
+const normalizePath = (path: string) => path.replace(/\/$/, '') || '/'
+
+const MenuIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M4 7h16" />
+    <path d="M4 12h16" />
+    <path d="M4 17h16" />
+  </svg>
+)
+
+const CloseIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M18 6 6 18" />
+    <path d="m6 6 12 12" />
+  </svg>
+)
 
 const Header = () => {
-  let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10'
-  if (siteMetadata.stickyNav) {
-    headerClass += ' sticky top-0 z-50'
+  const [menuOpen, setMenuOpen] = useState(false)
+  const pathname = normalizePath(usePathname() || '/')
+  const title =
+    typeof siteMetadata.headerTitle === 'string' ? siteMetadata.headerTitle : siteMetadata.title
+
+  const isActive = (href: string) => {
+    const current = normalizePath(pathname)
+    const target = normalizePath(href)
+
+    if (target === '/') {
+      return current === '/'
+    }
+
+    return current === target || current.startsWith(`${target}/`)
   }
 
   return (
-    <header className={headerClass}>
-      <Link href="/" aria-label={siteMetadata.headerTitle}>
-        <div className="flex items-center justify-between">
-          <div className="mr-3">
-            <Logo />
-          </div>
-          {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="hidden h-6 text-2xl font-semibold sm:block">
-              {siteMetadata.headerTitle}
-            </div>
-          ) : (
-            siteMetadata.headerTitle
-          )}
+    <>
+      <a
+        id="skip-to-content"
+        href="#main-content"
+        className="absolute inset-x-16 -top-full z-50 bg-[var(--background)] px-3 py-2 text-[var(--accent)] backdrop-blur-lg transition-all focus:top-4"
+      >
+        Skip to content
+      </a>
+
+      <header className="flex flex-col items-center justify-between sm:flex-row">
+        <div className="relative flex w-full items-baseline justify-between border-b border-[var(--border)] bg-[var(--background)] py-4 sm:items-center sm:py-6">
+          <Link
+            href="/"
+            aria-label={title}
+            className="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap text-[var(--foreground)] sm:static sm:my-auto sm:text-2xl sm:leading-none"
+            onClick={() => setMenuOpen(false)}
+          >
+            {title}
+          </Link>
+
+          <nav
+            id="nav-menu"
+            className="flex w-full flex-col items-center sm:ms-2 sm:flex-row sm:justify-end sm:space-x-4 sm:py-0"
+            aria-label="Primary navigation"
+          >
+            <button
+              id="menu-btn"
+              className="focus-outline self-end p-2 sm:hidden"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              aria-controls="menu-items"
+              onClick={() => setMenuOpen((open) => !open)}
+              type="button"
+            >
+              <CloseIcon className={menuOpen ? 'size-6' : 'hidden'} />
+              <MenuIcon className={menuOpen ? 'hidden' : 'size-6'} />
+            </button>
+
+            <ul
+              id="menu-items"
+              className={[
+                'mt-4 w-44 place-content-center gap-2 sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0 sm:[&>li]:h-8',
+                '[&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium [&>li>a]:hover:text-[var(--accent)]',
+                'sm:[&>li>a]:px-2 sm:[&>li>a]:py-1',
+                menuOpen ? 'grid grid-cols-2' : 'hidden',
+              ].join(' ')}
+            >
+              {headerNavLinks
+                .filter((link) => link.href !== '/')
+                .map((link) => (
+                  <li key={link.title} className="col-span-2">
+                    <Link
+                      href={link.href}
+                      className={isActive(link.href) ? 'active-nav' : undefined}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {link.title}
+                    </Link>
+                  </li>
+                ))}
+
+              <li className="col-span-1 flex items-center justify-center">
+                <SearchButton />
+              </li>
+              <li className="col-span-1 flex items-center justify-center">
+                <ThemeSwitch />
+              </li>
+            </ul>
+          </nav>
         </div>
-      </Link>
-      <div className="flex items-center space-x-4 leading-5 sm:-mr-6 sm:space-x-6">
-        <div className="no-scrollbar hidden max-w-40 items-center gap-x-4 overflow-x-auto sm:flex md:max-w-72 lg:max-w-96">
-          {headerNavLinks
-            .filter((link) => link.href !== '/')
-            .map((link) => (
-              <Link
-                key={link.title}
-                href={link.href}
-                className="hover:text-primary-500 dark:hover:text-primary-400 m-1 font-medium text-gray-900 dark:text-gray-100"
-              >
-                {link.title}
-              </Link>
-            ))}
-        </div>
-        <SearchButton />
-        <ThemeSwitch />
-        <MobileNav />
-      </div>
-    </header>
+      </header>
+    </>
   )
 }
 
