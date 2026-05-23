@@ -3,58 +3,119 @@
 import siteMetadata from '@/data/siteMetadata'
 import { useEffect, useState } from 'react'
 
+const ArrowUpIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 5v14" />
+    <path d="m18 11-6-6-6 6" />
+  </svg>
+)
+
+const CommentIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
+    <path d="M8 9h8" />
+    <path d="M8 13h5" />
+  </svg>
+)
+
+const FloatingButton = ({
+  label,
+  onClick,
+  children,
+}: {
+  label: string
+  onClick: () => void
+  children: React.ReactNode
+}) => (
+  <button
+    type="button"
+    aria-label={label}
+    onClick={onClick}
+    className="focus-outline rounded-full border border-[var(--border)] bg-[var(--background)] p-2 text-[var(--foreground)] shadow-sm transition-all hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+  >
+    {children}
+  </button>
+)
+
 const ScrollTopAndComment = () => {
   const [show, setShow] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     const handleWindowScroll = () => {
-      if (window.scrollY > 50) setShow(true)
-      else setShow(false)
+      const scrollTop = window.scrollY
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+      const nextProgress = scrollHeight > 0 ? Math.min((scrollTop / scrollHeight) * 100, 100) : 0
+
+      setShow(scrollTop > 50)
+      setProgress(nextProgress)
     }
 
-    window.addEventListener('scroll', handleWindowScroll)
-    return () => window.removeEventListener('scroll', handleWindowScroll)
+    handleWindowScroll()
+
+    window.addEventListener('scroll', handleWindowScroll, { passive: true })
+    window.addEventListener('resize', handleWindowScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleWindowScroll)
+      window.removeEventListener('resize', handleWindowScroll)
+    }
   }, [])
 
   const handleScrollTop = () => {
-    window.scrollTo({ top: 0 })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
   const handleScrollToComment = () => {
-    document.getElementById('comment')?.scrollIntoView()
+    document.getElementById('comment')?.scrollIntoView({ behavior: 'smooth' })
   }
+
   return (
-    <div
-      className={`fixed right-8 bottom-8 hidden flex-col gap-3 ${show ? 'md:flex' : 'md:hidden'}`}
-    >
-      {siteMetadata.comments?.provider && (
-        <button
-          aria-label="Scroll To Comment"
-          onClick={handleScrollToComment}
-          className="rounded-full bg-gray-200 p-2 text-gray-500 transition-all hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600"
-        >
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path
-              fillRule="evenodd"
-              d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-      )}
-      <button
-        aria-label="Scroll To Top"
-        onClick={handleScrollTop}
-        className="rounded-full bg-gray-200 p-2 text-gray-500 transition-all hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600"
+    <>
+      <div className="fixed top-0 right-0 left-0 z-50 h-1 bg-[var(--background)]">
+        <div
+          className="h-full bg-[var(--accent)] transition-[width] duration-150"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      <div
+        className={[
+          'fixed right-6 bottom-6 z-50 hidden flex-col gap-3 transition-all duration-200 md:flex',
+          show
+            ? 'translate-y-0 opacity-100'
+            : 'pointer-events-none translate-y-2 opacity-0',
+        ].join(' ')}
       >
-        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path
-            fillRule="evenodd"
-            d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </button>
-    </div>
+        {siteMetadata.comments?.provider && (
+          <FloatingButton label="Scroll to comment" onClick={handleScrollToComment}>
+            <CommentIcon className="size-5" />
+          </FloatingButton>
+        )}
+
+        <FloatingButton label="Scroll to top" onClick={handleScrollTop}>
+          <ArrowUpIcon className="size-5" />
+        </FloatingButton>
+      </div>
+    </>
   )
 }
 

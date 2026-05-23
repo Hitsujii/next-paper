@@ -45,12 +45,25 @@ const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
   const { resolvedTheme, setTheme } = useTheme()
 
+  const syncThemeColor = () => {
+    window.requestAnimationFrame(() => {
+      const bg = window.getComputedStyle(document.body).backgroundColor
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', bg)
+    })
+  }
+
   useEffect(() => {
     setMounted(true)
+    syncThemeColor()
   }, [])
+
+  useEffect(() => {
+    if (mounted) syncThemeColor()
+  }, [mounted, resolvedTheme])
 
   const toggleTheme = () => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+    syncThemeColor()
   }
 
   return (
