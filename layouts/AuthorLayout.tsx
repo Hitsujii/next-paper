@@ -12,40 +12,42 @@ export default function AuthorLayout({ children, content }: Props) {
   const { name, avatar, occupation, company, email, twitter, bluesky, linkedin, github } = content
 
   return (
-    <>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
-            About
-          </h1>
-        </div>
-        <div className="items-start space-y-2 xl:grid xl:grid-cols-3 xl:gap-x-8 xl:space-y-0">
-          <div className="flex flex-col items-center space-x-2 pt-8">
+    <main id="main-content" className="pb-4">
+      <div className="pt-8 pb-6">
+        <h1 className="text-2xl font-semibold sm:text-3xl">About</h1>
+        <p className="mt-2 mb-6 italic">A bit about this template and its author profile.</p>
+
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
+          <aside className="flex shrink-0 flex-col items-center sm:w-48">
             {avatar && (
               <Image
                 src={avatar}
-                alt="avatar"
+                alt={name}
                 width={192}
                 height={192}
-                className="h-48 w-48 rounded-full"
+                className="size-36 rounded-full border border-[var(--border)] object-cover sm:size-40"
               />
             )}
-            <h3 className="pt-4 pb-2 text-2xl leading-8 font-bold tracking-tight">{name}</h3>
-            <div className="text-gray-500 dark:text-gray-400">{occupation}</div>
-            <div className="text-gray-500 dark:text-gray-400">{company}</div>
-            <div className="flex space-x-3 pt-6">
-              <SocialIcon kind="mail" href={`mailto:${email}`} />
-              <SocialIcon kind="github" href={github} />
-              <SocialIcon kind="linkedin" href={linkedin} />
-              <SocialIcon kind="x" href={twitter} />
-              <SocialIcon kind="bluesky" href={bluesky} />
+
+            <h2 className="pt-4 pb-2 text-xl font-semibold">{name}</h2>
+
+            {occupation && <div className="text-center text-sm text-[var(--muted-foreground)]">{occupation}</div>}
+            {company && <div className="text-center text-sm text-[var(--muted-foreground)]">{company}</div>}
+
+            <div className="flex flex-wrap items-center justify-center gap-1 pt-4">
+              <SocialIcon kind="mail" href={email ? `mailto:${email}` : undefined} size={24} />
+              <SocialIcon kind="github" href={github} size={24} />
+              <SocialIcon kind="linkedin" href={linkedin} size={24} />
+              <SocialIcon kind="x" href={twitter} size={24} />
+              <SocialIcon kind="bluesky" href={bluesky} size={24} />
             </div>
-          </div>
-          <div className="prose dark:prose-invert max-w-none pt-8 pb-8 xl:col-span-2">
+          </aside>
+
+          <article className="post-content prose max-w-none dark:prose-invert sm:min-w-0">
             {children}
-          </div>
+          </article>
         </div>
       </div>
-    </>
+    </main>
   )
 }
