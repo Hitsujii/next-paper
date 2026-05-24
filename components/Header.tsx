@@ -93,7 +93,7 @@ export default function Header() {
                   href="/projects"
                   className={[
                     'focus-outline flex size-full justify-center p-3 hover:text-[var(--accent)] sm:relative sm:size-8 sm:p-0',
-                    projectsActive ? 'text-[var(--accent)]' : '',
+                    projectsActive ? 'active-nav' : '',
                   ].join(' ')}
                   aria-label="Projects"
                   title="Projects"
