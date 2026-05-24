@@ -11,6 +11,7 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import BackToTopButton from '@/components/BackToTopButton'
 import PostTitleTransition from '@/components/PostTitleTransition'
+import { IconArrowLeft, IconArrowRight, IconCalendar } from '@/components/icons/AstroPaperIcons'
 
 interface LayoutProps {
   content: CoreContent<Blog>
@@ -20,55 +21,8 @@ interface LayoutProps {
   children: ReactNode
 }
 
-const CalendarIcon = ({ className = '' }: { className?: string }) => (
-  <svg
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M8 2v4" />
-    <path d="M16 2v4" />
-    <rect width="18" height="18" x="3" y="4" rx="2" />
-    <path d="M3 10h18" />
-  </svg>
-)
 
-const ArrowLeftIcon = ({ className = '' }: { className?: string }) => (
-  <svg
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M19 12H5" />
-    <path d="m12 19-7-7 7-7" />
-  </svg>
-)
 
-const ArrowRightIcon = ({ className = '' }: { className?: string }) => (
-  <svg
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M5 12h14" />
-    <path d="m12 5 7 7-7 7" />
-  </svg>
-)
 
 function Datetime({ date, lastmod }: { date: string; lastmod?: string }) {
   const isModified = Boolean(lastmod && lastmod > date)
@@ -76,7 +30,7 @@ function Datetime({ date, lastmod }: { date: string; lastmod?: string }) {
 
   return (
     <div className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)] sm:text-base">
-      <CalendarIcon className="inline-block size-6 min-w-5.5" />
+      <IconCalendar className="inline-block size-6 min-w-5.5" />
       {isModified && <span>Updated:</span>}
       <time dateTime={displayDate}>{formatDate(displayDate, siteMetadata.locale)}</time>
     </div>
@@ -103,7 +57,7 @@ function AdjacentPostNav({
           href={`/${prev.path}`}
           className="group flex min-w-0 items-start gap-2 hover:opacity-75"
         >
-          <ArrowLeftIcon className="mt-0.5 size-5 flex-none transition-transform group-hover:-translate-x-0.5" />
+          <IconArrowLeft className="mt-0.5 size-5 flex-none transition-transform group-hover:-translate-x-0.5" />
           <div className="min-w-0">
             <span className="block">Previous post</span>
             <div className="text-sm leading-6 text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
@@ -130,7 +84,7 @@ function AdjacentPostNav({
               </PostTitleTransition>
             </div>
           </div>
-          <ArrowRightIcon className="mt-0.5 size-5 flex-none transition-transform group-hover:translate-x-0.5" />
+          <IconArrowRight className="mt-0.5 size-5 flex-none transition-transform group-hover:translate-x-0.5" />
         </Link>
       )}
     </nav>

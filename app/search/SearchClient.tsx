@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Link from '@/components/Link'
 import PostTitleTransition from '@/components/PostTitleTransition'
+import { IconSearch } from '@/components/icons/AstroPaperIcons'
 
 type SearchDocument = {
   title?: string
@@ -12,21 +13,6 @@ type SearchDocument = {
   tags?: string[]
 }
 
-const SearchIcon = ({ className = '' }: { className?: string }) => (
-  <svg
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="m21 21-4.34-4.34" />
-    <circle cx="11" cy="11" r="8" />
-  </svg>
-)
 
 const normalize = (value: string) => value.toLowerCase().trim()
 
@@ -103,7 +89,7 @@ export default function SearchClient() {
           placeholder="Search"
           className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] py-3 pr-12 pl-4 font-normal text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--accent)] focus:outline-1 focus:outline-[var(--accent)] focus:ring-0"
         />
-        <SearchIcon className="absolute top-1/2 right-4 size-5 -translate-y-1/2 text-[var(--muted-foreground)]" />
+        <IconSearch className="absolute top-1/2 right-4 size-5 -translate-y-1/2 text-[var(--muted-foreground)]" />
       </div>
 
       {!loaded && <p className="mt-6 text-[var(--muted-foreground)]">Loading search index...</p>}

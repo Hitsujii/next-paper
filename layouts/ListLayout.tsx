@@ -9,6 +9,7 @@ import Link from '@/components/Link'
 import siteMetadata from '@/data/siteMetadata'
 import RememberBackUrl from '@/components/RememberBackUrl'
 import PostTitleTransition from '@/components/PostTitleTransition'
+import { IconArrowLeft, IconArrowRight, IconCalendar } from '@/components/icons/AstroPaperIcons'
 
 interface PaginationProps {
   totalPages: number
@@ -22,23 +23,6 @@ interface ListLayoutProps {
   pagination?: PaginationProps
 }
 
-const CalendarIcon = ({ className = '' }: { className?: string }) => (
-  <svg
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M8 2v4" />
-    <path d="M16 2v4" />
-    <rect width="18" height="18" x="3" y="4" rx="2" />
-    <path d="M3 10h18" />
-  </svg>
-)
 
 function Pagination({ totalPages, currentPage }: PaginationProps) {
   const pathname = usePathname()
@@ -60,12 +44,14 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
         <Link
           href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
           rel="prev"
-          className="select-none hover:text-[var(--accent)]"
+          className="inline-flex select-none items-center gap-1 hover:text-[var(--accent)]"
         >
-          ← Previous
+          <IconArrowLeft className="inline-block size-5" />
+          Previous
         </Link>
       ) : (
-        <span className="opacity-50 select-none">← Previous</span>
+        <span className="inline-flex select-none items-center gap-1 opacity-50"><IconArrowLeft className="inline-block size-5" />
+          Previous</span>
       )}
 
       <span>
@@ -76,12 +62,14 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
         <Link
           href={`/${basePath}/page/${currentPage + 1}`}
           rel="next"
-          className="select-none hover:text-[var(--accent)]"
+          className="inline-flex select-none items-center gap-1 hover:text-[var(--accent)]"
         >
-          Next →
+          Next
+          <IconArrowRight className="inline-block size-5" />
         </Link>
       ) : (
-        <span className="opacity-50 select-none">Next →</span>
+        <span className="inline-flex select-none items-center gap-1 opacity-50">Next
+          <IconArrowRight className="inline-block size-5" /></span>
       )}
     </nav>
   )
@@ -106,7 +94,7 @@ function PostListItem({ post }: { post: CoreContent<Blog> }) {
         <dl className="mt-1">
           <dt className="sr-only">Published on</dt>
           <dd className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)]">
-            <CalendarIcon className="inline-block size-5 min-w-5" />
+            <IconCalendar className="inline-block size-5 min-w-5" />
             <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
           </dd>
         </dl>

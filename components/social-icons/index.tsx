@@ -1,31 +1,39 @@
 import {
-  Mail,
-  Github,
-  Facebook,
-  Youtube,
-  Linkedin,
-  Twitter,
-  X,
-  Mastodon,
-  Threads,
-  Instagram,
-  Medium,
+  SocialFacebook,
+  SocialGithub,
+  SocialLinkedin,
+  SocialMail,
+  SocialPinterest,
+  SocialTelegram,
+  SocialWhatsapp,
+  SocialX,
+} from '@/components/icons/AstroPaperSocialIcons'
+import {
   Bluesky,
+  Instagram,
+  Mastodon,
+  Medium,
+  Threads,
+  Twitter,
+  Youtube,
 } from './icons'
 
 const components = {
-  mail: Mail,
-  github: Github,
-  facebook: Facebook,
+  mail: SocialMail,
+  github: SocialGithub,
+  facebook: SocialFacebook,
   youtube: Youtube,
-  linkedin: Linkedin,
+  linkedin: SocialLinkedin,
   twitter: Twitter,
-  x: X,
+  x: SocialX,
   mastodon: Mastodon,
   threads: Threads,
   instagram: Instagram,
   medium: Medium,
   bluesky: Bluesky,
+  pinterest: SocialPinterest,
+  telegram: SocialTelegram,
+  whatsapp: SocialWhatsapp,
 }
 
 type SocialIconProps = {
@@ -34,7 +42,7 @@ type SocialIconProps = {
   size?: number
 }
 
-const SocialIcon = ({ kind, href, size = 24 }: SocialIconProps) => {
+export default function SocialIcon({ kind, href, size = 24 }: SocialIconProps) {
   if (
     !href ||
     (kind === 'mail' && !/^mailto:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(href))
@@ -56,11 +64,9 @@ const SocialIcon = ({ kind, href, size = 24 }: SocialIconProps) => {
       <span className="sr-only">{label}</span>
       <SocialSvg
         aria-hidden="true"
-        className="fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent"
+        className="inline-block fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent"
         style={{ width: size, height: size }}
       />
     </a>
   )
 }
-
-export default SocialIcon

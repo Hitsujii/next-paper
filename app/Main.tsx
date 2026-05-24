@@ -5,6 +5,7 @@ import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import RememberBackUrl from '@/components/RememberBackUrl'
 import PostTitleTransition from '@/components/PostTitleTransition'
+import { IconArrowRight, IconCalendar, IconRss } from '@/components/icons/AstroPaperIcons'
 
 const MAX_DISPLAY = 4
 
@@ -14,57 +15,6 @@ const socialLinks = [
   { kind: 'linkedin', href: siteMetadata.linkedin },
   { kind: 'mail', href: siteMetadata.email ? `mailto:${siteMetadata.email}` : undefined },
 ] as const
-
-const RssIcon = ({ className = '' }: { className?: string }) => (
-  <svg
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="3"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M4 11a9 9 0 0 1 9 9" />
-    <path d="M4 4a16 16 0 0 1 16 16" />
-    <circle cx="5" cy="19" r="1" />
-  </svg>
-)
-
-const CalendarIcon = ({ className = '' }: { className?: string }) => (
-  <svg
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M8 2v4" />
-    <path d="M16 2v4" />
-    <rect width="18" height="18" x="3" y="4" rx="2" />
-    <path d="M3 10h18" />
-  </svg>
-)
-
-const ArrowRightIcon = ({ className = '' }: { className?: string }) => (
-  <svg
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M5 12h14" />
-    <path d="m12 5 7 7-7 7" />
-  </svg>
-)
 
 function PostCard({ post, heading = 'h2' }) {
   const { date, lastmod, path, slug, summary, title } = post
@@ -88,7 +38,7 @@ function PostCard({ post, heading = 'h2' }) {
         <dl className="mt-1">
           <dt className="sr-only">{isModified ? 'Updated on' : 'Published on'}</dt>
           <dd className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)]">
-            <CalendarIcon className="inline-block size-6 min-w-5.5 scale-90" />
+            <IconCalendar className="inline-block size-6 min-w-5.5 scale-90" />
             {isModified && <span>Updated:</span>}
             <time dateTime={displayDate}>{formatDate(displayDate, siteMetadata.locale)}</time>
           </dd>
@@ -123,7 +73,7 @@ export default function Home({ posts }) {
           </h1>
 
           <Link href="/feed.xml" className="inline-block" aria-label="RSS Feed" title="RSS Feed">
-            <RssIcon className="size-5 scale-125 stroke-[var(--accent)]" />
+            <IconRss className="size-5 scale-125 stroke-[var(--accent)]" />
             <span className="sr-only">RSS Feed</span>
           </Link>
 
@@ -182,7 +132,7 @@ export default function Home({ posts }) {
               aria-label="All posts"
             >
               All Posts
-              <ArrowRightIcon className="size-5" />
+              <IconArrowRight className="size-5" />
             </Link>
           </div>
         )}
