@@ -20,7 +20,7 @@ export default function Projects() {
         {projectsData.length > 0 ? (
           <ul>
             {projectsData.map((project) => {
-              const href = project.href || project.url
+              const href = project.href
 
               return (
                 <li key={project.title} className="my-6">

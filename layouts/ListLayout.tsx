@@ -42,13 +42,13 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
         <Link
           href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
           rel="prev"
-          className="inline-flex select-none items-center gap-1 hover:text-[var(--accent)]"
+          className="inline-flex items-center gap-1 select-none hover:text-[var(--accent)]"
         >
           <IconArrowLeft className="inline-block rtl:rotate-180" />
           Previous
         </Link>
       ) : (
-        <span className="inline-flex select-none items-center gap-1 opacity-50">
+        <span className="inline-flex items-center gap-1 opacity-50 select-none">
           <IconArrowLeft className="inline-block rtl:rotate-180" />
           Previous
         </span>
@@ -62,13 +62,13 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
         <Link
           href={`/${basePath}/page/${currentPage + 1}`}
           rel="next"
-          className="inline-flex select-none items-center gap-1 hover:text-[var(--accent)]"
+          className="inline-flex items-center gap-1 select-none hover:text-[var(--accent)]"
         >
           Next
           <IconArrowRight className="inline-block rtl:rotate-180" />
         </Link>
       ) : (
-        <span className="inline-flex select-none items-center gap-1 opacity-50">
+        <span className="inline-flex items-center gap-1 opacity-50 select-none">
           Next
           <IconArrowRight className="inline-block rtl:rotate-180" />
         </span>

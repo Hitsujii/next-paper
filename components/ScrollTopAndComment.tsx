@@ -85,15 +85,15 @@ export default function ScrollTopAndComment() {
       <div
         className={[
           'fixed right-6 bottom-6 z-50 hidden flex-col gap-3 transition-all duration-200 md:flex',
-          show
-            ? 'translate-y-0 opacity-100'
-            : 'pointer-events-none translate-y-2 opacity-0',
+          show ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-2 opacity-0',
         ].join(' ')}
       >
         {siteMetadata.comments?.provider && (
           <FloatingButton
             label="Scroll to comment"
-            onClick={() => document.getElementById('comment')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() =>
+              document.getElementById('comment')?.scrollIntoView({ behavior: 'smooth' })
+            }
           >
             <CommentIcon className="size-5" />
           </FloatingButton>

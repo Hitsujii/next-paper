@@ -68,7 +68,10 @@ export default function Breadcrumb() {
           return (
             <li key={`${segment}-${index}`}>
               {isLast ? (
-                <span className={index > 0 ? 'lowercase opacity-75' : 'capitalize opacity-75'} aria-current="page">
+                <span
+                  className={index > 0 ? 'lowercase opacity-75' : 'capitalize opacity-75'}
+                  aria-current="page"
+                >
                   {formatSegment(segment, index)}
                 </span>
               ) : (

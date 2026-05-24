@@ -120,7 +120,6 @@ export default function Home({ posts }) {
             <NewsletterForm />
           </section>
         )}
-
       </main>
     </>
   )

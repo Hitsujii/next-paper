@@ -12,10 +12,7 @@ export default function PageMain({ title, description, children, className = '' 
   return (
     <>
       <RememberBackUrl />
-      <main
-        id="main-content"
-        className={['app-layout pb-4', className].filter(Boolean).join(' ')}
-      >
+      <main id="main-content" className={['app-layout pb-4', className].filter(Boolean).join(' ')}>
         <h1 className="text-2xl font-semibold sm:text-3xl">
           {Array.isArray(title) ? (
             <>

@@ -42,18 +42,14 @@ export default function BackToTopButton() {
   return (
     <>
       <div className="progress-container fixed top-0 left-0 z-10 h-1 w-full bg-[var(--background)]">
-        <div
-          id="myBar"
-          className="progress-bar h-1 bg-[var(--accent)]"
-          style={topProgressStyle}
-        />
+        <div id="myBar" className="progress-bar h-1 bg-[var(--accent)]" style={topProgressStyle} />
       </div>
 
       <div
         id="btt-btn-container"
         className={[
-          'fixed inset-e-4 bottom-8 z-50',
-          'md:sticky md:inset-e-auto md:float-end md:me-1',
+          'inset-e-4 fixed bottom-8 z-50',
+          'md:inset-e-auto md:sticky md:float-end md:me-1',
           'transition duration-500',
           visible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-14 opacity-0',
         ].join(' ')}

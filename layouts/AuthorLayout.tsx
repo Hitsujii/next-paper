@@ -32,14 +32,10 @@ export default function AuthorLayout({ children, content }: Props) {
             <h2 className="pt-4 pb-2 text-xl font-semibold">{name}</h2>
 
             {occupation && (
-              <div className="text-center text-sm text-[var(--muted-foreground)]">
-                {occupation}
-              </div>
+              <div className="text-center text-sm text-[var(--muted-foreground)]">{occupation}</div>
             )}
             {company && (
-              <div className="text-center text-sm text-[var(--muted-foreground)]">
-                {company}
-              </div>
+              <div className="text-center text-sm text-[var(--muted-foreground)]">{company}</div>
             )}
 
             <div className="flex flex-wrap items-center justify-center gap-1 pt-4">
@@ -51,7 +47,7 @@ export default function AuthorLayout({ children, content }: Props) {
             </div>
           </aside>
 
-          <article className="post-content prose max-w-none dark:prose-invert sm:min-w-0">
+          <article className="post-content prose dark:prose-invert max-w-none sm:min-w-0">
             {children}
           </article>
         </div>

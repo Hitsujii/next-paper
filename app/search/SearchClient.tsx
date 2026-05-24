@@ -73,13 +73,7 @@ export default function SearchClient() {
 
     return documents.filter((document) => {
       const haystack = normalize(
-        [
-          document.title,
-          document.summary,
-          document.path,
-          document.slug,
-          ...(document.tags ?? []),
-        ]
+        [document.title, document.summary, document.path, document.slug, ...(document.tags ?? [])]
           .filter(Boolean)
           .join(' ')
       )
@@ -106,7 +100,6 @@ export default function SearchClient() {
           type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          autoFocus
           placeholder="Search posts..."
           className="pagefind-ui__search-input w-full rounded-md border border-[var(--border)] bg-[var(--background)] py-3 pr-20 pl-12 text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--border)] focus:ring-0 focus:outline-[1px] focus:outline-[var(--accent)]"
         />
@@ -131,9 +124,7 @@ export default function SearchClient() {
         )}
 
         {loaded && !query && (
-          <p className="pagefind-ui__message text-[var(--muted-foreground)]">
-            Search posts...
-          </p>
+          <p className="pagefind-ui__message text-[var(--muted-foreground)]">Search posts...</p>
         )}
 
         {loaded && query && results.length === 0 && (
@@ -174,7 +165,6 @@ export default function SearchClient() {
                         {highlightText(summary, query)}
                       </p>
                     )}
-
                   </li>
                 )
               })}

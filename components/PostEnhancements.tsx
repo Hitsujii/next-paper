@@ -178,7 +178,10 @@ function enhanceTableOfContents(article: HTMLElement, toc: TocItem[]) {
       return
     }
 
-    explicitHeading.insertAdjacentElement('afterend', makeCollapsedToc(buildGeneratedTocList(article, toc)))
+    explicitHeading.insertAdjacentElement(
+      'afterend',
+      makeCollapsedToc(buildGeneratedTocList(article, toc))
+    )
     return
   }
 
@@ -208,7 +211,10 @@ function removeGeneratedHeadingAnchors(heading: HTMLElement, id: string) {
       anchor.classList.contains('icon-link') ||
       anchor.getAttribute('aria-hidden') === 'true'
 
-    if (href === expectedHref && (isKnownGeneratedAnchor || hasIcon || text === '' || text === '#')) {
+    if (
+      href === expectedHref &&
+      (isKnownGeneratedAnchor || hasIcon || text === '' || text === '#')
+    ) {
       anchor.remove()
     }
   })

@@ -26,6 +26,7 @@ export default function Tag({ text, size = 'sm', count, transition = false }: Pr
       style={style}
       className={[
         'inline-flex items-center gap-0.5 border-b-2 border-dashed border-[var(--foreground)]',
+        'text-[var(--foreground)] visited:text-[var(--foreground)]',
         'hover:-mt-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]',
         'focus-visible:border-transparent focus-visible:text-[var(--accent)]',
         size === 'lg' ? 'text-lg' : 'text-sm',

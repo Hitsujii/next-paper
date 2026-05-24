@@ -47,10 +47,7 @@ function AdjacentPostNav({
       aria-label="Adjacent posts"
     >
       {prev?.path ? (
-        <Link
-          href={`/${prev.path}`}
-          className="group flex w-full min-w-0 gap-1 hover:opacity-75"
-        >
+        <Link href={`/${prev.path}`} className="group flex w-full min-w-0 gap-1 hover:opacity-75">
           <IconArrowLeft className="inline-block flex-none rtl:rotate-180" />
           <div className="min-w-0">
             <span className="block">Previous post</span>
@@ -108,7 +105,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
         <article
           id="article"
-          className="post-content app-prose prose mt-8 w-full max-w-app dark:prose-invert"
+          className="post-content app-prose prose max-w-app dark:prose-invert mt-8 w-full"
         >
           {children}
         </article>
