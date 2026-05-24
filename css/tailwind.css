@@ -470,7 +470,7 @@ footer svg {
   height: 3.125rem;
   min-height: 3.125rem;
   padding-block: 0;
-  border: 1px solid var(--accent);
+  border: 1px solid var(--border);
   box-shadow: none;
   font: inherit;
   font-weight: 400;
@@ -478,8 +478,8 @@ footer svg {
 
 #pagefind-search .pagefind-ui__search-input:focus,
 #pagefind-search .pagefind-ui__search-input:focus-visible {
-  border-color: var(--accent);
-  outline: none;
+  border-color: var(--border);
+  outline: 1px solid var(--accent);
   box-shadow: none;
 }
 

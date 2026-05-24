@@ -108,7 +108,7 @@ export default function SearchClient() {
           onChange={(event) => setQuery(event.target.value)}
           autoFocus
           placeholder="Search posts..."
-          className="pagefind-ui__search-input w-full rounded-md border border-[var(--accent)] bg-[var(--background)] py-3 pr-20 pl-12 text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--accent)] focus:ring-0 focus:outline-none"
+          className="pagefind-ui__search-input w-full rounded-md border border-[var(--border)] bg-[var(--background)] py-3 pr-20 pl-12 text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--border)] focus:ring-0 focus:outline-[1px] focus:outline-[var(--accent)]"
         />
 
         {query && (
