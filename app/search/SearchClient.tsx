@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from '@/components/Link'
-import PostTitleTransition from '@/components/PostTitleTransition'
 import { IconSearch } from '@/components/icons/AstroPaperIcons'
 
 type SearchDocument = {
@@ -11,9 +10,33 @@ type SearchDocument = {
   path?: string
   slug?: string
   tags?: string[]
+  date?: string
+  lastmod?: string
+  body?: {
+    raw?: string
+  }
+}
+
+type SearchSection = {
+  title: string
+  text: string
 }
 
 const normalize = (value: string) => value.toLowerCase().trim()
+
+function stripMarkdown(value: string) {
+  return value
+    .replace(/^import\s+.*$/gm, '')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/[>*_~]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
 
 function highlightText(value: string, query: string) {
   const term = query.trim()
@@ -29,6 +52,89 @@ function highlightText(value: string, query: string) {
       {value.slice(index + term.length)}
     </>
   )
+}
+
+function formatDate(value?: string) {
+  if (!value) return ''
+  const parsedDate = new Date(value)
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return ''
+  }
+
+  return new Intl.DateTimeFormat('en', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(parsedDate)
+}
+
+function getHref(result: SearchDocument) {
+  if (result.path) return `/${result.path}`
+  if (result.slug) return `/blog/${result.slug}`
+  return '/'
+}
+
+function getSections(raw = '') {
+  const sections: SearchSection[] = []
+  let current: SearchSection = { title: '', text: '' }
+
+  for (const line of raw.split('\n')) {
+    const heading = line.match(/^#{2,3}\s+(.+)$/)
+
+    if (heading) {
+      if (current.title || current.text.trim()) {
+        sections.push(current)
+      }
+
+      current = {
+        title: stripMarkdown(heading[1]),
+        text: '',
+      }
+      continue
+    }
+
+    current.text += `${line}\n`
+  }
+
+  if (current.title || current.text.trim()) {
+    sections.push(current)
+  }
+
+  return sections.filter((section) => section.title.toLowerCase() !== 'table of contents')
+}
+
+function snippet(value: string, query: string, length = 150) {
+  const clean = stripMarkdown(value)
+  const term = query.trim().toLowerCase()
+  const index = clean.toLowerCase().indexOf(term)
+
+  if (index === -1) {
+    return clean.slice(0, length).trim()
+  }
+
+  const start = Math.max(0, index - 40)
+  const end = Math.min(clean.length, start + length)
+  const prefix = start > 0 ? '…' : ''
+  const suffix = end < clean.length ? '…' : ''
+
+  return `${prefix}${clean.slice(start, end).trim()}${suffix}`
+}
+
+function score(result: SearchDocument, query: string) {
+  const term = normalize(query)
+  const title = normalize(result.title ?? '')
+  const summary = normalize(result.summary ?? '')
+  const tags = normalize((result.tags ?? []).join(' '))
+  const body = normalize(result.body?.raw ?? '')
+
+  if (title.startsWith(term)) return 0
+  if (title.includes(term)) return 1
+  if (summary.includes(term)) return 2
+  if (tags.includes(term)) return 3
+  if (body.includes(term)) return 4
+  return 5
 }
 
 export default function SearchClient() {
@@ -71,15 +177,24 @@ export default function SearchClient() {
     const term = normalize(query)
     if (!term) return []
 
-    return documents.filter((document) => {
-      const haystack = normalize(
-        [document.title, document.summary, document.path, document.slug, ...(document.tags ?? [])]
-          .filter(Boolean)
-          .join(' ')
-      )
+    return documents
+      .filter((document) => {
+        const haystack = normalize(
+          [
+            document.title,
+            document.summary,
+            document.path,
+            document.slug,
+            document.body?.raw,
+            ...(document.tags ?? []),
+          ]
+            .filter(Boolean)
+            .join(' ')
+        )
 
-      return haystack.includes(term)
-    })
+        return haystack.includes(term)
+      })
+      .sort((a, b) => score(a, query) - score(b, query))
   }, [documents, query])
 
   return (
@@ -97,19 +212,18 @@ export default function SearchClient() {
 
         <input
           id="search-input"
-          type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Search posts..."
           className="pagefind-ui__search-input w-full rounded-md border border-[var(--border)] bg-[var(--background)] py-3 pr-20 pl-12 text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--border)] focus:ring-0 focus:outline-[1px] focus:outline-[var(--accent)]"
+          type="search"
         />
 
         {query && (
           <button
             type="button"
-            className="pagefind-ui__search-clear focus-outline absolute top-1/2 right-4 -translate-y-1/2 rounded px-1 text-sm hover:text-[var(--accent)]"
-            aria-label="Clear search"
             onClick={() => setQuery('')}
+            className="absolute top-1/2 right-4 -translate-y-1/2 text-sm hover:text-[var(--accent)]"
           >
             Clear
           </button>
@@ -118,9 +232,7 @@ export default function SearchClient() {
 
       <div className="pagefind-ui__drawer mt-6">
         {!loaded && (
-          <p className="pagefind-ui__message font-bold text-[var(--foreground)]">
-            Loading search index...
-          </p>
+          <p className="pagefind-ui__message text-[var(--muted-foreground)]">Loading...</p>
         )}
 
         {loaded && !query && (
@@ -141,10 +253,16 @@ export default function SearchClient() {
 
             <ol className="pagefind-ui__results mt-6 border-t border-[var(--border)]">
               {results.map((result) => {
-                const href = result.path ? `/${result.path}` : `/blog/${result.slug}`
+                const href = getHref(result)
                 const key = result.path ?? result.slug ?? result.title ?? href
                 const title = result.title ?? href
                 const summary = result.summary ?? ''
+                const date = formatDate(result.lastmod ?? result.date)
+                const sections = getSections(result.body?.raw)
+                  .filter((section) =>
+                    normalize(`${section.title} ${section.text}`).includes(normalize(query))
+                  )
+                  .slice(0, 3)
 
                 return (
                   <li
@@ -155,15 +273,43 @@ export default function SearchClient() {
                       href={href}
                       className="pagefind-ui__result-link inline-block text-xl font-bold text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
                     >
-                      <PostTitleTransition title={title}>
-                        <h2>{highlightText(title, query)}</h2>
-                      </PostTitleTransition>
+                      <h2>{highlightText(title, query)}</h2>
                     </Link>
 
-                    {summary && (
-                      <p className="pagefind-ui__result-excerpt mt-4 text-sm leading-7 sm:text-base">
-                        {highlightText(summary, query)}
+                    {(summary || date) && (
+                      <p className="pagefind-ui__result-excerpt mt-1 text-sm leading-7 sm:text-base">
+                        {summary ? highlightText(summary, query) : null}
+                        {date ? (
+                          <>
+                            {summary ? ' ' : ''}
+                            {date}
+                          </>
+                        ) : null}
                       </p>
+                    )}
+
+                    {sections.length > 0 && (
+                      <ul className="pagefind-ui__result-nested mt-3 space-y-2">
+                        {sections.map((section) => {
+                          const sectionSnippet = snippet(section.text, query)
+
+                          return (
+                            <li key={section.title}>
+                              <Link
+                                href={href}
+                                className="font-bold text-[var(--accent)] hover:underline hover:decoration-dashed"
+                              >
+                                ↳ {highlightText(section.title, query)}
+                              </Link>
+                              {sectionSnippet && (
+                                <p className="mt-1 ml-4 text-sm leading-6">
+                                  {highlightText(sectionSnippet, query)}
+                                </p>
+                              )}
+                            </li>
+                          )
+                        })}
+                      </ul>
                     )}
                   </li>
                 )
