@@ -113,9 +113,12 @@ export default function Home({ posts }) {
           </Link>
         </div>
         {siteMetadata.newsletter?.provider && (
-          <div className="my-8 flex items-center justify-center">
+          <section
+            className="newsletter-section my-8 flex items-center justify-center"
+            aria-label="Newsletter"
+          >
             <NewsletterForm />
-          </div>
+          </section>
         )}
 
       </main>
