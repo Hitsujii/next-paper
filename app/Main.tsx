@@ -6,6 +6,7 @@ import RememberBackUrl from '@/components/RememberBackUrl'
 import { IconArrowRight, IconRss } from '@/components/icons/AstroPaperIcons'
 
 const POSTS_PER_INDEX = 4
+const FEATURED_FALLBACK_COUNT = 3
 
 const socialLinks = [
   { kind: 'github', href: siteMetadata.github },
@@ -15,8 +16,16 @@ const socialLinks = [
 ] as const
 
 export default function Home({ posts }) {
-  const featuredPosts = posts.filter((post) => Boolean(post.featured))
-  const recentPosts = posts.filter((post) => !post.featured)
+  const explicitFeaturedPosts = posts.filter((post) => Boolean(post.featured))
+  const featuredPosts =
+    explicitFeaturedPosts.length > 0
+      ? explicitFeaturedPosts.slice(0, FEATURED_FALLBACK_COUNT)
+      : posts.slice(0, FEATURED_FALLBACK_COUNT)
+
+  const featuredKeys = new Set(featuredPosts.map((post) => post.path ?? post.slug))
+  const recentPosts = posts
+    .filter((post) => !featuredKeys.has(post.path ?? post.slug))
+    .slice(0, POSTS_PER_INDEX)
 
   return (
     <>
@@ -36,7 +45,11 @@ export default function Home({ posts }) {
             aria-label="RSS Feed"
             title="RSS Feed"
           >
-            <IconRss width={20} height={20} className="scale-125 stroke-[var(--accent)] stroke-3 rtl:-rotate-90" />
+            <IconRss
+              width={20}
+              height={20}
+              className="scale-125 stroke-[var(--accent)] stroke-3 rtl:-rotate-90"
+            />
             <span className="sr-only">RSS Feed</span>
           </Link>
 
@@ -92,7 +105,7 @@ export default function Home({ posts }) {
           <section id="recent-posts" className="pt-12 pb-6">
             <h2 className="text-2xl font-semibold tracking-wide">Recent Posts</h2>
             <ul>
-              {recentPosts.slice(0, POSTS_PER_INDEX).map((post) => (
+              {recentPosts.map((post) => (
                 <PostCard key={post.path ?? post.slug} post={post} heading="h3" />
               ))}
             </ul>
