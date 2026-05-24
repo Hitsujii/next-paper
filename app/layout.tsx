@@ -21,7 +21,6 @@ const googleSansCode = Google_Sans_Code({
   variable: '--font-google-sans-code',
 })
 
-
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
   display: 'swap',
@@ -102,8 +101,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           color="#5bbad5"
         />
         <meta name="msapplication-TileColor" content="#000000" />
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
-        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
+        <meta name="theme-color" content="" />
         <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
         <body className="flex min-h-svh flex-col bg-[var(--background)] text-[var(--foreground)] antialiased">
           <ThemeProviders>
