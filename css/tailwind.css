@@ -2,7 +2,7 @@
 @plugin "@tailwindcss/forms";
 @plugin '@tailwindcss/typography';
 @source '../node_modules/pliny';
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 /* Core theme configuration */
 @theme {
@@ -173,213 +173,6 @@ input:-webkit-autofill:focus {
   vertical-align: middle;
 }
 
-
-/* NextPaper AstroPaper post content */
-.post-content {
-  color: var(--foreground);
-}
-
-.post-content :where(h2, h3, h4, h5, h6) {
-  scroll-margin-top: 6rem;
-}
-
-.post-content :where(a) {
-  color: var(--accent);
-  text-decoration-line: underline;
-  text-decoration-style: dashed;
-  text-underline-offset: 4px;
-}
-
-.post-content :where(a:hover) {
-  opacity: 0.8;
-}
-
-.post-content :where(blockquote) {
-  border-inline-start-color: var(--accent);
-  color: var(--foreground);
-}
-
-.post-content :where(code) {
-  color: var(--foreground);
-}
-
-.post-content :where(hr) {
-  border-color: var(--border);
-}
-
-.post-content :where(table) {
-  margin-block: 0;
-}
-
-/* NextPaper AstroPaper motion baseline */
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-
-    *,
-    ::before,
-    ::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      scroll-behavior: auto !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-}
-
-@supports (view-transition-name: root) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation-duration: 160ms;
-  }
-}
-
-/* NextPaper AstroPaper typography baseline */
-.post-content {
-  line-height: 1.75;
-}
-
-.post-content :where(p) {
-  margin-block: 1.25rem;
-}
-
-.post-content :where(h2) {
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-  font-size: 1.5rem;
-  line-height: 2rem;
-  font-weight: 600;
-}
-
-.post-content :where(h3) {
-  margin-top: 1.75rem;
-  margin-bottom: 0.5rem;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 600;
-}
-
-.post-content :where(h4, h5, h6) {
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-.post-content :where(h2, h3, h4, h5, h6) a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.post-content :where(ul, ol) {
-  margin-block: 1.25rem;
-  padding-inline-start: 1.625rem;
-}
-
-.post-content :where(ul) {
-  list-style-type: disc;
-}
-
-.post-content :where(ol) {
-  list-style-type: decimal;
-}
-
-.post-content :where(li) {
-  margin-block: 0.5rem;
-  padding-inline-start: 0.25rem;
-}
-
-.post-content :where(blockquote) {
-  margin-block: 1.5rem;
-  border-inline-start: 4px solid var(--accent);
-  padding-inline-start: 1rem;
-  font-style: italic;
-  color: var(--foreground);
-  word-wrap: break-word;
-}
-
-.post-content :where(code) {
-  border-radius: 0.25rem;
-  background: color-mix(in srgb, var(--muted) 55%, transparent);
-  padding: 0.125rem 0.25rem;
-  font-size: 0.875em;
-  color: var(--foreground);
-  word-wrap: break-word;
-}
-
-.post-content :where(pre) {
-  margin-block: 1.5rem;
-  overflow-x: auto;
-  border: 1px solid var(--border);
-  border-radius: 0.375rem;
-  background: color-mix(in srgb, var(--muted) 28%, transparent);
-  padding: 1rem;
-}
-
-.post-content :where(pre code) {
-  display: block;
-  overflow-x: auto;
-  border-radius: 0;
-  background: transparent;
-  padding: 0;
-  white-space: pre;
-  word-wrap: normal;
-}
-
-.post-content :where(img, video) {
-  margin-inline: auto;
-  border: 1px solid var(--border);
-}
-
-.post-content :where(figcaption) {
-  margin-top: 0.5rem;
-  text-align: center;
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
-}
-
-.post-content :where(table) {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.95rem;
-}
-
-.post-content :where(th, td) {
-  border: 1px solid var(--border);
-  padding: 0.625rem 0.75rem;
-  text-align: start;
-  vertical-align: top;
-}
-
-.post-content :where(th) {
-  background: color-mix(in srgb, var(--muted) 35%, transparent);
-  font-weight: 600;
-}
-
-.post-content :where(tbody tr:nth-child(odd)) {
-  background: color-mix(in srgb, var(--muted) 18%, transparent);
-}
-
-.post-content :where(hr) {
-  margin-block: 2rem;
-  border: 0;
-  border-top: 1px solid var(--border);
-}
-
-.post-content :where(kbd) {
-  border: 1px solid var(--border);
-  border-radius: 0.25rem;
-  background: color-mix(in srgb, var(--muted) 45%, transparent);
-  padding: 0.125rem 0.375rem;
-  font-size: 0.875em;
-}
-
-
 /* NextPaper View Transition lock */
 html[data-view-transition='running'] a {
   pointer-events: none;
@@ -402,102 +195,8 @@ html[data-view-transition='running'] a {
   }
 }
 
-
-/* NextPaper AstroPaper header footer polish */
-@layer base {
-  svg {
-    flex-shrink: 0;
-  }
-}
-
-@layer utilities {
-  .focus-outline {
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-  }
-
-  .focus-outline:focus-visible {
-    outline-color: var(--accent);
-  }
-}
-
-/* NextPaper AstroPaper post page polish */
-.post-content {
-  color: var(--foreground);
-  line-height: 1.75;
-}
-
-.post-content :where(h2, h3, h4, h5, h6) {
-  scroll-margin-top: 6rem;
-}
-
-.post-content :where(a) {
-  color: var(--accent);
-  text-decoration-line: underline;
-  text-decoration-style: dashed;
-  text-underline-offset: 4px;
-}
-
-.post-content :where(a:hover) {
-  opacity: 0.8;
-}
-
-.post-content :where(blockquote) {
-  border-inline-start: 4px solid var(--accent);
-  color: var(--foreground);
-  padding-inline-start: 1rem;
-  font-style: italic;
-}
-
-.post-content :where(hr) {
-  border-color: var(--border);
-}
-
-.post-content :where(code) {
-  color: var(--foreground);
-}
-
-.post-content :where(pre code) {
-  background: transparent;
-  padding: 0;
-}
-
-/* NextPaper AstroPaper mobile polish */
-@layer base {
-  html {
-    overflow-x: hidden;
-  }
-
-  body {
-    overflow-x: hidden;
-  }
-}
-
-@layer utilities {
-  @media (max-width: 639px) {
-    #menu-items a,
-    #menu-items button {
-      -webkit-tap-highlight-color: transparent;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #menu-items,
-    #menu-btn svg {
-      transition-duration: 0.01ms !important;
-    }
-  }
-}
-
-/* NextPaper AstroPaper final visual baseline */
-@theme {
-  --font-sans: var(--font-google-sans-code), 'Google Sans Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-
-  --color-primary-400: var(--accent);
-  --color-primary-500: var(--accent);
-  --color-primary-600: var(--accent);
-  --color-primary-700: var(--accent);
-
+/* NextPaper AstroPaper canonical CSS baseline */
+@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
@@ -505,10 +204,13 @@ html[data-view-transition='running'] a {
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
+  --font-app: var(--font-google-sans-code);
+  --font-sans: var(--font-google-sans-code), 'Google Sans Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
 @layer base {
-  :root {
+  :root,
+  [data-theme='light'] {
     --background: #fdfdfd;
     --foreground: #282728;
     --accent: #006cac;
@@ -519,7 +221,7 @@ html[data-view-transition='running'] a {
     color-scheme: light;
   }
 
-  .dark {
+  [data-theme='dark'] {
     --background: #212737;
     --foreground: #eaedf3;
     --accent: #ff6b01;
@@ -528,6 +230,17 @@ html[data-view-transition='running'] a {
     --muted-foreground: #afb9ca;
     --border: #ab4b08;
     color-scheme: dark;
+  }
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--border);
+    outline-color: color-mix(in srgb, var(--accent) 75%, transparent);
+    scrollbar-width: auto;
+    scrollbar-color: var(--muted) transparent;
   }
 
   html,
@@ -542,7 +255,7 @@ html[data-view-transition='running'] a {
     flex-direction: column;
     overflow-x: hidden;
     color: var(--foreground);
-    font-family: var(--font-sans);
+    font-family: var(--font-google-sans-code), 'Google Sans Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
     font-size: 1rem;
     line-height: 1.5;
   }
@@ -551,25 +264,42 @@ html[data-view-transition='running'] a {
     background: var(--background);
   }
 
-  ::selection {
-    background: color-mix(in srgb, var(--accent) 75%, transparent);
-    color: var(--accent-foreground);
+  a,
+  button {
+    outline-color: var(--accent);
+    outline-offset: 1px;
   }
 
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--border);
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px dashed var(--accent);
+    text-decoration-line: none;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
   }
 
   svg {
     flex-shrink: 0;
   }
+
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 75%, transparent);
+    color: var(--accent-foreground);
+  }
+
+  :target {
+    scroll-margin-block: 1rem;
+  }
 }
 
 @layer utilities {
+  .max-w-app {
+    max-width: 48rem;
+  }
+
   .app-layout {
     width: 100%;
     max-width: 48rem;
@@ -587,11 +317,11 @@ html[data-view-transition='running'] a {
 
   .focus-outline {
     outline: 2px solid transparent;
-    outline-offset: 2px;
+    outline-offset: 1px;
   }
 
   .focus-outline:focus-visible {
-    outline-color: var(--accent);
+    outline: 2px dashed var(--accent);
   }
 
   @media (max-width: 639px) {
@@ -613,37 +343,103 @@ html[data-view-transition='running'] a {
   }
 }
 
-/* NextPaper AstroPaper search page polish */
-#pagefind-search {
-  --pagefind-ui-font: var(--font-sans);
-  --pagefind-ui-text: var(--foreground);
-  --pagefind-ui-background: var(--background);
-  --pagefind-ui-border: var(--border);
-  --pagefind-ui-primary: var(--accent);
-  --pagefind-ui-tag: var(--background);
-  --pagefind-ui-border-radius: 0.375rem;
-  --pagefind-ui-border-width: 1px;
+/* NextPaper AstroPaper canonical typography */
+.post-content,
+.app-prose {
+  color: var(--foreground);
+  line-height: 1.75;
 }
 
-#pagefind-search input {
-  font-weight: 400;
-  border: 1px solid var(--border);
+.post-content :where(h1, h2, h3, h4, th),
+.app-prose :where(h1, h2, h3, h4, th) {
+  margin-bottom: 0.75rem;
+  color: var(--foreground);
 }
 
-#pagefind-search input:focus-visible {
-  outline: 1px solid var(--accent);
+.post-content :where(h3),
+.app-prose :where(h3) {
+  font-style: italic;
 }
 
-#pagefind-search a {
-  color: var(--accent);
-  outline-offset: 1px;
-  outline-color: var(--accent);
+.post-content :where(p, strong, ol, ul, figcaption, table, code),
+.app-prose :where(p, strong, ol, ul, figcaption, table, code) {
+  color: var(--foreground);
+}
+
+.post-content :where(a),
+.app-prose :where(a) {
+  color: var(--foreground);
+  overflow-wrap: break-word;
+  text-decoration-line: underline;
   text-decoration-style: dashed;
   text-underline-offset: 4px;
 }
 
-#pagefind-search a:focus-visible {
-  text-decoration-line: none;
-  outline-width: 2px;
-  outline-style: dashed;
+.post-content :where(a:hover),
+.app-prose :where(a:hover) {
+  color: var(--accent);
+}
+
+.post-content :where(ul),
+.app-prose :where(ul) {
+  overflow-x: clip;
+}
+
+.post-content :where(li)::marker,
+.app-prose :where(li)::marker {
+  color: var(--accent);
+}
+
+.post-content :where(hr),
+.app-prose :where(hr) {
+  border-color: var(--border);
+}
+
+.post-content :where(img),
+.app-prose :where(img) {
+  margin-inline: auto;
+  border: 1px solid var(--border);
+}
+
+.post-content :where(figcaption),
+.app-prose :where(figcaption) {
+  opacity: 0.75;
+}
+
+.post-content :where(th, td),
+.app-prose :where(th, td) {
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+}
+
+.post-content :where(th),
+.app-prose :where(th) {
+  padding-block: 0.375rem;
+}
+
+.post-content :where(code):not(pre code),
+.app-prose :where(code):not(pre code) {
+  border-radius: 0.25rem;
+  background: color-mix(in srgb, var(--muted) 75%, transparent);
+  padding: 0.25rem;
+  color: var(--foreground);
+  overflow-wrap: break-word;
+}
+
+.post-content :where(code):not(pre code)::before,
+.post-content :where(code):not(pre code)::after,
+.app-prose :where(code):not(pre code)::before,
+.app-prose :where(code):not(pre code)::after {
+  content: none;
+}
+
+.post-content :where(pre),
+.app-prose :where(pre) {
+  border: 1px solid var(--border);
+}
+
+.post-content :where(pre code),
+.app-prose :where(pre code) {
+  background: transparent;
+  padding: 0;
 }
