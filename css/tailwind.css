@@ -573,8 +573,8 @@ footer svg {
 
 .code-file-name {
   position: absolute;
-  top: -0.82rem;
-  inset-inline-start: 0.75rem;
+  top: var(--file-name-offset, -0.75rem);
+  left: 0.5rem;
   z-index: 2;
   display: inline-flex;
   width: auto;
@@ -946,7 +946,7 @@ footer svg {
 
 .code-file-name {
   position: absolute;
-  top: -0.75rem;
+  top: var(--file-name-offset, -0.75rem);
   left: 0.5rem;
   z-index: 2;
   display: inline-flex;
