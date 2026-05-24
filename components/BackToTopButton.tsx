@@ -42,7 +42,8 @@ export default function BackToTopButton() {
       <button
         type="button"
         className={[
-          'focus-outline fixed right-4 bottom-6 z-50 inline-flex items-center gap-1 rounded-md',
+          'focus-outline fixed bottom-6 z-50 inline-flex items-center gap-1 rounded-md',
+          'right-4 md:right-[max(1rem,calc((100vw-48rem)/2+1rem))]',
           'bg-[color-mix(in_srgb,var(--background)_80%,transparent)] px-3 py-2 text-sm',
           'text-[var(--foreground)] shadow-sm backdrop-blur-lg transition-all hover:text-[var(--accent)]',
           visible
