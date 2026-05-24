@@ -90,7 +90,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
           <PostTitleTransition title={title}>{title}</PostTitleTransition>
         </h1>
 
-        <div className="my-2 flex items-center gap-2">
+        <div className="my-2 flex flex-wrap items-center gap-2">
           <Datetime date={date} lastmod={lastmod} size="lg" />
           <span aria-hidden="true" className="text-[var(--muted-foreground)] max-sm:hidden">
             |
@@ -100,7 +100,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
         <article
           id="article"
-          className="post-content app-prose prose mt-8 max-w-none dark:prose-invert"
+          className="post-content app-prose prose mt-8 w-full max-w-app dark:prose-invert"
         >
           {children}
         </article>
@@ -127,7 +127,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
         <hr className="my-8 border-dashed" />
 
-        <AdjacentPostNav prev={prev} next={next} />
+        <div className="clear-both">
+          <AdjacentPostNav prev={prev} next={next} />
+        </div>
       </main>
     </>
   )

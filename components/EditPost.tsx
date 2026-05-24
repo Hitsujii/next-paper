@@ -19,7 +19,7 @@ export default function EditPost({ path, className = '' }: EditPostProps) {
       target="_blank"
       rel="noopener noreferrer"
       className={[
-        'inline-flex items-center gap-1 text-sm text-[var(--muted-foreground)] hover:text-[var(--accent)] sm:text-base',
+        'inline-flex items-center gap-1 text-[var(--muted-foreground)] hover:text-[var(--accent)]',
         className,
       ].join(' ')}
       aria-label="Edit page"

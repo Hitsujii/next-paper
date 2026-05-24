@@ -982,3 +982,41 @@ footer a {
 .code-block-wrapper[data-file] .copy-code {
   top: -0.75rem;
 }
+
+/* NextPaper AstroPaper post detail final */
+#back-button {
+  text-decoration-line: none;
+}
+
+#article {
+  max-width: 48rem;
+}
+
+.post-content :where(h2) {
+  margin-top: 2rem;
+}
+
+.post-content :where(h3) {
+  margin-top: 1.5rem;
+}
+
+.post-content :where(ul, ol) {
+  padding-inline-start: 1.5rem;
+}
+
+.post-content :where(li) {
+  margin-block: 0.5rem;
+}
+
+.post-content :where(li)::marker {
+  color: var(--accent);
+}
+
+.post-content :where(img) {
+  border: 1px solid var(--border);
+}
+
+.post-content :where(hr) {
+  border-color: var(--border);
+  border-style: dashed;
+}
