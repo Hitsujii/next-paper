@@ -144,7 +144,7 @@ export default function ListLayoutWithTags({
                 {pathname.startsWith('/blog') ? (
                   <span className="font-medium text-[var(--accent)]">All Posts</span>
                 ) : (
-                  <Link href="/blog" className="font-medium hover:text-[var(--accent)]">
+                  <Link href="/blog" className="font-medium underline decoration-dashed underline-offset-4 hover:text-[var(--accent)]">
                     All Posts
                   </Link>
                 )}
@@ -166,7 +166,7 @@ export default function ListLayoutWithTags({
                     ) : (
                       <Link
                         href={`/tags/${tagSlug}`}
-                        className="font-medium hover:text-[var(--accent)]"
+                        className="font-medium underline decoration-dashed underline-offset-4 hover:text-[var(--accent)]"
                       >
                         #{tag}{' '}
                         <span className="text-sm text-[var(--muted-foreground)]">
