@@ -80,8 +80,6 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
   return (
     <>
-      <BackToTopButton />
-
       <div className="app-layout flex items-center justify-start">
         <BackButton fallbackHref={`/${basePath}`} />
       </div>

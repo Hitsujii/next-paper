@@ -59,7 +59,7 @@ export default function ShareLinks({ path, title }: ShareLinksProps) {
 
   return (
     <div className="flex flex-none flex-col items-center justify-center gap-1 md:items-start">
-      <span className="italic">Share this post</span>
+      <span className="italic">Share this post:</span>
 
       <div className="text-center">
         {sharePlatforms.map(({ name, label, icon: Icon, getHref }) => (

@@ -47,8 +47,7 @@ export default function BackToTopButton() {
       <div
         id="btt-btn-container"
         className={[
-          'fixed bottom-8 z-50',
-          'right-4 md:right-[max(1rem,calc((100vw-48rem)/2+1rem))]',
+          'fixed right-4 bottom-8 z-50 md:sticky md:right-auto md:float-end md:me-1 md:-mt-1',
           'transition duration-500',
           visible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-14 opacity-0',
         ].join(' ')}
@@ -59,7 +58,7 @@ export default function BackToTopButton() {
           className={[
             'focus-outline group relative bg-[var(--background)] px-2 py-1',
             'size-14 rounded-full shadow-xl',
-            'md:h-8 md:w-fit md:rounded-md md:shadow-none',
+            'md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none',
             'md:bg-[color-mix(in_srgb,var(--background)_35%,transparent)] md:bg-clip-padding md:backdrop-blur-lg',
             'hover:text-[var(--accent)]',
           ].join(' ')}

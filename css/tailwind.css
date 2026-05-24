@@ -586,3 +586,26 @@ footer svg {
 footer svg {
   opacity: 0.9;
 }
+
+/* NextPaper AstroPaper post bottom final */
+#btt-btn-container {
+  max-width: 48rem;
+}
+
+#progress-indicator {
+  background-color: transparent;
+}
+
+[data-button='back-to-top'] {
+  color: var(--foreground);
+}
+
+[data-button='back-to-top']:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 767px) {
+  [data-button='back-to-top'] {
+    touch-action: manipulation;
+  }
+}
