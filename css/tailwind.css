@@ -475,10 +475,6 @@ html[data-view-transition='running'] a {
 
 @layer utilities {
   @media (max-width: 639px) {
-    .app-layout {
-      padding-inline: 1rem;
-    }
-
     #menu-items a,
     #menu-items button {
       -webkit-tap-highlight-color: transparent;
@@ -579,18 +575,6 @@ html[data-view-transition='running'] a {
     max-width: 48rem;
     margin-inline: auto;
     padding-inline: 1rem;
-  }
-
-  @media (min-width: 640px) {
-    .app-layout {
-      padding-inline: 1.5rem;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .app-layout {
-      padding-inline: 0;
-    }
   }
 
   .active-nav {
