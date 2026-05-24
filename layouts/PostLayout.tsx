@@ -101,30 +101,36 @@ function AdjacentPostNav({
       className="my-8 grid grid-cols-1 gap-6 sm:grid-cols-2"
       aria-label="Adjacent posts"
     >
-      {prev?.path && (
+      {prev?.path ? (
         <Link
           href={`/${prev.path}`}
-          className="group flex w-full items-start gap-2 hover:opacity-75"
+          className="group flex min-w-0 items-start gap-2 hover:opacity-75"
         >
           <ArrowLeftIcon className="mt-0.5 size-5 flex-none transition-transform group-hover:-translate-x-0.5" />
           <div className="min-w-0">
-            <span>Previous post</span>
-            <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
-              <PostTitleTransition title={prev.title}>{prev.title}</PostTitleTransition>
+            <span className="block">Previous post</span>
+            <div className="text-sm leading-6 text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
+              <PostTitleTransition title={prev.title}>
+                <span className="break-words">{prev.title}</span>
+              </PostTitleTransition>
             </div>
           </div>
         </Link>
+      ) : (
+        <div aria-hidden="true" />
       )}
 
       {next?.path && (
         <Link
           href={`/${next.path}`}
-          className="group flex w-full items-start justify-end gap-2 text-end hover:opacity-75 sm:col-start-2"
+          className="group flex min-w-0 items-start justify-end gap-2 text-end hover:opacity-75 sm:col-start-2"
         >
           <div className="min-w-0">
-            <span>Next post</span>
-            <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
-              <PostTitleTransition title={next.title}>{next.title}</PostTitleTransition>
+            <span className="block">Next post</span>
+            <div className="text-sm leading-6 text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
+              <PostTitleTransition title={next.title}>
+                <span className="break-words">{next.title}</span>
+              </PostTitleTransition>
             </div>
           </div>
           <ArrowRightIcon className="mt-0.5 size-5 flex-none transition-transform group-hover:translate-x-0.5" />
