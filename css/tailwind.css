@@ -634,9 +634,6 @@ footer svg {
     background-color 150ms ease;
 }
 
-.code-block-wrapper[data-file] .copy-code {
-  top: -0.75rem;
-}
 
 .code-block-wrapper:hover .copy-code,
 .code-block-wrapper:focus-within .copy-code {
