@@ -175,15 +175,6 @@ export default function SearchClient() {
                       </p>
                     )}
 
-                    {result.tags?.length ? (
-                      <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
-                        {result.tags.slice(0, 4).map((tag) => (
-                          <li key={tag} className="text-sm text-[var(--muted-foreground)]">
-                            ↳ {highlightText(tag, query)}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
                   </li>
                 )
               })}
