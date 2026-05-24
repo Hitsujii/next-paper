@@ -2,6 +2,7 @@ import Link from '@/components/Link'
 import PostCard from '@/components/PostCard'
 import SocialIcon from '@/components/social-icons'
 import siteMetadata from '@/data/siteMetadata'
+import NewsletterForm from 'pliny/ui/NewsletterForm'
 import RememberBackUrl from '@/components/RememberBackUrl'
 import { IconArrowRight, IconRss } from '@/components/icons/AstroPaperIcons'
 
@@ -33,11 +34,7 @@ export default function Home({ posts }) {
 
       <main id="main-content" data-layout="index" data-home-path="/" className="app-layout">
         <section id="hero" className="border-b border-[var(--border)] pt-8 pb-6">
-          <h1 className="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-            Mingalaba
-          </h1>
-          {' '}
-
+          <h1 className="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">Mingalaba</h1>{' '}
           <Link
             href="/feed.xml"
             target="_blank"
@@ -52,13 +49,11 @@ export default function Home({ posts }) {
             />
             <span className="sr-only">RSS Feed</span>
           </Link>
-
           <p>
-            NextPaper is a minimal, responsive, accessible and SEO-friendly Next.js blog
-            template. This template follows AstroPaper visual patterns while keeping the
-            Tailwind Nextjs Starter Blog content pipeline.
+            NextPaper is a minimal, responsive, accessible and SEO-friendly Next.js blog template.
+            This template follows AstroPaper visual patterns while keeping the Tailwind Nextjs
+            Starter Blog content pipeline.
           </p>
-
           <p className="mt-2">
             Read the blog posts or check{' '}
             <Link
@@ -71,7 +66,6 @@ export default function Home({ posts }) {
             </Link>{' '}
             for more info.
           </p>
-
           {socialLinks.some(({ href }) => Boolean(href)) && (
             <div className="mt-4 flex max-sm:flex-col sm:items-center">
               <div className="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
@@ -118,6 +112,12 @@ export default function Home({ posts }) {
             <IconArrowRight className="inline-block size-5 rtl:-rotate-180" />
           </Link>
         </div>
+        {siteMetadata.newsletter?.provider && (
+          <div className="my-8 flex items-center justify-center">
+            <NewsletterForm />
+          </div>
+        )}
+
       </main>
     </>
   )
