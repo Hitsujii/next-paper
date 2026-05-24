@@ -1,17 +1,15 @@
 import { ReactNode } from 'react'
-import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Authors, Blog } from 'contentlayer/generated'
 import BackButton from '@/components/BackButton'
+import BackToTopButton from '@/components/BackToTopButton'
+import Datetime from '@/components/Datetime'
 import EditPost from '@/components/EditPost'
 import Link from '@/components/Link'
-import PageTitle from '@/components/PageTitle'
 import ShareLinks from '@/components/ShareLinks'
 import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
-import BackToTopButton from '@/components/BackToTopButton'
 import PostTitleTransition from '@/components/PostTitleTransition'
-import { IconArrowLeft, IconArrowRight, IconCalendar } from '@/components/icons/AstroPaperIcons'
+import { IconArrowLeft, IconArrowRight } from '@/components/icons/AstroPaperIcons'
 
 interface LayoutProps {
   content: CoreContent<Blog>
@@ -19,22 +17,6 @@ interface LayoutProps {
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
   children: ReactNode
-}
-
-
-
-
-function Datetime({ date, lastmod }: { date: string; lastmod?: string }) {
-  const isModified = Boolean(lastmod && lastmod > date)
-  const displayDate = isModified ? lastmod : date
-
-  return (
-    <div className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)] sm:text-base">
-      <IconCalendar className="inline-block size-6 min-w-5.5" />
-      {isModified && <span>Updated:</span>}
-      <time dateTime={displayDate}>{formatDate(displayDate, siteMetadata.locale)}</time>
-    </div>
-  )
 }
 
 function AdjacentPostNav({
@@ -55,12 +37,12 @@ function AdjacentPostNav({
       {prev?.path ? (
         <Link
           href={`/${prev.path}`}
-          className="group flex min-w-0 items-start gap-2 hover:opacity-75"
+          className="group flex min-w-0 items-start gap-1 hover:opacity-75"
         >
-          <IconArrowLeft className="mt-0.5 size-5 flex-none transition-transform group-hover:-translate-x-0.5" />
+          <IconArrowLeft className="mt-0.5 inline-block size-5 flex-none rtl:rotate-180" />
           <div className="min-w-0">
             <span className="block">Previous post</span>
-            <div className="text-sm leading-6 text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
+            <div className="text-sm text-[var(--accent)]">
               <PostTitleTransition title={prev.title}>
                 <span className="break-words">{prev.title}</span>
               </PostTitleTransition>
@@ -74,17 +56,17 @@ function AdjacentPostNav({
       {next?.path && (
         <Link
           href={`/${next.path}`}
-          className="group flex min-w-0 items-start justify-end gap-2 text-end hover:opacity-75 sm:col-start-2"
+          className="group flex min-w-0 items-start justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
         >
           <div className="min-w-0">
             <span className="block">Next post</span>
-            <div className="text-sm leading-6 text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
+            <div className="text-sm text-[var(--accent)]">
               <PostTitleTransition title={next.title}>
                 <span className="break-words">{next.title}</span>
               </PostTitleTransition>
             </div>
           </div>
-          <IconArrowRight className="mt-0.5 size-5 flex-none transition-transform group-hover:translate-x-0.5" />
+          <IconArrowRight className="mt-0.5 inline-block size-5 flex-none rtl:rotate-180" />
         </Link>
       )}
     </nav>
@@ -103,13 +85,11 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
       <main id="main-content" className="app-layout pb-4" data-pagefind-body>
         <h1 className="inline-block text-2xl font-bold text-[var(--accent)] sm:text-3xl">
-          <PageTitle viewTransitionTitle={title} asChild>
-            {title}
-          </PageTitle>
+          <PostTitleTransition title={title}>{title}</PostTitleTransition>
         </h1>
 
         <div className="my-2 flex items-center gap-2">
-          <Datetime date={date} lastmod={lastmod} />
+          <Datetime date={date} lastmod={lastmod} size="lg" />
           <span aria-hidden="true" className="text-[var(--muted-foreground)] max-sm:hidden">
             |
           </span>
@@ -118,12 +98,12 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
         <article
           id="article"
-          className="post-content prose mt-8 w-full max-w-none dark:prose-invert"
+          className="post-content app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
         >
           {children}
         </article>
 
-        <hr className="my-8 border-dashed border-[var(--border)]" />
+        <hr className="my-8 border-dashed" />
 
         <EditPost path={path} className="sm:hidden" />
 
@@ -141,7 +121,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
         <ShareLinks path={path} title={title} />
 
-        <hr className="my-8 border-dashed border-[var(--border)]" />
+        <hr className="my-8 border-dashed" />
 
         <AdjacentPostNav prev={prev} next={next} />
       </main>
