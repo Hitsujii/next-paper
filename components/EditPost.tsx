@@ -22,11 +22,11 @@ export default function EditPost({ path, className = '' }: EditPostProps) {
         'inline-flex items-center gap-1 text-sm text-[var(--muted-foreground)] hover:text-[var(--accent)] sm:text-base',
         className,
       ].join(' ')}
-      aria-label="Edit this post"
-      title="Edit this post"
+      aria-label="Edit page"
+      title="Edit page"
     >
       <IconEdit className="size-5" />
-      <span>Edit</span>
+      <span>Edit page</span>
     </Link>
   )
 }

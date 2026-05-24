@@ -2,7 +2,6 @@ import Link from '@/components/Link'
 import PostCard from '@/components/PostCard'
 import SocialIcon from '@/components/social-icons'
 import siteMetadata from '@/data/siteMetadata'
-import NewsletterForm from 'pliny/ui/NewsletterForm'
 import RememberBackUrl from '@/components/RememberBackUrl'
 import { IconArrowRight, IconRss } from '@/components/icons/AstroPaperIcons'
 
@@ -28,6 +27,7 @@ export default function Home({ posts }) {
           <h1 className="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
             Mingalaba
           </h1>
+          {' '}
 
           <Link
             href="/feed.xml"
@@ -36,7 +36,7 @@ export default function Home({ posts }) {
             aria-label="RSS Feed"
             title="RSS Feed"
           >
-            <IconRss className="size-5 scale-125 stroke-[var(--accent)] stroke-3 rtl:-rotate-90" />
+            <IconRss width={20} height={20} className="scale-125 stroke-[var(--accent)] stroke-3 rtl:-rotate-90" />
             <span className="sr-only">RSS Feed</span>
           </Link>
 
@@ -106,12 +106,6 @@ export default function Home({ posts }) {
           </Link>
         </div>
       </main>
-
-      {siteMetadata.newsletter?.provider && (
-        <div className="flex items-center justify-center pt-4">
-          <NewsletterForm />
-        </div>
-      )}
     </>
   )
 }

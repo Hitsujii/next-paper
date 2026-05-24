@@ -91,7 +91,7 @@ export default function SearchClient() {
   return (
     <div id="pagefind-search" data-backurl="/search">
       <form
-        className="pagefind-ui__form relative mt-8"
+        className="pagefind-ui__form relative mt-6"
         role="search"
         onSubmit={(event) => event.preventDefault()}
       >
@@ -99,7 +99,7 @@ export default function SearchClient() {
           Search posts...
         </label>
 
-        <IconSearch className="pointer-events-none absolute top-1/2 left-5 size-5 -translate-y-1/2 text-[var(--muted-foreground)]" />
+        <IconSearch className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-[var(--muted-foreground)]" />
 
         <input
           id="search-input"
@@ -108,13 +108,13 @@ export default function SearchClient() {
           onChange={(event) => setQuery(event.target.value)}
           autoFocus
           placeholder="Search posts..."
-          className="pagefind-ui__search-input h-[4.375rem] w-full rounded-md border border-[var(--accent)] bg-[var(--background)] pr-20 pl-14 text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--accent)] focus:ring-0 focus:outline-1 focus:outline-[var(--accent)]"
+          className="pagefind-ui__search-input w-full rounded-md border border-[var(--accent)] bg-[var(--background)] py-3 pr-20 pl-12 text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--accent)] focus:ring-0 focus:outline-none"
         />
 
         {query && (
           <button
             type="button"
-            className="focus-outline absolute top-1/2 right-5 -translate-y-1/2 rounded px-1 text-sm hover:text-[var(--accent)]"
+            className="pagefind-ui__search-clear focus-outline absolute top-1/2 right-4 -translate-y-1/2 rounded px-1 text-sm hover:text-[var(--accent)]"
             aria-label="Clear search"
             onClick={() => setQuery('')}
           >
@@ -123,7 +123,7 @@ export default function SearchClient() {
         )}
       </form>
 
-      <div className="pagefind-ui__drawer mt-8">
+      <div className="pagefind-ui__drawer mt-6">
         {!loaded && (
           <p className="pagefind-ui__message font-bold text-[var(--foreground)]">
             Loading search index...
@@ -148,7 +148,7 @@ export default function SearchClient() {
               {results.length} result{results.length === 1 ? '' : 's'} for {query}
             </p>
 
-            <ol className="pagefind-ui__results mt-7 border-t border-[var(--border)]">
+            <ol className="pagefind-ui__results mt-6 border-t border-[var(--border)]">
               {results.map((result) => {
                 const href = result.path ? `/${result.path}` : `/blog/${result.slug}`
                 const key = result.path ?? result.slug ?? result.title ?? href
@@ -158,7 +158,7 @@ export default function SearchClient() {
                 return (
                   <li
                     key={key}
-                    className="pagefind-ui__result border-b border-[var(--border)] py-8"
+                    className="pagefind-ui__result border-b border-[var(--border)] py-6"
                   >
                     <Link
                       href={href}

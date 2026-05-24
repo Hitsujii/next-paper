@@ -4,12 +4,12 @@ import { usePathname } from 'next/navigation'
 import Link from './Link'
 
 const labels: Record<string, string> = {
-  blog: 'posts',
-  posts: 'posts',
-  tags: 'tags',
-  about: 'about',
-  projects: 'projects',
-  search: 'search',
+  blog: 'Posts',
+  posts: 'Posts',
+  tags: 'Tags',
+  about: 'About',
+  projects: 'Projects',
+  search: 'Search',
 }
 
 function safeDecode(value: string) {
@@ -22,7 +22,12 @@ function safeDecode(value: string) {
 
 function formatSegment(segment: string) {
   const decoded = safeDecode(segment)
-  return labels[decoded] ?? decoded.replaceAll('-', ' ')
+
+  if (labels[decoded]) return labels[decoded]
+
+  return decoded
+    .replaceAll('-', ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase())
 }
 
 export default function Breadcrumb() {
@@ -33,10 +38,12 @@ export default function Breadcrumb() {
 
   const visibleSegments =
     segments[0] === 'blog' && segments[1] === 'page'
-      ? ['posts']
+      ? [`Posts (Page ${segments[2] || 1})`]
       : segments[0] === 'tags' && segments[2] === 'page'
-        ? ['tags', segments[1]]
-        : segments
+        ? ['Tags', segments[1]]
+        : segments[0] === 'blog'
+          ? ['Posts']
+          : segments
 
   return (
     <nav className="app-layout mt-8 mb-1" aria-label="breadcrumb">
@@ -45,7 +52,7 @@ export default function Breadcrumb() {
           <Link href="/" className="opacity-80 hover:opacity-100">
             Home
           </Link>
-          <span aria-hidden="true" className="opacity-80">
+          <span aria-hidden="true" className="mx-1 opacity-80">
             &raquo;
           </span>
         </li>
@@ -53,22 +60,24 @@ export default function Breadcrumb() {
         {visibleSegments.map((segment, index) => {
           const isLast = index === visibleSegments.length - 1
           const href =
-            segment === 'posts'
+            segment === 'Posts' || String(segment).startsWith('Posts ')
               ? '/blog'
-              : `/${segments.slice(0, index + 1).join('/')}`
+              : segment === 'Tags'
+                ? '/tags'
+                : `/${segments.slice(0, index + 1).join('/')}`
 
           return (
             <li key={`${segment}-${index}`}>
               {isLast ? (
-                <span className="lowercase opacity-75" aria-current="page">
+                <span className="opacity-75" aria-current="page">
                   {formatSegment(segment)}
                 </span>
               ) : (
                 <>
-                  <Link href={href} className="lowercase opacity-70 hover:opacity-100">
+                  <Link href={href} className="opacity-70 hover:opacity-100">
                     {formatSegment(segment)}
                   </Link>
-                  <span aria-hidden="true" className="opacity-70">
+                  <span aria-hidden="true" className="mx-1 opacity-70">
                     &raquo;
                   </span>
                 </>

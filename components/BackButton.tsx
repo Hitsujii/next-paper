@@ -27,7 +27,7 @@ export default function BackButton({ fallbackHref }: BackButtonProps) {
       aria-label="Back"
     >
       <IconChevronLeft className="inline-block size-6" />
-      <span>Back</span>
+      <span>Go back</span>
     </Link>
   )
 }
