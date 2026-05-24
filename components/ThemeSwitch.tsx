@@ -26,14 +26,13 @@ export default function ThemeSwitch() {
 
   const toggleTheme = () => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
-    syncThemeColor()
   }
 
   return (
     <button
       id="theme-btn"
       type="button"
-      className="focus-outline hover:[&>svg]:stroke-[var(--accent)] relative size-12 p-4 sm:size-8"
+      className="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-[var(--accent)]"
       aria-label={mounted ? resolvedTheme || 'system' : 'theme'}
       aria-live="polite"
       onClick={toggleTheme}
