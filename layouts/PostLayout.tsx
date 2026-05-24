@@ -85,12 +85,11 @@ function AdjacentPostNav({
 
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
   const { path, date, lastmod, title, tags } = content
-  const basePath = path?.split('/')[0] || 'blog'
 
   return (
     <>
       <div className="app-layout flex items-center justify-start">
-        <BackButton fallbackHref={`/${basePath}`} />
+        <BackButton fallbackHref="/" />
       </div>
 
       <main id="main-content" className="app-layout pb-4" data-pagefind-body>
