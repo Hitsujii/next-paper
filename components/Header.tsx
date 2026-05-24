@@ -11,8 +11,7 @@ import { IconArchive, IconMenuDeep, IconUnderline, IconX } from './icons/AstroPa
 
 const normalizePath = (path: string) => path.replace(/\/$/, '') || '/'
 
-
-const Header = () => {
+export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = normalizePath(usePathname() || '/')
   const title =
@@ -40,11 +39,11 @@ const Header = () => {
       </a>
 
       <header className="app-layout flex flex-col items-center justify-between sm:flex-row">
-        <div className="relative flex w-full items-baseline justify-between border-b border-[var(--border)] bg-[var(--background)] py-4 sm:items-center sm:py-6">
+        <div className="relative flex w-full items-baseline justify-between border-b border-[var(--accent)] bg-[var(--background)] py-4 sm:items-center sm:py-6">
           <Link
             href="/"
             aria-label={title}
-            className="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap text-[var(--foreground)] sm:static sm:my-auto sm:text-2xl sm:leading-none"
+            className="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap text-[var(--foreground)] hover:text-[var(--accent)] sm:static sm:my-auto sm:text-2xl sm:leading-none"
             onClick={() => setMenuOpen(false)}
           >
             {title}
@@ -64,8 +63,8 @@ const Header = () => {
               onClick={() => setMenuOpen((open) => !open)}
               type="button"
             >
-              <IconX id="close-icon" className={menuOpen ? '' : 'hidden'} />
-              <IconMenuDeep id="menu-icon" className={menuOpen ? 'hidden' : ''} />
+              <IconX id="close-icon" className={menuOpen ? 'size-6' : 'hidden'} />
+              <IconMenuDeep id="menu-icon" className={menuOpen ? 'hidden' : 'size-6'} />
             </button>
 
             <ul
@@ -103,7 +102,10 @@ const Header = () => {
                   <IconArchive className="hidden sm:absolute sm:top-1/2 sm:left-1/2 sm:block sm:size-6 sm:-translate-x-1/2 sm:-translate-y-1/2" />
                   <span className="sm:sr-only">Projects</span>
                   {projectsActive && (
-                    <IconUnderline className="scale-125 max-sm:hidden sm:absolute sm:bottom-0 sm:w-6" />
+                    <IconUnderline
+                      aria-hidden="true"
+                      className="scale-125 max-sm:hidden sm:absolute sm:bottom-0 sm:w-6"
+                    />
                   )}
                 </Link>
               </li>
@@ -122,5 +124,3 @@ const Header = () => {
     </>
   )
 }
-
-export default Header

@@ -228,7 +228,7 @@ html[data-view-transition='running'] a {
     --accent-foreground: #ffffff;
     --muted: #343f60;
     --muted-foreground: #afb9ca;
-    --border: #ab4b08;
+    --border: #ff6b01;
     color-scheme: dark;
   }
 
@@ -570,4 +570,19 @@ html[data-view-transition='running'] a {
 
 #pagefind-search .pagefind-ui__result-link mark {
   color: black;
+}
+
+/* NextPaper AstroPaper header footer final polish */
+header a,
+footer a {
+  text-decoration-line: none;
+}
+
+header svg,
+footer svg {
+  stroke-width: 2;
+}
+
+footer svg {
+  opacity: 0.9;
 }
