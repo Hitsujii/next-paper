@@ -7,7 +7,7 @@ import headerNavLinks from '@/data/headerNavLinks'
 import Link from './Link'
 import SearchButton from './SearchButton'
 import ThemeSwitch from './ThemeSwitch'
-import { IconMenuDeep, IconX } from './icons/AstroPaperIcons'
+import { IconArchive, IconMenuDeep, IconUnderline, IconX } from './icons/AstroPaperIcons'
 
 const normalizePath = (path: string) => path.replace(/\/$/, '') || '/'
 
@@ -25,6 +25,7 @@ export default function Header() {
     return current === target || current.startsWith(`${target}/`)
   }
 
+  const archivesActive = isActive('/archives')
   const searchActive = isActive('/search')
 
   return (
@@ -86,6 +87,28 @@ export default function Header() {
                   </Link>
                 </li>
               ))}
+              <li className="col-span-2 sm:col-span-1">
+                <Link
+                  href="/archives"
+                  className={[
+                    'focus-outline flex size-full justify-center p-3 hover:text-[var(--accent)] sm:relative sm:size-8 sm:p-0',
+                    archivesActive ? 'active-nav' : '',
+                  ].join(' ')}
+                  aria-label="Archives"
+                  title="Archives"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <IconArchive className="hidden sm:absolute sm:top-1/2 sm:left-1/2 sm:block sm:size-6 sm:-translate-x-1/2 sm:-translate-y-1/2" />
+                  <span className="sm:sr-only">Archives</span>
+                  {archivesActive && (
+                    <IconUnderline
+                      aria-hidden="true"
+                      className="scale-125 max-sm:hidden sm:absolute sm:bottom-0 sm:w-6"
+                    />
+                  )}
+                </Link>
+              </li>
+
               <li className="col-span-1 flex items-center justify-center">
                 <SearchButton active={searchActive} />
               </li>

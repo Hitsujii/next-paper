@@ -10,6 +10,7 @@ const labels: Record<string, string> = {
   about: 'About',
   projects: 'Projects',
   search: 'Search',
+  archives: 'Archives',
 }
 
 function safeDecode(value: string) {
