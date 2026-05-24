@@ -4,15 +4,15 @@ import { usePathname } from 'next/navigation'
 import Link from './Link'
 
 const labels: Record<string, string> = {
-  blog: 'Posts',
-  posts: 'Posts',
-  tags: 'Tags',
-  about: 'About',
-  projects: 'Projects',
-  search: 'Search',
+  blog: 'posts',
+  posts: 'posts',
+  tags: 'tags',
+  about: 'about',
+  projects: 'projects',
+  search: 'search',
 }
 
-function decodeSegment(value: string) {
+function safeDecode(value: string) {
   try {
     return decodeURIComponent(value)
   } catch {
@@ -20,8 +20,8 @@ function decodeSegment(value: string) {
   }
 }
 
-function labelFor(segment: string) {
-  const decoded = decodeSegment(segment)
+function formatSegment(segment: string) {
+  const decoded = safeDecode(segment)
   return labels[decoded] ?? decoded.replaceAll('-', ' ')
 }
 
@@ -31,18 +31,18 @@ export default function Breadcrumb() {
 
   if (segments.length === 0) return null
 
-  const crumbSegments =
+  const visibleSegments =
     segments[0] === 'blog' && segments[1] === 'page'
-      ? [`Posts (page ${segments[2] || 1})`]
+      ? ['posts']
       : segments[0] === 'tags' && segments[2] === 'page'
-        ? ['tags', `${labelFor(segments[1])} ${Number(segments[3]) === 1 ? '' : `(page ${segments[3]})`}`.trim()]
+        ? ['tags', segments[1]]
         : segments
 
   return (
     <nav className="app-layout mt-8 mb-1" aria-label="breadcrumb">
-      <ul className="font-light [&>li]:inline [&>li:not(:last-child)>a]:hover:opacity-100">
+      <ul className="font-light [&>li]:inline">
         <li>
-          <Link href="/" className="opacity-80">
+          <Link href="/" className="opacity-80 hover:opacity-100">
             Home
           </Link>
           <span aria-hidden="true" className="opacity-80">
@@ -50,26 +50,23 @@ export default function Breadcrumb() {
           </span>
         </li>
 
-        {crumbSegments.map((segment, index) => {
-          const isLast = index + 1 === crumbSegments.length
-          const href = `/${segments.slice(0, index + 1).join('/')}`
+        {visibleSegments.map((segment, index) => {
+          const isLast = index === visibleSegments.length - 1
+          const href =
+            segment === 'posts'
+              ? '/blog'
+              : `/${segments.slice(0, index + 1).join('/')}`
 
           return (
             <li key={`${segment}-${index}`}>
               {isLast ? (
-                <span
-                  className={[
-                    'capitalize opacity-75',
-                    index > 0 ? 'lowercase' : '',
-                  ].join(' ')}
-                  aria-current="page"
-                >
-                  {labelFor(segment)}
+                <span className="lowercase opacity-75" aria-current="page">
+                  {formatSegment(segment)}
                 </span>
               ) : (
                 <>
-                  <Link href={href} className="capitalize opacity-70">
-                    {labelFor(segment)}
+                  <Link href={href} className="lowercase opacity-70 hover:opacity-100">
+                    {formatSegment(segment)}
                   </Link>
                   <span aria-hidden="true" className="opacity-70">
                     &raquo;
