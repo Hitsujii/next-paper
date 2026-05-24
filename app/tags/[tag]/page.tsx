@@ -55,7 +55,7 @@ export default async function TagPage(props: { params: Promise<{ tag: string }> 
       initialDisplayPosts={initialDisplayPosts}
       pagination={pagination}
       title={['Tag:', tagName]}
-      description={`All the articles with the tag "${tagName}".`}
+      description={`All the articles with the tag ${tagName}.`}
     />
   )
 }
