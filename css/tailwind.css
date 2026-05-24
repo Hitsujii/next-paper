@@ -689,3 +689,214 @@ footer svg {
 [data-button='back-to-top']:hover {
   color: var(--accent);
 }
+
+/* NextPaper AstroPaper collapsible TOC */
+.astro-toc-collapse {
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.astro-toc-collapse summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--foreground);
+  font: inherit;
+  line-height: inherit;
+}
+
+.astro-toc-collapse summary:hover {
+  color: var(--accent);
+}
+
+.astro-toc-collapse nav {
+  margin-top: 0.75rem;
+}
+
+.astro-toc-collapse ul,
+.astro-toc-collapse ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  padding-inline-start: 1.5rem;
+}
+
+.astro-toc-collapse li {
+  margin-block: 0.5rem;
+}
+
+.astro-toc-collapse li::marker {
+  color: var(--accent);
+}
+
+.astro-toc-collapse a {
+  color: var(--foreground);
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+.astro-toc-collapse a:hover {
+  color: var(--accent);
+}
+
+.heading-link {
+  margin-inline-start: 0.5rem;
+  color: var(--foreground) !important;
+  text-decoration-line: none !important;
+  opacity: 0.75;
+  transition:
+    opacity 150ms ease,
+    color 150ms ease;
+}
+
+@media (min-width: 768px) {
+  .heading-link {
+    opacity: 0;
+  }
+
+  .group:hover .heading-link,
+  .heading-link:focus {
+    opacity: 1;
+  }
+}
+
+.heading-link:hover {
+  color: var(--accent) !important;
+}
+
+/* NextPaper AstroPaper forced collapsible TOC */
+.astro-toc-collapse {
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.astro-toc-collapse:not([open]) nav {
+  display: none;
+}
+
+.astro-toc-collapse summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--foreground);
+  font: inherit;
+  line-height: inherit;
+}
+
+.astro-toc-collapse summary:hover {
+  color: var(--accent);
+}
+
+.astro-toc-collapse nav {
+  margin-top: 0.75rem;
+}
+
+.astro-toc-collapse ul,
+.astro-toc-collapse ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  padding-inline-start: 1.5rem;
+}
+
+.astro-toc-collapse li {
+  margin-block: 0.5rem;
+}
+
+.astro-toc-collapse li::marker {
+  color: var(--accent);
+}
+
+.astro-toc-collapse a {
+  color: var(--foreground);
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+.astro-toc-collapse a:hover {
+  color: var(--accent);
+}
+
+/* NextPaper AstroPaper fallback collapsible TOC */
+.astro-toc-collapse {
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.astro-toc-collapse:not([open]) nav {
+  display: none;
+}
+
+.astro-toc-collapse summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--foreground);
+  font: inherit;
+  line-height: inherit;
+}
+
+.astro-toc-collapse summary:hover {
+  color: var(--accent);
+}
+
+.astro-toc-collapse nav {
+  margin-top: 0.75rem;
+}
+
+.astro-toc-collapse ul,
+.astro-toc-collapse ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  padding-inline-start: 1.5rem;
+}
+
+.astro-toc-collapse li {
+  margin-block: 0.5rem;
+}
+
+.astro-toc-collapse li::marker {
+  color: var(--accent);
+}
+
+.astro-toc-collapse a {
+  color: var(--foreground);
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+.astro-toc-collapse a:hover {
+  color: var(--accent);
+}
+
+/* NextPaper AstroPaper heading anchors right-only */
+.post-content :where(h2, h3, h4, h5, h6) > a.anchor,
+.post-content :where(h2, h3, h4, h5, h6) > a.icon-link,
+.post-content :where(h2, h3, h4, h5, h6) > a[aria-hidden='true'] {
+  display: none !important;
+}
+
+.heading-link {
+  display: inline-block;
+  margin-inline-start: 0.5rem;
+  color: var(--foreground) !important;
+  text-decoration-line: none !important;
+  opacity: 0;
+  transition:
+    opacity 150ms ease,
+    color 150ms ease;
+}
+
+.group:hover .heading-link,
+.heading-link:focus,
+.heading-link:focus-visible {
+  opacity: 1;
+}
+
+.heading-link:hover,
+.heading-link:focus,
+.heading-link:focus-visible {
+  color: var(--accent) !important;
+}
+
+.heading-link span {
+  color: currentColor;
+}
