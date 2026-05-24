@@ -574,7 +574,7 @@ footer svg {
 .code-file-name {
   position: absolute;
   top: var(--file-name-offset, -0.75rem);
-  left: 0.5rem;
+  inset-inline-start: 0.5rem;
   z-index: 2;
   display: inline-flex;
   width: auto;
@@ -933,6 +933,7 @@ footer svg {
   padding: 0;
   color: inherit;
   font: inherit;
+  white-space: pre;
 }
 
 .post-content :where(pre.astro-code .code-line),
@@ -944,7 +945,7 @@ footer svg {
 .code-file-name {
   position: absolute;
   top: var(--file-name-offset, -0.75rem);
-  left: 0.5rem;
+  inset-inline-start: 0.5rem;
   z-index: 2;
   display: inline-flex;
   align-items: center;
@@ -967,7 +968,7 @@ footer svg {
   content: "";
   position: absolute;
   top: 45%;
-  left: 0.5rem;
+  inset-inline-start: 0.5rem;
   display: inline-block;
   width: 0.25rem;
   height: 0.25rem;
