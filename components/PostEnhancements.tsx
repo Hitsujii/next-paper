@@ -322,7 +322,7 @@ function enhanceCodeBlocks(article: HTMLElement) {
       }
     })
 
-    wrapper.appendChild(copyButton)
+    codeBlock.appendChild(copyButton)
   }
 }
 
