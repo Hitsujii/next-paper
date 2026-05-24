@@ -628,3 +628,38 @@ html[data-view-transition='running'] a {
     }
   }
 }
+
+/* NextPaper AstroPaper search page polish */
+#pagefind-search {
+  --pagefind-ui-font: var(--font-sans);
+  --pagefind-ui-text: var(--foreground);
+  --pagefind-ui-background: var(--background);
+  --pagefind-ui-border: var(--border);
+  --pagefind-ui-primary: var(--accent);
+  --pagefind-ui-tag: var(--background);
+  --pagefind-ui-border-radius: 0.375rem;
+  --pagefind-ui-border-width: 1px;
+}
+
+#pagefind-search input {
+  font-weight: 400;
+  border: 1px solid var(--border);
+}
+
+#pagefind-search input:focus-visible {
+  outline: 1px solid var(--accent);
+}
+
+#pagefind-search a {
+  color: var(--accent);
+  outline-offset: 1px;
+  outline-color: var(--accent);
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+#pagefind-search a:focus-visible {
+  text-decoration-line: none;
+  outline-width: 2px;
+  outline-style: dashed;
+}
