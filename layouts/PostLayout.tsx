@@ -12,8 +12,19 @@ import PostTitleTransition from '@/components/PostTitleTransition'
 import PostEnhancements from '@/components/PostEnhancements'
 import { IconArrowLeft, IconArrowRight } from '@/components/icons/AstroPaperIcons'
 
+type TocItem = {
+  value?: string
+  url?: string
+  depth?: number
+}
+
+type ContentWithToc = CoreContent<Blog> & {
+  toc?: TocItem[]
+  hasToc?: boolean
+}
+
 interface LayoutProps {
-  content: CoreContent<Blog>
+  content: ContentWithToc
   authorDetails?: CoreContent<Authors>[]
   next?: { path: string; title: string }
   prev?: { path: string; title: string }
@@ -38,36 +49,34 @@ function AdjacentPostNav({
       {prev?.path ? (
         <Link
           href={`/${prev.path}`}
-          className="group flex min-w-0 items-start gap-1 hover:opacity-75"
+          className="group flex w-full min-w-0 gap-1 hover:opacity-75"
         >
-          <IconArrowLeft className="mt-0.5 inline-block flex-none rtl:rotate-180" />
+          <IconArrowLeft className="inline-block flex-none rtl:rotate-180" />
           <div className="min-w-0">
             <span className="block">Previous post</span>
-            <div className="text-sm text-[var(--accent)]">
+            <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
               <PostTitleTransition title={prev.title}>
                 <span className="break-words">{prev.title}</span>
               </PostTitleTransition>
             </div>
           </div>
         </Link>
-      ) : (
-        <div aria-hidden="true" />
-      )}
+      ) : null}
 
       {next?.path && (
         <Link
           href={`/${next.path}`}
-          className="group flex min-w-0 items-start justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
+          className="group flex w-full min-w-0 justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
         >
           <div className="min-w-0">
             <span className="block">Next post</span>
-            <div className="text-sm text-[var(--accent)]">
+            <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
               <PostTitleTransition title={next.title}>
                 <span className="break-words">{next.title}</span>
               </PostTitleTransition>
             </div>
           </div>
-          <IconArrowRight className="mt-0.5 inline-block flex-none rtl:rotate-180" />
+          <IconArrowRight className="inline-block flex-none rtl:rotate-180" />
         </Link>
       )}
     </nav>
@@ -85,7 +94,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
       </div>
 
       <main id="main-content" className="app-layout pb-4" data-pagefind-body>
-        <PostEnhancements toc={(content as any).toc} hasToc={Boolean((content as any).hasToc)} />
+        <PostEnhancements toc={content.toc} hasToc={Boolean(content.hasToc)} />
         <h1 className="inline-block text-2xl font-bold text-[var(--accent)] sm:text-3xl">
           <PostTitleTransition title={title}>{title}</PostTitleTransition>
         </h1>
