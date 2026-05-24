@@ -9,7 +9,7 @@ export const metadata = genPageMetadata({
 
 export default function Projects() {
   return (
-    <main id="main-content" className="pb-4">
+    <main id="main-content" className="app-layout pb-4">
       <div className="pt-8 pb-6">
         <h1 className="text-2xl font-semibold sm:text-3xl">Projects</h1>
         <p className="mt-2 mb-6 italic">

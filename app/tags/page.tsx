@@ -12,7 +12,7 @@ export default async function Page() {
   const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a])
 
   return (
-    <main id="main-content" className="pb-4">
+    <main id="main-content" className="app-layout pb-4">
       <div className="pt-8 pb-6">
         <h1 className="text-2xl font-semibold sm:text-3xl">Tags</h1>
         <p className="mt-2 mb-6 italic">All tags used in posts.</p>

@@ -152,7 +152,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
         <BackButton fallbackHref={`/${basePath}`} />
       </div>
 
-      <main id="main-content" className="pb-4" data-pagefind-body>
+      <main id="main-content" className="app-layout pb-4" data-pagefind-body>
         <article>
           <header>
             <PageTitle viewTransitionTitle={title}>{title}</PageTitle>

@@ -12,7 +12,7 @@ export default function AuthorLayout({ children, content }: Props) {
   const { name, avatar, occupation, company, email, twitter, bluesky, linkedin, github } = content
 
   return (
-    <main id="main-content" className="pb-4">
+    <main id="main-content" className="app-layout pb-4">
       <div className="pt-8 pb-6">
         <h1 className="text-2xl font-semibold sm:text-3xl">About</h1>
         <p className="mt-2 mb-6 italic">A bit about this template and its author profile.</p>

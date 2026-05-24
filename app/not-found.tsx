@@ -2,7 +2,7 @@ import Link from '@/components/Link'
 
 export default function NotFound() {
   return (
-    <main id="main-content" className="flex flex-1 items-center justify-center">
+    <main id="main-content" className="app-layout flex flex-1 items-center justify-center">
       <div className="mb-14 flex flex-col items-center justify-center text-center">
         <h1 className="text-9xl font-bold text-[var(--accent)]">404</h1>
         <span aria-hidden="true">¯\_(ツ)_/¯</span>

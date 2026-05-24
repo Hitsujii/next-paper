@@ -136,7 +136,7 @@ export default function ListLayout({
   return (
     <>
       <RememberBackUrl />
-      <main id="main-content" className="pb-4">
+      <main id="main-content" className="app-layout pb-4">
         <div className="pt-8 pb-6">
           <h1 className="text-2xl font-semibold sm:text-3xl">{title}</h1>
 
