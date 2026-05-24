@@ -75,5 +75,15 @@
       "yarn prettier --write"
     ]
   },
-  "packageManager": "yarn@3.6.1"
+  "packageManager": "yarn@3.6.1",
+  "author": "Hitsujii <dev.hitsuji@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hitsujii/NextPaper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Hitsujii/NextPaper/issues"
+  },
+  "homepage": "https://github.com/Hitsujii/NextPaper#readme",
+  "license": "MIT"
 }
