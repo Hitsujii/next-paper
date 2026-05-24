@@ -45,6 +45,12 @@ function normalizeTocHref(url: string | undefined, value: string | undefined) {
 }
 
 function codeText(pre: HTMLPreElement) {
+  const code = pre.querySelector('code')
+
+  if (code?.innerText) {
+    return code.innerText.trimEnd()
+  }
+
   const clone = pre.cloneNode(true) as HTMLPreElement
   clone.querySelectorAll('button.copy-code').forEach((button) => button.remove())
   clone.querySelectorAll('.code-file-name').forEach((label) => label.remove())
