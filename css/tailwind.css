@@ -305,7 +305,6 @@ html[data-view-transition='running'] a {
     text-decoration-style: wavy;
     text-decoration-thickness: 2px;
     text-underline-offset: 8px;
-    text-decoration-color: var(--accent);
   }
 
   .focus-outline {
@@ -446,7 +445,7 @@ html[data-view-transition='running'] a {
   box-sizing: border-box;
 }
 
-header a,
+header a:not(.active-nav),
 footer a {
   text-decoration-line: none;
 }
