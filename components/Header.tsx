@@ -7,76 +7,10 @@ import headerNavLinks from '@/data/headerNavLinks'
 import Link from './Link'
 import SearchButton from './SearchButton'
 import ThemeSwitch from './ThemeSwitch'
+import { IconArchive, IconMenuDeep, IconUnderline, IconX } from './icons/AstroPaperIcons'
 
 const normalizePath = (path: string) => path.replace(/\/$/, '') || '/'
 
-const MenuIcon = ({ className = '', id }: { className?: string; id?: string }) => (
-  <svg
-    id={id}
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M4 6h16" />
-    <path d="M7 12h13" />
-    <path d="M10 18h10" />
-  </svg>
-)
-
-const CloseIcon = ({ className = '', id }: { className?: string; id?: string }) => (
-  <svg
-    id={id}
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M18 6 6 18" />
-    <path d="m6 6 12 12" />
-  </svg>
-)
-
-const ArchiveIcon = ({ className = '' }: { className?: string }) => (
-  <svg
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M4 7h16" />
-    <path d="M6 7v12h12V7" />
-    <path d="M9 11h6" />
-    <path d="M9 15h6" />
-    <path d="M8 3h8l1 4H7l1-4Z" />
-  </svg>
-)
-
-const UnderlineIcon = ({ className = '' }: { className?: string }) => (
-  <svg
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 8"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-  >
-    <path d="M2 6c4-4 8-4 12 0s6 0 8-2" />
-  </svg>
-)
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -130,8 +64,8 @@ const Header = () => {
               onClick={() => setMenuOpen((open) => !open)}
               type="button"
             >
-              <CloseIcon id="close-icon" className={menuOpen ? '' : 'hidden'} />
-              <MenuIcon id="menu-icon" className={menuOpen ? 'hidden' : ''} />
+              <IconX id="close-icon" className={menuOpen ? '' : 'hidden'} />
+              <IconMenuDeep id="menu-icon" className={menuOpen ? 'hidden' : ''} />
             </button>
 
             <ul
@@ -166,10 +100,10 @@ const Header = () => {
                   title="Projects"
                   onClick={() => setMenuOpen(false)}
                 >
-                  <ArchiveIcon className="hidden sm:absolute sm:top-1/2 sm:left-1/2 sm:block sm:size-6 sm:-translate-x-1/2 sm:-translate-y-1/2" />
+                  <IconArchive className="hidden sm:absolute sm:top-1/2 sm:left-1/2 sm:block sm:size-6 sm:-translate-x-1/2 sm:-translate-y-1/2" />
                   <span className="sm:sr-only">Projects</span>
                   {projectsActive && (
-                    <UnderlineIcon className="scale-125 max-sm:hidden sm:absolute sm:bottom-0 sm:w-6" />
+                    <IconUnderline className="scale-125 max-sm:hidden sm:absolute sm:bottom-0 sm:w-6" />
                   )}
                 </Link>
               </li>

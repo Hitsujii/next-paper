@@ -3,6 +3,7 @@
 import type { CSSProperties } from 'react'
 import Link from '@/components/Link'
 import { slug } from 'github-slugger'
+import { IconHash } from './icons/AstroPaperIcons'
 import { tagViewTransitionName } from './view-transitions'
 
 interface Props {
@@ -12,25 +13,7 @@ interface Props {
   transition?: boolean
 }
 
-const HashIcon = ({ className = '' }: { className?: string }) => (
-  <svg
-    aria-hidden="true"
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M5 9h14" />
-    <path d="M5 15h14" />
-    <path d="M11 4 7 20" />
-    <path d="m17 4-4 16" />
-  </svg>
-)
-
-const Tag = ({ text, size = 'sm', count, transition = false }: Props) => {
+export default function Tag({ text, size = 'sm', count, transition = false }: Props) {
   const tagSlug = slug(text)
   const label = text.split(' ').join('-')
   const style = transition
@@ -49,7 +32,7 @@ const Tag = ({ text, size = 'sm', count, transition = false }: Props) => {
       ].join(' ')}
       aria-label={count ? `View ${count} posts tagged ${label}` : `View posts tagged ${label}`}
     >
-      <HashIcon className={size === 'lg' ? 'size-5 opacity-80' : 'size-4 opacity-80'} />
+      <IconHash className={size === 'lg' ? 'size-5 opacity-80' : 'size-4 opacity-80'} />
       <span>{label}</span>
       {typeof count === 'number' && (
         <span className="ml-1 text-sm text-[var(--muted-foreground)]">({count})</span>
@@ -57,5 +40,3 @@ const Tag = ({ text, size = 'sm', count, transition = false }: Props) => {
     </Link>
   )
 }
-
-export default Tag
