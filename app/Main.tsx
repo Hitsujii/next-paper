@@ -7,7 +7,7 @@ import RememberBackUrl from '@/components/RememberBackUrl'
 import PostTitleTransition from '@/components/PostTitleTransition'
 import { IconArrowRight, IconCalendar, IconRss } from '@/components/icons/AstroPaperIcons'
 
-const MAX_DISPLAY = 4
+const POSTS_PER_INDEX = 4
 
 const socialLinks = [
   { kind: 'github', href: siteMetadata.github },
@@ -25,55 +25,51 @@ function PostCard({ post, heading = 'h2' }) {
 
   return (
     <li className="my-6">
-      <article>
-        <Link
-          href={href}
-          className="inline-block text-lg font-medium text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
-        >
-          <PostTitleTransition title={title}>
-            <Heading>{title}</Heading>
-          </PostTitleTransition>
-        </Link>
+      <Link
+        href={href}
+        className="inline-block text-lg font-medium text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
+      >
+        <PostTitleTransition title={title}>
+          <Heading>{title}</Heading>
+        </PostTitleTransition>
+      </Link>
 
-        <dl className="mt-1">
-          <dt className="sr-only">{isModified ? 'Updated on' : 'Published on'}</dt>
-          <dd className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)]">
-            <IconCalendar className="inline-block size-6 min-w-5.5 scale-90" />
-            {isModified && <span>Updated:</span>}
-            <time dateTime={displayDate}>{formatDate(displayDate, siteMetadata.locale)}</time>
-          </dd>
-        </dl>
+      <dl className="mt-1">
+        <dt className="sr-only">{isModified ? 'Updated on' : 'Published on'}</dt>
+        <dd className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)]">
+          <IconCalendar className="inline-block size-6 min-w-5.5 scale-90" />
+          {isModified && <span>Updated:</span>}
+          <time dateTime={displayDate}>{formatDate(displayDate, siteMetadata.locale)}</time>
+        </dd>
+      </dl>
 
-        {summary && <p>{summary}</p>}
-      </article>
+      {summary && <p>{summary}</p>}
     </li>
   )
 }
 
-function SectionTitle({ children, className = '' }) {
-  return <h2 className={`text-2xl font-semibold sm:text-3xl ${className}`}>{children}</h2>
-}
-
 export default function Home({ posts }) {
-  const featuredPosts = posts.filter((post) => Boolean(post.featured)).slice(0, MAX_DISPLAY)
-  const fallbackFeaturedPosts = featuredPosts.length > 0 ? featuredPosts : posts.slice(0, 3)
-  const featuredPaths = new Set(fallbackFeaturedPosts.map((post) => post.path ?? post.slug))
-  const recentPosts = posts
-    .filter((post) => !featuredPaths.has(post.path ?? post.slug))
-    .slice(0, MAX_DISPLAY)
+  const featuredPosts = posts.filter((post) => Boolean(post.featured))
+  const recentPosts = posts.filter((post) => !post.featured)
 
   return (
     <>
       <RememberBackUrl />
 
-      <main id="main-content" data-layout="index" className="app-layout">
+      <main id="main-content" data-layout="index" data-home-path="/" className="app-layout">
         <section id="hero" className="border-b border-[var(--border)] pt-8 pb-6">
           <h1 className="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
             Mingalaba
           </h1>
 
-          <Link href="/feed.xml" className="inline-block" aria-label="RSS Feed" title="RSS Feed">
-            <IconRss className="size-5 scale-125 stroke-[var(--accent)]" />
+          <Link
+            href="/feed.xml"
+            target="_blank"
+            className="inline-block"
+            aria-label="RSS Feed"
+            title="RSS Feed"
+          >
+            <IconRss className="size-5 scale-125 stroke-[var(--accent)] stroke-3 rtl:-rotate-90" />
             <span className="sr-only">RSS Feed</span>
           </Link>
 
@@ -83,59 +79,65 @@ export default function Home({ posts }) {
             Tailwind Nextjs Starter Blog content pipeline.
           </p>
 
-          <p className="mt-4">
+          <p className="mt-2">
             Read the blog posts or check{' '}
-            <Link href="/about" className="underline decoration-dashed underline-offset-4">
+            <Link
+              href={siteMetadata.siteRepo || '/about'}
+              target={siteMetadata.siteRepo ? '_blank' : undefined}
+              rel={siteMetadata.siteRepo ? 'noopener noreferrer' : undefined}
+              className="underline decoration-dashed underline-offset-4 hover:text-[var(--accent)]"
+            >
               README
             </Link>{' '}
             for more info.
           </p>
 
-          <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-            <span>Social Links:</span>
-            <div className="flex flex-wrap items-center gap-1">
-              {socialLinks.map(({ kind, href }) => (
-                <SocialIcon key={kind} kind={kind} href={href} size={24} />
-              ))}
+          {socialLinks.some(({ href }) => Boolean(href)) && (
+            <div className="mt-4 flex max-sm:flex-col sm:items-center">
+              <div className="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
+              <div className="flex flex-wrap items-center gap-1">
+                {socialLinks.map(({ kind, href }) => (
+                  <SocialIcon key={kind} kind={kind} href={href} size={24} />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </section>
 
-        <section aria-labelledby="featured-posts" className="pt-12">
-          <SectionTitle>Featured</SectionTitle>
-          <ul>
-            {fallbackFeaturedPosts.map((post) => (
-              <PostCard key={post.path ?? post.slug} post={post} heading="h3" />
-            ))}
-          </ul>
-        </section>
-
-        {recentPosts.length > 0 && (
+        {featuredPosts.length > 0 && (
           <section
-            aria-labelledby="recent-posts"
-            className="mt-12 border-t border-[var(--border)] pt-6"
+            id="featured"
+            className={[
+              'pt-12 pb-6',
+              recentPosts.length > 0 ? 'border-b border-[var(--border)]' : '',
+            ].join(' ')}
           >
-            <SectionTitle>Recent Posts</SectionTitle>
+            <h2 className="text-2xl font-semibold tracking-wide">Featured</h2>
             <ul>
-              {recentPosts.map((post) => (
+              {featuredPosts.map((post) => (
                 <PostCard key={post.path ?? post.slug} post={post} heading="h3" />
               ))}
             </ul>
           </section>
         )}
 
-        {posts.length > MAX_DISPLAY && (
-          <div className="my-8 flex justify-start">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-1 text-[var(--accent)] hover:opacity-80"
-              aria-label="All posts"
-            >
-              All Posts
-              <IconArrowRight className="size-5" />
-            </Link>
-          </div>
+        {recentPosts.length > 0 && (
+          <section id="recent-posts" className="pt-12 pb-6">
+            <h2 className="text-2xl font-semibold tracking-wide">Recent Posts</h2>
+            <ul>
+              {recentPosts.slice(0, POSTS_PER_INDEX).map((post) => (
+                <PostCard key={post.path ?? post.slug} post={post} heading="h3" />
+              ))}
+            </ul>
+          </section>
         )}
+
+        <div className="my-8 text-center">
+          <Link href="/blog" className="inline-flex items-center gap-1 hover:text-[var(--accent)]">
+            All Posts
+            <IconArrowRight className="inline-block size-5 rtl:-rotate-180" />
+          </Link>
+        </div>
       </main>
 
       {siteMetadata.newsletter?.provider && (
