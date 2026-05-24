@@ -23,7 +23,7 @@ export default async function BlogPage(props: { searchParams: Promise<{ page: st
       initialDisplayPosts={initialDisplayPosts}
       pagination={pagination}
       title="Posts"
-      description="All the articles I have posted."
+      description="All the articles I\'ve posted."
     />
   )
 }
