@@ -1,11 +1,10 @@
 import Link from '@/components/Link'
+import PostCard from '@/components/PostCard'
 import SocialIcon from '@/components/social-icons'
 import siteMetadata from '@/data/siteMetadata'
-import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import RememberBackUrl from '@/components/RememberBackUrl'
-import PostTitleTransition from '@/components/PostTitleTransition'
-import { IconArrowRight, IconCalendar, IconRss } from '@/components/icons/AstroPaperIcons'
+import { IconArrowRight, IconRss } from '@/components/icons/AstroPaperIcons'
 
 const POSTS_PER_INDEX = 4
 
@@ -15,38 +14,6 @@ const socialLinks = [
   { kind: 'linkedin', href: siteMetadata.linkedin },
   { kind: 'mail', href: siteMetadata.email ? `mailto:${siteMetadata.email}` : undefined },
 ] as const
-
-function PostCard({ post, heading = 'h2' }) {
-  const { date, lastmod, path, slug, summary, title } = post
-  const href = path ? `/${path}` : `/blog/${slug}`
-  const Heading = heading
-  const isModified = Boolean(lastmod && lastmod > date)
-  const displayDate = isModified ? lastmod : date
-
-  return (
-    <li className="my-6">
-      <Link
-        href={href}
-        className="inline-block text-lg font-medium text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
-      >
-        <PostTitleTransition title={title}>
-          <Heading>{title}</Heading>
-        </PostTitleTransition>
-      </Link>
-
-      <dl className="mt-1">
-        <dt className="sr-only">{isModified ? 'Updated on' : 'Published on'}</dt>
-        <dd className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)]">
-          <IconCalendar className="inline-block size-6 min-w-5.5 scale-90" />
-          {isModified && <span>Updated:</span>}
-          <time dateTime={displayDate}>{formatDate(displayDate, siteMetadata.locale)}</time>
-        </dd>
-      </dl>
-
-      {summary && <p>{summary}</p>}
-    </li>
-  )
-}
 
 export default function Home({ posts }) {
   const featuredPosts = posts.filter((post) => Boolean(post.featured))
