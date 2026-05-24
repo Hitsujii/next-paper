@@ -17,7 +17,7 @@ export default function BackToTopButton() {
       const nextPercent = scrollTotal > 0 ? Math.floor((scrollTop / scrollTotal) * 100) : 0
 
       setScrollPercent(nextPercent)
-      setVisible(scrollTop > 320)
+      setVisible(scrollTotal > 0 && scrollTop / scrollTotal > 0.3)
     }
 
     handleScroll()
@@ -37,17 +37,11 @@ export default function BackToTopButton() {
 
   return (
     <>
-      <div className="fixed top-0 right-0 left-0 z-50 h-1 bg-transparent">
-        <div
-          className="h-full bg-[var(--accent)] transition-[width] duration-150"
-          style={{ width: `${scrollPercent}%` }}
-        />
-      </div>
-
       <div
         id="btt-btn-container"
         className={[
-          'fixed right-4 bottom-8 z-50 md:sticky md:right-auto md:float-end md:me-1 md:-mt-1',
+          'fixed inset-e-4 bottom-8 z-50',
+          'md:sticky md:inset-e-auto md:float-end md:me-1',
           'transition duration-500',
           visible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-14 opacity-0',
         ].join(' ')}
@@ -56,11 +50,10 @@ export default function BackToTopButton() {
           data-button="back-to-top"
           type="button"
           className={[
-            'focus-outline group relative bg-[var(--background)] px-2 py-1',
+            'group relative bg-[var(--background)] px-2 py-1',
             'size-14 rounded-full shadow-xl',
             'md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none',
             'md:bg-[color-mix(in_srgb,var(--background)_35%,transparent)] md:bg-clip-padding md:backdrop-blur-lg',
-            'hover:text-[var(--accent)]',
           ].join(' ')}
           aria-label="Back to top"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -68,10 +61,12 @@ export default function BackToTopButton() {
           <span
             id="progress-indicator"
             aria-hidden="true"
-            className="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden"
+            className="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden md:h-8 md:rounded-md"
             style={progressStyle}
           />
+
           <IconArrowLeft className="inline-block rotate-90 md:hidden" />
+
           <span className="sr-only text-sm group-hover:text-[var(--accent)] md:not-sr-only">
             <IconArrowNarrowUp className="inline-block size-4" />
             Back to top
