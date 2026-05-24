@@ -7,16 +7,18 @@ import tagData from 'app/tag-data.json'
 import { genPageMetadata } from 'app/seo'
 import { Metadata } from 'next'
 
-const POSTS_PER_PAGE = 5
+const POSTS_PER_PAGE = 4
 
 export async function generateMetadata(props: {
   params: Promise<{ tag: string }>
 }): Promise<Metadata> {
   const params = await props.params
   const tag = decodeURI(params.tag)
+  const tagName = tag.replaceAll('-', ' ')
+
   return genPageMetadata({
-    title: tag,
-    description: `${siteMetadata.title} ${tag} tagged content`,
+    title: `Tag: ${tagName}`,
+    description: `${siteMetadata.title} ${tagName} tagged content`,
     alternates: {
       canonical: './',
       types: {
@@ -28,8 +30,7 @@ export async function generateMetadata(props: {
 
 export const generateStaticParams = async () => {
   const tagCounts = tagData as Record<string, number>
-  const tagKeys = Object.keys(tagCounts)
-  return tagKeys.map((tag) => ({
+  return Object.keys(tagCounts).map((tag) => ({
     tag: encodeURI(tag),
   }))
 }
@@ -37,7 +38,7 @@ export const generateStaticParams = async () => {
 export default async function TagPage(props: { params: Promise<{ tag: string }> }) {
   const params = await props.params
   const tag = decodeURI(params.tag)
-  const tagName = tag.replaceAll('-', ' ')\n  const title = `Tag: ${tagName}`\n  const description = `All posts tagged with \"${tagName}\".`
+  const tagName = tag.replaceAll('-', ' ')
   const filteredPosts = allCoreContent(
     sortPosts(allBlogs.filter((post) => post.tags && post.tags.map((t) => slug(t)).includes(tag)))
   )
@@ -45,7 +46,7 @@ export default async function TagPage(props: { params: Promise<{ tag: string }> 
   const initialDisplayPosts = filteredPosts.slice(0, POSTS_PER_PAGE)
   const pagination = {
     currentPage: 1,
-    totalPages: totalPages,
+    totalPages,
   }
 
   return (
@@ -53,7 +54,8 @@ export default async function TagPage(props: { params: Promise<{ tag: string }> 
       posts={filteredPosts}
       initialDisplayPosts={initialDisplayPosts}
       pagination={pagination}
-      title={title}
+      title={['Tag:', tagName]}
+      description={`All the articles with the tag "${tagName}".`}
     />
   )
 }

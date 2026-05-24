@@ -5,14 +5,14 @@ import SearchClient from './SearchClient'
 
 export const metadata = genPageMetadata({
   title: 'Search',
-  description: 'Search articles by title, summary and tag',
+  description: 'Search any article ...',
 })
 
 export default function SearchPage() {
   return (
     <>
       <Breadcrumb />
-      <PageMain title="Search" description="Search articles by title, summary and tag.">
+      <PageMain title="Search" description="Search any article ...">
         <SearchClient />
       </PageMain>
     </>

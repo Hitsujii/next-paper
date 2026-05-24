@@ -16,7 +16,7 @@ interface PaginationProps {
 
 interface ListLayoutProps {
   posts: CoreContent<Blog>[]
-  title: string
+  title: string | [string, string]
   description?: string
   initialDisplayPosts?: CoreContent<Blog>[]
   pagination?: PaginationProps
@@ -92,7 +92,15 @@ export default function ListLayoutWithTags({
       <Breadcrumb />
 
       <main id="main-content" className="app-layout pb-4">
-        <h1 className="text-2xl font-semibold sm:text-3xl">{title}</h1>
+        <h1 className="text-2xl font-semibold sm:text-3xl">
+          {Array.isArray(title) ? (
+            <>
+              {title[0]} <span className="text-[var(--accent)]">{title[1]}</span>
+            </>
+          ) : (
+            title
+          )}
+        </h1>
         {description && <p className="mt-2 mb-6 italic">{description}</p>}
 
         <ul>

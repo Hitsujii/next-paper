@@ -6,7 +6,7 @@ import { genPageMetadata } from 'app/seo'
 
 export const metadata = genPageMetadata({
   title: 'Tags',
-  description: 'All tags used in posts',
+  description: 'All the tags used in posts.',
 })
 
 export default async function Page() {
@@ -16,7 +16,7 @@ export default async function Page() {
   return (
     <>
       <Breadcrumb />
-      <PageMain title="Tags" description="All tags used in posts.">
+      <PageMain title="Tags" description="All the tags used in posts.">
         {sortedTags.length === 0 ? (
           <p>No tags found.</p>
         ) : (
