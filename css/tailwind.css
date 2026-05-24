@@ -1163,3 +1163,46 @@ html[data-theme='dark'] {
     width: 100%;
   }
 }
+
+/* AstroPaper/Pagefind search final typography parity */
+#pagefind-search .pagefind-ui__search-input {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+#pagefind-search .pagefind-ui__form button {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+#pagefind-search .pagefind-ui__search-input:focus,
+#pagefind-search .pagefind-ui__search-input:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: none;
+}
+
+#pagefind-search .pagefind-ui__message {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+#pagefind-search .pagefind-ui__result-link,
+#pagefind-search .pagefind-ui__result-link h2 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+
+#pagefind-search .pagefind-ui__result-excerpt,
+#pagefind-search .pagefind-ui__result-nested p {
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+}
+
+#pagefind-search .pagefind-ui__result-nested a {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+}
+

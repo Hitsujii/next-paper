@@ -215,7 +215,7 @@ export default function SearchClient() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Search posts..."
-          className="pagefind-ui__search-input w-full rounded-md border border-[var(--border)] bg-[var(--background)] py-3 pr-20 pl-12 text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--border)] focus:ring-0 focus:outline-[1px] focus:outline-[var(--accent)]"
+          className="pagefind-ui__search-input w-full rounded-md border border-[var(--border)] bg-[var(--background)] py-3 pr-20 pl-12 text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--accent)] focus:ring-0 focus:outline-none"
           type="search"
         />
 
@@ -223,7 +223,7 @@ export default function SearchClient() {
           <button
             type="button"
             onClick={() => setQuery('')}
-            className="absolute top-1/2 right-4 -translate-y-1/2 text-sm hover:text-[var(--accent)]"
+            className="absolute top-1/2 right-4 -translate-y-1/2 text-xs hover:text-[var(--accent)]"
           >
             Clear
           </button>
@@ -240,14 +240,14 @@ export default function SearchClient() {
         )}
 
         {loaded && query && results.length === 0 && (
-          <p className="pagefind-ui__message font-bold text-[var(--foreground)]">
+          <p className="pagefind-ui__message text-sm font-bold text-[var(--foreground)]">
             No results found
           </p>
         )}
 
         {results.length > 0 && (
           <>
-            <p className="pagefind-ui__message font-bold text-[var(--foreground)]">
+            <p className="pagefind-ui__message text-sm font-bold text-[var(--foreground)]">
               {results.length} result{results.length === 1 ? '' : 's'} for {query}
             </p>
 
@@ -271,13 +271,13 @@ export default function SearchClient() {
                   >
                     <Link
                       href={href}
-                      className="pagefind-ui__result-link inline-block text-xl font-bold text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
+                      className="pagefind-ui__result-link inline-block text-base font-bold text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
                     >
                       <h2>{highlightText(title, query)}</h2>
                     </Link>
 
                     {(summary || date) && (
-                      <p className="pagefind-ui__result-excerpt mt-1 text-sm leading-7 sm:text-base">
+                      <p className="pagefind-ui__result-excerpt mt-1 text-[0.8125rem] leading-5">
                         {summary ? highlightText(summary, query) : null}
                         {date ? (
                           <>
@@ -297,12 +297,12 @@ export default function SearchClient() {
                             <li key={section.title}>
                               <Link
                                 href={href}
-                                className="font-bold text-[var(--accent)] hover:underline hover:decoration-dashed"
+                                className="text-sm font-bold text-[var(--accent)] hover:underline hover:decoration-dashed"
                               >
                                 ↳ {highlightText(section.title, query)}
                               </Link>
                               {sectionSnippet && (
-                                <p className="mt-1 ml-4 text-sm leading-6">
+                                <p className="mt-1 ml-4 text-[0.8125rem] leading-5">
                                   {highlightText(sectionSnippet, query)}
                                 </p>
                               )}
