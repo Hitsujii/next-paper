@@ -310,15 +310,15 @@ function enhanceCodeBlocks(article: HTMLElement) {
     copyButton.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(codeText(codeBlock))
-        copyButton.textContent = 'Copied!'
+        copyButton.textContent = 'Copied'
         window.setTimeout(() => {
           copyButton.textContent = 'Copy'
-        }, 1600)
+        }, 700)
       } catch {
         copyButton.textContent = 'Error'
         window.setTimeout(() => {
           copyButton.textContent = 'Copy'
-        }, 1600)
+        }, 700)
       }
     })
 
