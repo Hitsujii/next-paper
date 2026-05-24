@@ -283,6 +283,7 @@ function enhanceCodeBlocks(article: HTMLElement) {
 
     if (fileName) {
       wrapper.dataset.file = fileName
+      codeBlock.dataset.file = fileName
     }
 
     const parent = codeBlock.parentNode
