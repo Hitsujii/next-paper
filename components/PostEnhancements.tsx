@@ -299,7 +299,7 @@ function enhanceCodeBlocks(article: HTMLElement) {
       const fileLabel = document.createElement('span')
       fileLabel.className = 'code-file-name'
       fileLabel.textContent = fileName
-      wrapper.appendChild(fileLabel)
+      codeBlock.appendChild(fileLabel)
     }
 
     const copyButton = document.createElement('button')
