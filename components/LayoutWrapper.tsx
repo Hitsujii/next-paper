@@ -10,7 +10,7 @@ export default function LayoutWrapper({ children }: Props) {
   return (
     <>
       <Header />
-      <main className="mb-auto">{children}</main>
+      {children}
       <Footer />
     </>
   )

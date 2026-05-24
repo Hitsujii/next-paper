@@ -110,7 +110,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
             <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
               <Header />
-              <main className="mb-auto">{children}</main>
+              {children}
               <Footer />
             </SearchProvider>
           </ThemeProviders>

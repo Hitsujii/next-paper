@@ -116,7 +116,7 @@ export default function Home({ posts }) {
     <>
       <RememberBackUrl />
 
-      <main id="main-content" data-layout="index">
+      <main id="main-content" data-layout="index" className="app-layout">
         <section id="hero" className="border-b border-[var(--border)] pt-8 pb-6">
           <h1 className="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
             Mingalaba
