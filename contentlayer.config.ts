@@ -29,6 +29,47 @@ import prettier from 'prettier'
 const root = process.cwd()
 const isProduction = process.env.NODE_ENV === 'production'
 
+function extractAstroPaperCodeFileName(meta?: string) {
+  if (!meta) return undefined
+
+  const match = meta.match(/(?:^|\s)file=(?:"([^"]+)"|'([^']+)'|([^\s]+))/)
+  return match?.[1] ?? match?.[2] ?? match?.[3]
+}
+
+function visitAstroPaperMdast(
+  node: any,
+  visitor: (node: any, index?: number, parent?: any) => void,
+  parent?: any,
+  index?: number
+) {
+  visitor(node, index, parent)
+
+  if (!node || !Array.isArray(node.children)) return
+
+  node.children.forEach((child: any, childIndex: number) => {
+    visitAstroPaperMdast(child, visitor, node, childIndex)
+  })
+}
+
+function remarkAstroPaperCodeMeta() {
+  return (tree: any) => {
+    visitAstroPaperMdast(tree, (node: any) => {
+      if (!node || node.type !== 'code') return
+
+      const fileName = extractAstroPaperCodeFileName(node.meta)
+
+      if (!fileName) return
+
+      node.data = node.data || {}
+      node.data.hProperties = {
+        ...(node.data.hProperties || {}),
+        'data-file': fileName,
+        'data-meta': node.meta || '',
+      }
+    })
+  }
+}
+
 // heroicon mini link
 const icon = fromHtmlIsomorphic(
   `
@@ -57,6 +98,10 @@ const computedFields: ComputedFields = {
     resolve: (doc) => doc._raw.sourceFilePath,
   },
   toc: { type: 'json', resolve: (doc) => extractTocHeadings(doc.body.raw) },
+  hasToc: {
+    type: 'boolean',
+    resolve: (doc) => /^##\s+Table of contents\s*$/im.test(doc.body.raw),
+  },
 }
 
 /**
@@ -156,6 +201,7 @@ export default makeSource({
       remarkExtractFrontmatter,
       remarkGfm,
       remarkCodeTitles,
+      remarkAstroPaperCodeMeta,
       remarkMath,
       remarkImgToJsx,
       remarkAlert,

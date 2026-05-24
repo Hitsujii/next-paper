@@ -635,3 +635,136 @@ footer svg {
     -webkit-tap-highlight-color: transparent;
   }
 }
+
+/* NextPaper AstroPaper TOC and code filename */
+.astro-toc {
+  margin-block: 2rem;
+}
+
+.astro-toc summary {
+  cursor: pointer;
+  color: var(--foreground);
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+}
+
+.astro-toc summary:hover {
+  color: var(--accent);
+}
+
+.astro-toc nav {
+  margin-top: 1rem;
+}
+
+.astro-toc ul {
+  margin: 0;
+  padding-inline-start: 1.25rem;
+}
+
+.astro-toc li {
+  margin-block: 0.25rem;
+}
+
+.astro-toc a {
+  color: var(--foreground);
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+}
+
+.astro-toc a:hover {
+  color: var(--accent);
+}
+
+.heading-link {
+  margin-inline-start: 0.5rem;
+  color: var(--foreground) !important;
+  text-decoration-line: none !important;
+  opacity: 0.75;
+  transition: opacity 150ms ease, color 150ms ease;
+}
+
+@media (min-width: 768px) {
+  .heading-link {
+    opacity: 0;
+  }
+
+  .group:hover .heading-link,
+  .heading-link:focus {
+    opacity: 1;
+  }
+}
+
+.heading-link:hover {
+  color: var(--accent) !important;
+}
+
+.code-block-wrapper {
+  position: relative;
+  margin-block: 1.75rem;
+}
+
+.code-file-name {
+  border: 1px solid var(--border);
+  border-bottom: 0;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background: color-mix(in srgb, var(--muted) 45%, transparent);
+  padding: 0.45rem 0.75rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  font-style: italic;
+  line-height: 1.25rem;
+}
+
+.code-block-wrapper pre {
+  margin-block: 0 !important;
+}
+
+.code-block-wrapper[data-file] pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.copy-code {
+  position: absolute;
+  top: -0.75rem;
+  inset-inline-end: 0.75rem;
+  border: 1px solid var(--muted);
+  border-radius: 0.25rem;
+  background: var(--muted);
+  padding: 0.25rem 0.5rem;
+  color: var(--foreground);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  opacity: 0;
+  transition:
+    opacity 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.code-block-wrapper[data-file] .copy-code {
+  top: 0.35rem;
+}
+
+.code-block-wrapper:hover .copy-code,
+.code-block-wrapper:focus-within .copy-code {
+  opacity: 1;
+}
+
+.copy-code:hover,
+.copy-code:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.post-content :where(pre) {
+  position: relative;
+}
+
+.post-content :where(pre code) {
+  display: block;
+}

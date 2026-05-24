@@ -85,7 +85,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
       </div>
 
       <main id="main-content" className="app-layout pb-4" data-pagefind-body>
-        <PostEnhancements />
+        <PostEnhancements toc={(content as any).toc} hasToc={Boolean((content as any).hasToc)} />
         <h1 className="inline-block text-2xl font-bold text-[var(--accent)] sm:text-3xl">
           <PostTitleTransition title={title}>{title}</PostTitleTransition>
         </h1>
