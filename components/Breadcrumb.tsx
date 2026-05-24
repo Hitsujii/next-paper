@@ -51,9 +51,9 @@ export default function Breadcrumb() {
           <Link href="/" className="opacity-80 hover:opacity-100">
             Home
           </Link>
-          <span aria-hidden="true" className="mx-1 opacity-80">
+          <span aria-hidden="true" className="opacity-80">
             &raquo;
-          </span>
+          </span>{' '}
         </li>
 
         {visibleSegments.map((segment, index) => {
@@ -79,9 +79,9 @@ export default function Breadcrumb() {
                   <Link href={href} className="capitalize opacity-70 hover:opacity-100">
                     {formatSegment(segment, index)}
                   </Link>
-                  <span aria-hidden="true" className="mx-1 opacity-70">
+                  <span aria-hidden="true" className="opacity-70">
                     &raquo;
-                  </span>
+                  </span>{' '}
                 </>
               )}
             </li>
