@@ -16,7 +16,7 @@ export default function SearchButton({ active = false }: SearchButtonProps) {
       aria-label="Search"
       title="Search"
     >
-      <IconSearch className="absolute top-[50%] left-[50%] translate-[-50%]" />
+      <IconSearch className="absolute top-1/2 left-1/2 size-6 -translate-x-1/2 -translate-y-1/2" />
       <span className="sr-only">Search</span>
       {active && (
         <IconUnderline

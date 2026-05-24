@@ -20,14 +20,13 @@ function safeDecode(value: string) {
   }
 }
 
-function formatSegment(segment: string) {
+function formatSegment(segment: string, index: number) {
   const decoded = safeDecode(segment)
 
   if (labels[decoded]) return labels[decoded]
 
-  return decoded
-    .replaceAll('-', ' ')
-    .replace(/\b\w/g, (char) => char.toUpperCase())
+  const text = decoded.replaceAll('-', ' ')
+  return index > 0 ? text.toLowerCase() : text.replace(/\b\w/g, (char) => char.toUpperCase())
 }
 
 export default function Breadcrumb() {
@@ -38,9 +37,9 @@ export default function Breadcrumb() {
 
   const visibleSegments =
     segments[0] === 'blog' && segments[1] === 'page'
-      ? [`Posts (Page ${segments[2] || 1})`]
+      ? [`Posts (page ${segments[2] || 1})`]
       : segments[0] === 'tags' && segments[2] === 'page'
-        ? ['Tags', segments[1]]
+        ? ['Tags', `${segments[1]}${segments[3] ? ` (page ${segments[3]})` : ''}`]
         : segments[0] === 'blog'
           ? ['Posts']
           : segments
@@ -52,7 +51,7 @@ export default function Breadcrumb() {
           <Link href="/" className="opacity-80 hover:opacity-100">
             Home
           </Link>
-          <span aria-hidden="true" className="mx-1 opacity-80">
+          <span aria-hidden="true" className="opacity-80">
             &raquo;
           </span>
         </li>
@@ -69,15 +68,15 @@ export default function Breadcrumb() {
           return (
             <li key={`${segment}-${index}`}>
               {isLast ? (
-                <span className="opacity-75" aria-current="page">
-                  {formatSegment(segment)}
+                <span className={index > 0 ? 'lowercase opacity-75' : 'capitalize opacity-75'} aria-current="page">
+                  {formatSegment(segment, index)}
                 </span>
               ) : (
                 <>
-                  <Link href={href} className="opacity-70 hover:opacity-100">
-                    {formatSegment(segment)}
+                  <Link href={href} className="capitalize opacity-70 hover:opacity-100">
+                    {formatSegment(segment, index)}
                   </Link>
-                  <span aria-hidden="true" className="mx-1 opacity-70">
+                  <span aria-hidden="true" className="opacity-70">
                     &raquo;
                   </span>
                 </>

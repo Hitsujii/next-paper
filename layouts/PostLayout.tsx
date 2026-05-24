@@ -111,6 +111,8 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
           <EditPost path={path} className="sm:hidden" />
         </div>
 
+        <BackToTopButton />
+
         {tags?.length > 0 && (
           <ul className="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
             {tags.map((tag) => (

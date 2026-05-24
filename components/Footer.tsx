@@ -13,7 +13,7 @@ const socialLinks = [
 export default function Footer() {
   return (
     <footer className="app-layout mt-auto">
-      <div className="flex flex-col items-center justify-between border-t border-[var(--accent)] py-6 sm:flex-row-reverse sm:py-4">
+      <div className="flex flex-col items-center justify-between border-t border-[var(--border)] py-6 sm:flex-row-reverse sm:py-4">
         <div className="flex flex-wrap items-center justify-center gap-1">
           {socialLinks.map(({ kind, href }) => (
             <SocialIcon key={kind} kind={kind} href={href} size={24} />

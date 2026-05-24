@@ -39,7 +39,7 @@ export default function Header() {
       </a>
 
       <header className="app-layout flex flex-col items-center justify-between sm:flex-row">
-        <div className="relative flex w-full items-baseline justify-between border-b border-[var(--accent)] bg-[var(--background)] py-4 sm:items-center sm:py-6">
+        <div className="relative flex w-full items-baseline justify-between border-b border-[var(--border)] bg-[var(--background)] py-4 sm:items-center sm:py-6">
           <Link
             href="/"
             aria-label={title}
@@ -99,7 +99,7 @@ export default function Header() {
                   title="Projects"
                   onClick={() => setMenuOpen(false)}
                 >
-                  <IconArchive className="hidden sm:absolute sm:top-[50%] sm:left-[50%] sm:block sm:translate-[-50%]" />
+                  <IconArchive className="hidden sm:absolute sm:top-1/2 sm:left-1/2 sm:block sm:size-6 sm:-translate-x-1/2 sm:-translate-y-1/2" />
                   <span className="sm:sr-only">Projects</span>
                   {projectsActive && (
                     <IconUnderline

@@ -444,118 +444,47 @@ html[data-view-transition='running'] a {
   padding: 0;
 }
 
-/* NextPaper AstroPaper article enhancements */
-.heading-link {
-  color: var(--foreground) !important;
-  text-decoration-line: none !important;
-  transition: opacity 150ms ease;
-}
-
-.heading-link:hover {
-  color: var(--accent) !important;
-}
-
-.code-block-wrapper {
-  position: relative;
-}
-
-.copy-code {
-  opacity: 0;
-  transition:
-    opacity 150ms ease,
-    color 150ms ease,
-    border-color 150ms ease,
-    background-color 150ms ease;
-}
-
-.code-block-wrapper:hover .copy-code,
-.code-block-wrapper:focus-within .copy-code {
-  opacity: 1;
-}
-
-.copy-code:hover,
-.copy-code:focus-visible {
-  border-color: var(--accent) !important;
-  color: var(--accent) !important;
-}
-
-.post-content :where(pre) {
-  position: relative;
-}
-
-.post-content :where(pre code) {
-  display: block;
-}
-
-/* NextPaper AstroPaper post bottom polish */
-#btt-btn-container {
+/* NextPaper AstroPaper final parity overrides */
+.app-layout {
+  width: 100%;
   max-width: 48rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  box-sizing: border-box;
 }
 
-#progress-indicator {
-  background-color: transparent;
+header a,
+footer a {
+  text-decoration-line: none;
 }
 
-[data-button='back-to-top'] {
-  color: var(--foreground);
+footer svg {
+  opacity: 0.9;
 }
 
-[data-button='back-to-top']:hover {
-  color: var(--accent);
+#pagefind-search .pagefind-ui__form {
+  margin-top: 1.5rem;
 }
 
-@media (max-width: 767px) {
-  [data-button='back-to-top'] {
-    touch-action: manipulation;
-  }
-}
-
-/* NextPaper AstroPaper search and tag pages */
-#pagefind-search {
-  --pagefind-ui-font: var(--font-google-sans-code), 'Google Sans Code', monospace;
-  --pagefind-ui-primary: var(--accent);
-  --pagefind-ui-text: var(--foreground);
-  --pagefind-ui-background: var(--background);
-  --pagefind-ui-border: var(--border);
-  --pagefind-ui-border-radius: 0.375rem;
-  --pagefind-ui-border-width: 1px;
-}
-
-#pagefind-search input[type='search']::-webkit-search-cancel-button {
-  appearance: none;
-}
-
-.pagefind-ui__search-input {
+#pagefind-search .pagefind-ui__search-input {
+  height: 3.125rem;
+  min-height: 3.125rem;
+  padding-block: 0;
+  border: 1px solid var(--accent);
+  box-shadow: none;
   font: inherit;
+  font-weight: 400;
 }
 
-.pagefind-ui__result {
-  border-color: var(--border);
+#pagefind-search .pagefind-ui__search-input:focus,
+#pagefind-search .pagefind-ui__search-input:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: none;
 }
 
-.pagefind-ui__result-link {
-  color: var(--accent);
-}
-
-.pagefind-ui__result-excerpt mark {
-  background: color-mix(in srgb, var(--accent) 22%, transparent);
-  color: var(--foreground);
-  padding-inline: 0.125rem;
-}
-
-/* NextPaper AstroPaper exact search page */
-#pagefind-search {
-  --pagefind-ui-font: var(--font-google-sans-code), 'Google Sans Code', monospace;
-  --pagefind-ui-primary: var(--accent);
-  --pagefind-ui-text: var(--foreground);
-  --pagefind-ui-background: var(--background);
-  --pagefind-ui-border: var(--border);
-  --pagefind-ui-border-radius: 0.375rem;
-  --pagefind-ui-border-width: 1px;
-}
-
-#pagefind-search input[type='search'] {
-  font: inherit;
+#pagefind-search .pagefind-ui__drawer {
+  margin-top: 1.5rem;
 }
 
 #pagefind-search input[type='search']::-webkit-search-cancel-button {
@@ -568,75 +497,10 @@ html[data-view-transition='running'] a {
   padding-inline: 0.125rem;
 }
 
-#pagefind-search .pagefind-ui__result-link mark {
-  color: black;
+#pagefind-search .pagefind-ui__result:last-of-type {
+  border-bottom: 0;
 }
 
-/* NextPaper AstroPaper header footer final polish */
-header a,
-footer a {
-  text-decoration-line: none;
-}
-
-header svg,
-footer svg {
-  stroke-width: 2;
-}
-
-footer svg {
-  opacity: 0.9;
-}
-
-/* NextPaper AstroPaper post bottom final */
-#btt-btn-container {
-  max-width: 48rem;
-}
-
-#progress-indicator {
-  background-color: transparent;
-}
-
-[data-button='back-to-top'] {
-  color: var(--foreground);
-}
-
-[data-button='back-to-top']:hover {
-  color: var(--accent);
-}
-
-@media (max-width: 767px) {
-  [data-button='back-to-top'] {
-    touch-action: manipulation;
-  }
-}
-
-/* NextPaper AstroPaper mobile chrome final */
-header a,
-footer a {
-  text-decoration-line: none;
-}
-
-header svg,
-footer svg {
-  stroke-width: 2;
-}
-
-footer svg {
-  opacity: 0.9;
-}
-
-@media (max-width: 639px) {
-  #menu-items {
-    transform-origin: top center;
-  }
-
-  #menu-items a,
-  #menu-items button {
-    -webkit-tap-highlight-color: transparent;
-  }
-}
-
-/* NextPaper AstroPaper TOC and code filename */
 .astro-toc {
   margin-block: 2rem;
 }
@@ -682,7 +546,9 @@ footer svg {
   color: var(--foreground) !important;
   text-decoration-line: none !important;
   opacity: 0.75;
-  transition: opacity 150ms ease, color 150ms ease;
+  transition:
+    opacity 150ms ease,
+    color 150ms ease;
 }
 
 @media (min-width: 768px) {
@@ -702,19 +568,40 @@ footer svg {
 
 .code-block-wrapper {
   position: relative;
-  margin-block: 1.75rem;
+  margin-block: 2rem;
 }
 
 .code-file-name {
-  border: 1px solid var(--border);
-  border-bottom: 0;
-  border-radius: 0.5rem 0.5rem 0 0;
-  background: color-mix(in srgb, var(--muted) 45%, transparent);
-  padding: 0.45rem 0.75rem;
-  color: var(--muted-foreground);
-  font-size: 0.875rem;
-  font-style: italic;
-  line-height: 1.25rem;
+  position: absolute;
+  top: -0.82rem;
+  inset-inline-start: 0.75rem;
+  z-index: 2;
+  display: inline-flex;
+  width: auto;
+  max-width: calc(100% - 6rem);
+  align-items: center;
+  gap: 0.25rem;
+  overflow: hidden;
+  border: 1px solid var(--accent);
+  border-radius: 0.375rem;
+  background: var(--background);
+  padding: 0.125rem 0.5rem;
+  color: var(--foreground);
+  font-size: 0.75rem;
+  font-style: normal;
+  line-height: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.code-file-name::before {
+  content: "";
+  display: inline-block;
+  width: 0.35rem;
+  height: 0.35rem;
+  flex: none;
+  border-radius: 9999px;
+  background: #22c55e;
 }
 
 .code-block-wrapper pre {
@@ -722,14 +609,15 @@ footer svg {
 }
 
 .code-block-wrapper[data-file] pre {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
 }
 
 .copy-code {
   position: absolute;
   top: -0.75rem;
   inset-inline-end: 0.75rem;
+  z-index: 2;
   border: 1px solid var(--muted);
   border-radius: 0.25rem;
   background: var(--muted);
@@ -747,7 +635,7 @@ footer svg {
 }
 
 .code-block-wrapper[data-file] .copy-code {
-  top: 0.35rem;
+  top: -0.75rem;
 }
 
 .code-block-wrapper:hover .copy-code,
@@ -761,229 +649,6 @@ footer svg {
   color: var(--accent);
 }
 
-.post-content :where(pre) {
-  position: relative;
-}
-
-.post-content :where(pre code) {
-  display: block;
-}
-
-/* NextPaper AstroPaper screenshot visual sweep */
-.app-layout {
-  width: 100%;
-  max-width: 48rem;
-  margin-inline: auto;
-  padding-inline: 1rem;
-  box-sizing: border-box;
-}
-
-#pagefind-search .pagefind-ui__form {
-  margin-top: 1.5rem;
-}
-
-#pagefind-search .pagefind-ui__search-input {
-  height: 3.125rem;
-  min-height: 3.125rem;
-  padding-block: 0;
-  border: 1px solid var(--accent);
-  box-shadow: none;
-  font: inherit;
-  font-weight: 400;
-}
-
-#pagefind-search .pagefind-ui__search-input:focus,
-#pagefind-search .pagefind-ui__search-input:focus-visible {
-  border-color: var(--accent);
-  outline: none;
-  box-shadow: none;
-}
-
-#pagefind-search mark {
-  background: yellow;
-  color: black;
-  padding-inline: 0.125rem;
-}
-
-/* AstroPaper filename tab, not full-width title bar */
-.code-block-wrapper {
-  position: relative;
-  margin-block: 2rem;
-}
-
-.code-file-name {
-  position: absolute;
-  top: -0.82rem;
-  inset-inline-start: 0.75rem;
-  z-index: 2;
-  display: inline-flex;
-  width: auto;
-  max-width: calc(100% - 6rem);
-  align-items: center;
-  gap: 0.25rem;
-  overflow: hidden;
-  border: 1px solid var(--accent);
-  border-radius: 0.375rem;
-  background: var(--background);
-  padding: 0.125rem 0.5rem;
-  color: var(--foreground);
-  font-size: 0.75rem;
-  font-style: normal;
-  line-height: 1rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.code-file-name::before {
-  content: "";
-  display: inline-block;
-  width: 0.35rem;
-  height: 0.35rem;
-  flex: none;
-  border-radius: 9999px;
-  background: #22c55e;
-}
-
-.code-block-wrapper pre {
-  margin-block: 0 !important;
-}
-
-.code-block-wrapper[data-file] pre {
-  border-top-left-radius: 0.375rem;
-  border-top-right-radius: 0.375rem;
-}
-
-.copy-code {
-  position: absolute;
-  top: -0.75rem;
-  inset-inline-end: 0.75rem;
-  z-index: 2;
-  border: 1px solid var(--muted);
-  border-radius: 0.25rem;
-  background: var(--muted);
-  padding: 0.25rem 0.5rem;
-  color: var(--foreground);
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 500;
-}
-
-.code-block-wrapper[data-file] .copy-code {
-  top: -0.75rem;
-}
-
-header a,
-footer a {
-  text-decoration-line: none;
-}
-
-/* NextPaper AstroPaper final 100pct screenshot sweep */
-.app-layout {
-  width: 100%;
-  max-width: 48rem;
-  margin-inline: auto;
-  padding-inline: 1rem;
-  box-sizing: border-box;
-}
-
-#pagefind-search .pagefind-ui__form {
-  margin-top: 1.5rem;
-}
-
-#pagefind-search .pagefind-ui__search-input {
-  height: 3.125rem;
-  min-height: 3.125rem;
-  padding-block: 0;
-  border: 1px solid var(--accent);
-  box-shadow: none;
-  font: inherit;
-  font-weight: 400;
-}
-
-#pagefind-search .pagefind-ui__search-input:focus,
-#pagefind-search .pagefind-ui__search-input:focus-visible {
-  border-color: var(--accent);
-  outline: none;
-  box-shadow: none;
-}
-
-#pagefind-search .pagefind-ui__drawer {
-  margin-top: 1.5rem;
-}
-
-#pagefind-search mark {
-  background: yellow;
-  color: black;
-  padding-inline: 0.125rem;
-}
-
-.code-block-wrapper {
-  position: relative;
-  margin-block: 2rem;
-}
-
-.code-file-name {
-  position: absolute;
-  top: -0.82rem;
-  inset-inline-start: 0.75rem;
-  z-index: 2;
-  display: inline-flex;
-  width: auto;
-  max-width: calc(100% - 6rem);
-  align-items: center;
-  gap: 0.25rem;
-  overflow: hidden;
-  border: 1px solid var(--accent);
-  border-radius: 0.375rem;
-  background: var(--background);
-  padding: 0.125rem 0.5rem;
-  color: var(--foreground);
-  font-size: 0.75rem;
-  font-style: normal;
-  line-height: 1rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.code-file-name::before {
-  content: "";
-  display: inline-block;
-  width: 0.35rem;
-  height: 0.35rem;
-  flex: none;
-  border-radius: 9999px;
-  background: #22c55e;
-}
-
-.code-block-wrapper pre {
-  margin-block: 0 !important;
-}
-
-.code-block-wrapper[data-file] pre {
-  border-top-left-radius: 0.375rem;
-  border-top-right-radius: 0.375rem;
-}
-
-.copy-code {
-  position: absolute;
-  top: -0.75rem;
-  inset-inline-end: 0.75rem;
-  z-index: 2;
-  border: 1px solid var(--muted);
-  border-radius: 0.25rem;
-  background: var(--muted);
-  padding: 0.25rem 0.5rem;
-  color: var(--foreground);
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 500;
-}
-
-.code-block-wrapper[data-file] .copy-code {
-  top: -0.75rem;
-}
-
-/* NextPaper AstroPaper post detail final */
 #back-button {
   text-decoration-line: none;
 }
@@ -992,24 +657,12 @@ footer a {
   max-width: 48rem;
 }
 
-.post-content :where(h2) {
-  margin-top: 2rem;
+.post-content :where(pre) {
+  position: relative;
 }
 
-.post-content :where(h3) {
-  margin-top: 1.5rem;
-}
-
-.post-content :where(ul, ol) {
-  padding-inline-start: 1.5rem;
-}
-
-.post-content :where(li) {
-  margin-block: 0.5rem;
-}
-
-.post-content :where(li)::marker {
-  color: var(--accent);
+.post-content :where(pre code) {
+  display: block;
 }
 
 .post-content :where(img) {
@@ -1019,4 +672,20 @@ footer a {
 .post-content :where(hr) {
   border-color: var(--border);
   border-style: dashed;
+}
+
+#btt-btn-container {
+  max-width: 48rem;
+}
+
+#progress-indicator {
+  background-color: transparent;
+}
+
+[data-button='back-to-top'] {
+  color: var(--foreground);
+}
+
+[data-button='back-to-top']:hover {
+  color: var(--accent);
 }
