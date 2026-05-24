@@ -13,7 +13,7 @@ interface Props {
   transition?: boolean
 }
 
-export default function Tag({ text, size = 'sm', count, transition = false }: Props) {
+export default function Tag({ text, size = 'sm', count, transition = true }: Props) {
   const tagSlug = slug(text)
   const label = text.split(' ').join('-')
   const style = transition
