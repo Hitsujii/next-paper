@@ -3,7 +3,7 @@ import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Authors, Blog } from 'contentlayer/generated'
 import BackButton from '@/components/BackButton'
-import Comments from '@/components/Comments'
+import EditPost from '@/components/EditPost'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import ShareLinks from '@/components/ShareLinks'
@@ -75,14 +75,11 @@ function Datetime({ date, lastmod }: { date: string; lastmod?: string }) {
   const displayDate = isModified ? lastmod : date
 
   return (
-    <dl className="mt-3">
-      <dt className="sr-only">{isModified ? 'Updated on' : 'Published on'}</dt>
-      <dd className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)] sm:text-base">
-        <CalendarIcon className="inline-block size-6 min-w-5.5 scale-90" />
-        {isModified && <span>Updated:</span>}
-        <time dateTime={displayDate}>{formatDate(displayDate, siteMetadata.locale)}</time>
-      </dd>
-    </dl>
+    <div className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)] sm:text-base">
+      <CalendarIcon className="inline-block size-6 min-w-5.5" />
+      {isModified && <span>Updated:</span>}
+      <time dateTime={displayDate}>{formatDate(displayDate, siteMetadata.locale)}</time>
+    </div>
   )
 }
 
@@ -141,62 +138,58 @@ function AdjacentPostNav({
 }
 
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
-  const { path, slug, date, lastmod, title, tags } = content
+  const { path, date, lastmod, title, tags } = content
   const basePath = path?.split('/')[0] || 'blog'
 
   return (
     <>
       <ScrollTopAndComment />
 
-      <div className="mt-8">
+      <div className="app-layout mt-8">
         <BackButton fallbackHref={`/${basePath}`} />
       </div>
 
       <main id="main-content" className="app-layout pb-4" data-pagefind-body>
-        <article>
-          <header>
-            <PageTitle viewTransitionTitle={title}>{title}</PageTitle>
-            <Datetime date={date} lastmod={lastmod} />
+        <h1 className="inline-block text-2xl font-bold text-[var(--accent)] sm:text-3xl">
+          <PageTitle viewTransitionTitle={title} asChild>
+            {title}
+          </PageTitle>
+        </h1>
 
-            {tags?.length > 0 && (
-              <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
-                {tags.map((tag) => (
-                  <li key={tag}>
-                    <Tag text={tag} transition />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </header>
+        <div className="my-2 flex items-center gap-2">
+          <Datetime date={date} lastmod={lastmod} />
+          <span aria-hidden="true" className="text-[var(--muted-foreground)] max-sm:hidden">
+            |
+          </span>
+          <EditPost path={path} className="max-sm:hidden" />
+        </div>
 
-          <div className="post-content prose max-w-none pt-8 pb-6 dark:prose-invert">
-            {children}
-          </div>
-
-          <hr className="my-8 border-dashed border-[var(--border)]" />
-
-          {tags?.length > 0 && (
-            <ul className="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
-              {tags.map((tag) => (
-                <li key={tag}>
-                  <Tag text={tag} />
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <ShareLinks path={path} title={title} />
-
-          <hr className="my-8 border-dashed border-[var(--border)]" />
-
-          {siteMetadata.comments && (
-            <div className="pt-6 pb-6 text-center text-[var(--muted-foreground)]" id="comment">
-              <Comments slug={slug} />
-            </div>
-          )}
-
-          <AdjacentPostNav prev={prev} next={next} />
+        <article
+          id="article"
+          className="post-content prose mt-8 w-full max-w-none dark:prose-invert"
+        >
+          {children}
         </article>
+
+        <hr className="my-8 border-dashed border-[var(--border)]" />
+
+        <EditPost path={path} className="sm:hidden" />
+
+        {tags?.length > 0 && (
+          <ul className="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
+            {tags.map((tag) => (
+              <li key={tag}>
+                <Tag text={tag} size="sm" />
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <ShareLinks path={path} title={title} />
+
+        <hr className="my-8 border-dashed border-[var(--border)]" />
+
+        <AdjacentPostNav prev={prev} next={next} />
       </main>
     </>
   )

@@ -4,10 +4,19 @@ import PostTitleTransition from './PostTitleTransition'
 interface Props {
   children: ReactNode
   viewTransitionTitle?: string
+  asChild?: boolean
 }
 
-export default function PageTitle({ children, viewTransitionTitle }: Props) {
+export default function PageTitle({ children, viewTransitionTitle, asChild = false }: Props) {
   const title = viewTransitionTitle ?? (typeof children === 'string' ? children : undefined)
+
+  if (asChild) {
+    return (
+      <PostTitleTransition title={title}>
+        <span className="inline-block">{children}</span>
+      </PostTitleTransition>
+    )
+  }
 
   return (
     <PostTitleTransition title={title}>
