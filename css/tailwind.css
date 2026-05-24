@@ -443,3 +443,69 @@ html[data-view-transition='running'] a {
   background: transparent;
   padding: 0;
 }
+
+/* NextPaper AstroPaper article enhancements */
+.heading-link {
+  color: var(--foreground) !important;
+  text-decoration-line: none !important;
+  transition: opacity 150ms ease;
+}
+
+.heading-link:hover {
+  color: var(--accent) !important;
+}
+
+.code-block-wrapper {
+  position: relative;
+}
+
+.copy-code {
+  opacity: 0;
+  transition:
+    opacity 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.code-block-wrapper:hover .copy-code,
+.code-block-wrapper:focus-within .copy-code {
+  opacity: 1;
+}
+
+.copy-code:hover,
+.copy-code:focus-visible {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+.post-content :where(pre) {
+  position: relative;
+}
+
+.post-content :where(pre code) {
+  display: block;
+}
+
+/* NextPaper AstroPaper post bottom polish */
+#btt-btn-container {
+  max-width: 48rem;
+}
+
+#progress-indicator {
+  background-color: transparent;
+}
+
+[data-button='back-to-top'] {
+  color: var(--foreground);
+}
+
+[data-button='back-to-top']:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 767px) {
+  [data-button='back-to-top'] {
+    touch-action: manipulation;
+  }
+}

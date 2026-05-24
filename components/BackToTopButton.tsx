@@ -1,7 +1,8 @@
 'use client'
 
+import type { CSSProperties } from 'react'
 import { useEffect, useState } from 'react'
-import { IconArrowNarrowUp } from './icons/AstroPaperIcons'
+import { IconArrowLeft, IconArrowNarrowUp } from './icons/AstroPaperIcons'
 
 export default function BackToTopButton() {
   const [scrollPercent, setScrollPercent] = useState(0)
@@ -30,6 +31,10 @@ export default function BackToTopButton() {
     }
   }, [])
 
+  const progressStyle = {
+    backgroundImage: `conic-gradient(var(--accent), var(--accent) ${scrollPercent}%, transparent ${scrollPercent}%)`,
+  } as CSSProperties
+
   return (
     <>
       <div className="fixed top-0 right-0 left-0 z-50 h-1 bg-transparent">
@@ -39,23 +44,41 @@ export default function BackToTopButton() {
         />
       </div>
 
-      <button
-        type="button"
+      <div
+        id="btt-btn-container"
         className={[
-          'focus-outline fixed bottom-6 z-50 inline-flex items-center gap-1 rounded-md',
+          'fixed bottom-8 z-50',
           'right-4 md:right-[max(1rem,calc((100vw-48rem)/2+1rem))]',
-          'bg-[color-mix(in_srgb,var(--background)_80%,transparent)] px-3 py-2 text-sm',
-          'text-[var(--foreground)] shadow-sm backdrop-blur-lg transition-all hover:text-[var(--accent)]',
-          visible
-            ? 'translate-y-0 opacity-100'
-            : 'pointer-events-none translate-y-4 opacity-0',
+          'transition duration-500',
+          visible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-14 opacity-0',
         ].join(' ')}
-        aria-label="Back to top"
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       >
-        <IconArrowNarrowUp className="inline-block size-4" />
-        Back to top
-      </button>
+        <button
+          data-button="back-to-top"
+          type="button"
+          className={[
+            'focus-outline group relative bg-[var(--background)] px-2 py-1',
+            'size-14 rounded-full shadow-xl',
+            'md:h-8 md:w-fit md:rounded-md md:shadow-none',
+            'md:bg-[color-mix(in_srgb,var(--background)_35%,transparent)] md:bg-clip-padding md:backdrop-blur-lg',
+            'hover:text-[var(--accent)]',
+          ].join(' ')}
+          aria-label="Back to top"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          <span
+            id="progress-indicator"
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden"
+            style={progressStyle}
+          />
+          <IconArrowLeft className="inline-block rotate-90 md:hidden" />
+          <span className="sr-only text-sm group-hover:text-[var(--accent)] md:not-sr-only">
+            <IconArrowNarrowUp className="inline-block size-4" />
+            Back to top
+          </span>
+        </button>
+      </div>
     </>
   )
 }

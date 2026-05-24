@@ -9,6 +9,7 @@ import Link from '@/components/Link'
 import ShareLinks from '@/components/ShareLinks'
 import Tag from '@/components/Tag'
 import PostTitleTransition from '@/components/PostTitleTransition'
+import PostEnhancements from '@/components/PostEnhancements'
 import { IconArrowLeft, IconArrowRight } from '@/components/icons/AstroPaperIcons'
 
 interface LayoutProps {
@@ -86,6 +87,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
       </div>
 
       <main id="main-content" className="app-layout pb-4" data-pagefind-body>
+        <PostEnhancements />
         <h1 className="inline-block text-2xl font-bold text-[var(--accent)] sm:text-3xl">
           <PostTitleTransition title={title}>{title}</PostTitleTransition>
         </h1>
@@ -107,7 +109,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
         <hr className="my-8 border-dashed" />
 
-        <EditPost path={path} className="sm:hidden" />
+        <div className="clear-both">
+          <EditPost path={path} className="sm:hidden" />
+        </div>
 
         {tags?.length > 0 && (
           <ul className="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
@@ -119,7 +123,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
           </ul>
         )}
 
-        <ShareLinks path={path} title={title} />
+        <div className="clear-both">
+          <ShareLinks path={path} title={title} />
+        </div>
 
         <hr className="my-8 border-dashed" />
 
