@@ -40,7 +40,7 @@ function AdjacentPostNav({
           href={`/${prev.path}`}
           className="group flex min-w-0 items-start gap-1 hover:opacity-75"
         >
-          <IconArrowLeft className="mt-0.5 inline-block size-5 flex-none rtl:rotate-180" />
+          <IconArrowLeft className="mt-0.5 inline-block flex-none rtl:rotate-180" />
           <div className="min-w-0">
             <span className="block">Previous post</span>
             <div className="text-sm text-[var(--accent)]">
@@ -67,7 +67,7 @@ function AdjacentPostNav({
               </PostTitleTransition>
             </div>
           </div>
-          <IconArrowRight className="mt-0.5 inline-block size-5 flex-none rtl:rotate-180" />
+          <IconArrowRight className="mt-0.5 inline-block flex-none rtl:rotate-180" />
         </Link>
       )}
     </nav>

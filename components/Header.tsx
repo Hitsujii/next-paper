@@ -99,7 +99,7 @@ export default function Header() {
                   title="Projects"
                   onClick={() => setMenuOpen(false)}
                 >
-                  <IconArchive className="hidden sm:absolute sm:top-1/2 sm:left-1/2 sm:block sm:size-6 sm:-translate-x-1/2 sm:-translate-y-1/2" />
+                  <IconArchive className="hidden sm:absolute sm:top-[50%] sm:left-[50%] sm:block sm:translate-[-50%]" />
                   <span className="sm:sr-only">Projects</span>
                   {projectsActive && (
                     <IconUnderline
