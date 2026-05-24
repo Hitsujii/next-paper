@@ -980,8 +980,8 @@ footer svg {
 
 .copy-code {
   position: absolute;
-  top: -0.75rem;
-  right: 0.75rem;
+  top: var(--file-name-offset, -0.75rem);
+  inset-inline-end: 0.75rem;
   z-index: 2;
   opacity: 1;
   border: 1px solid var(--muted);
