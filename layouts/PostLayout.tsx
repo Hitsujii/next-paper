@@ -9,7 +9,7 @@ import PageTitle from '@/components/PageTitle'
 import ShareLinks from '@/components/ShareLinks'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
-import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import BackToTopButton from '@/components/BackToTopButton'
 import PostTitleTransition from '@/components/PostTitleTransition'
 
 interface LayoutProps {
@@ -143,9 +143,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
   return (
     <>
-      <ScrollTopAndComment />
-
-      <div className="app-layout mt-8">
+      <div className="app-layout flex items-center justify-start">
         <BackButton fallbackHref={`/${basePath}`} />
       </div>
 
@@ -174,6 +172,8 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
         <hr className="my-8 border-dashed border-[var(--border)]" />
 
         <EditPost path={path} className="sm:hidden" />
+
+        <BackToTopButton />
 
         {tags?.length > 0 && (
           <ul className="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">

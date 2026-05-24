@@ -7,7 +7,7 @@ type BackButtonProps = {
   fallbackHref: string
 }
 
-const ArrowLeftIcon = ({ className = '' }: { className?: string }) => (
+const ChevronLeftIcon = ({ className = '' }: { className?: string }) => (
   <svg
     aria-hidden="true"
     className={className}
@@ -18,8 +18,7 @@ const ArrowLeftIcon = ({ className = '' }: { className?: string }) => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <path d="M19 12H5" />
-    <path d="m12 19-7-7 7-7" />
+    <path d="m15 18-6-6 6-6" />
   </svg>
 )
 
@@ -36,12 +35,13 @@ export default function BackButton({ fallbackHref }: BackButtonProps) {
 
   return (
     <Link
+      id="back-button"
       href={href}
-      className="mb-6 inline-flex items-center gap-1 text-[var(--accent)] hover:opacity-75"
+      className="focus-outline -ms-2 mt-8 mb-2 inline-flex items-center gap-1 hover:text-[color-mix(in_srgb,var(--foreground)_75%,transparent)]"
       aria-label="Back"
     >
-      <ArrowLeftIcon className="size-5" />
-      Back
+      <ChevronLeftIcon className="inline-block size-6" />
+      <span>Back</span>
     </Link>
   )
 }

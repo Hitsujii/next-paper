@@ -82,13 +82,6 @@ export default function ScrollTopAndComment() {
 
   return (
     <>
-      <div className="fixed top-0 right-0 left-0 z-50 h-1 bg-transparent">
-        <div
-          className="h-full bg-[var(--accent)] transition-[width] duration-150"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-
       <div
         className={[
           'fixed right-6 bottom-6 z-50 hidden flex-col gap-3 transition-all duration-200 md:flex',
