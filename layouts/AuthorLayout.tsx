@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import type { Authors } from 'contentlayer/generated'
-import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
+import SocialIcon from '@/components/social-icons'
 
 interface Props {
   children: ReactNode
@@ -13,45 +13,40 @@ export default function AuthorLayout({ children, content }: Props) {
 
   return (
     <main id="main-content" className="app-layout pb-4">
-      <div className="pt-8 pb-6">
-        <h1 className="text-2xl font-semibold sm:text-3xl">About</h1>
-        <p className="mt-2 mb-6 italic">A bit about this template and its author profile.</p>
+      <h1 className="text-2xl font-semibold sm:text-3xl">About</h1>
+      <p className="mt-2 mb-6 italic">A bit about me and this blog.</p>
 
-        <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
-          <aside className="flex shrink-0 flex-col items-center sm:w-48">
-            {avatar && (
-              <Image
-                src={avatar}
-                alt={name}
-                width={192}
-                height={192}
-                className="size-36 rounded-full border border-[var(--border)] object-cover sm:size-40"
-              />
-            )}
+      <section className="mb-8 flex flex-col gap-4 border-b border-[var(--border)] pb-6 sm:flex-row sm:items-center">
+        {avatar && (
+          <Image
+            src={avatar}
+            alt={name}
+            width={96}
+            height={96}
+            className="size-24 rounded-full border border-[var(--border)] object-cover"
+          />
+        )}
 
-            <h2 className="pt-4 pb-2 text-xl font-semibold">{name}</h2>
+        <div className="min-w-0">
+          <h2 className="text-xl font-semibold">{name}</h2>
 
-            {occupation && (
-              <div className="text-center text-sm text-[var(--muted-foreground)]">{occupation}</div>
-            )}
-            {company && (
-              <div className="text-center text-sm text-[var(--muted-foreground)]">{company}</div>
-            )}
+          {(occupation || company) && (
+            <p className="mt-1 text-sm text-[var(--muted-foreground)]">
+              {[occupation, company].filter(Boolean).join(' at ')}
+            </p>
+          )}
 
-            <div className="flex flex-wrap items-center justify-center gap-1 pt-4">
-              <SocialIcon kind="mail" href={email ? `mailto:${email}` : undefined} size={24} />
-              <SocialIcon kind="github" href={github} size={24} />
-              <SocialIcon kind="linkedin" href={linkedin} size={24} />
-              <SocialIcon kind="x" href={twitter} size={24} />
-              <SocialIcon kind="bluesky" href={bluesky} size={24} />
-            </div>
-          </aside>
-
-          <article className="post-content prose dark:prose-invert max-w-none sm:min-w-0">
-            {children}
-          </article>
+          <div className="mt-2 flex flex-wrap items-center gap-1">
+            <SocialIcon kind="mail" href={email ? `mailto:${email}` : undefined} size={24} />
+            <SocialIcon kind="github" href={github} size={24} />
+            <SocialIcon kind="linkedin" href={linkedin} size={24} />
+            <SocialIcon kind="x" href={twitter} size={24} />
+            <SocialIcon kind="bluesky" href={bluesky} size={24} />
+          </div>
         </div>
-      </div>
+      </section>
+
+      <article className="app-prose post-content max-w-app w-full">{children}</article>
     </main>
   )
 }

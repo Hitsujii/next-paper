@@ -45,9 +45,7 @@ export default async function ArchivesPage() {
               <span className="text-2xl font-bold">{year}</span>
               <sup className="text-sm text-[var(--muted-foreground)]">{yearGroup.length}</sup>
 
-              {Object.entries(
-                groupBy(yearGroup, (post) => new Date(post.date).getUTCMonth() + 1)
-              )
+              {Object.entries(groupBy(yearGroup, (post) => new Date(post.date).getUTCMonth() + 1))
                 .sort(([monthA], [monthB]) => Number(monthB) - Number(monthA))
                 .map(([month, monthGroup]) => (
                   <div key={`${year}-${month}`} className="flex flex-col sm:flex-row">
