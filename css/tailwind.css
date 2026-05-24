@@ -609,3 +609,29 @@ footer svg {
     touch-action: manipulation;
   }
 }
+
+/* NextPaper AstroPaper mobile chrome final */
+header a,
+footer a {
+  text-decoration-line: none;
+}
+
+header svg,
+footer svg {
+  stroke-width: 2;
+}
+
+footer svg {
+  opacity: 0.9;
+}
+
+@media (max-width: 639px) {
+  #menu-items {
+    transform-origin: top center;
+  }
+
+  #menu-items a,
+  #menu-items button {
+    -webkit-tap-highlight-color: transparent;
+  }
+}

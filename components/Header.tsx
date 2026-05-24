@@ -88,7 +88,7 @@ export default function Header() {
                 </li>
               ))}
 
-              <li className="col-span-2">
+              <li className="col-span-2 sm:col-span-1">
                 <Link
                   href="/projects"
                   className={[
