@@ -35,8 +35,20 @@ export default function BackToTopButton() {
     backgroundImage: `conic-gradient(var(--accent), var(--accent) ${scrollPercent}%, transparent ${scrollPercent}%)`,
   } as CSSProperties
 
+  const topProgressStyle = {
+    width: `${scrollPercent}%`,
+  } as CSSProperties
+
   return (
     <>
+      <div className="progress-container fixed top-0 left-0 z-10 h-1 w-full bg-[var(--background)]">
+        <div
+          id="myBar"
+          className="progress-bar h-1 bg-[var(--accent)]"
+          style={topProgressStyle}
+        />
+      </div>
+
       <div
         id="btt-btn-container"
         className={[
