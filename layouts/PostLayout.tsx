@@ -79,6 +79,8 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
   return (
     <>
+      <BackToTopButton />
+
       <div className="app-layout flex items-center justify-start">
         <BackButton fallbackHref={`/${basePath}`} />
       </div>
@@ -98,7 +100,7 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
 
         <article
           id="article"
-          className="post-content app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
+          className="post-content app-prose prose mt-8 max-w-none dark:prose-invert"
         >
           {children}
         </article>
@@ -106,8 +108,6 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
         <hr className="my-8 border-dashed" />
 
         <EditPost path={path} className="sm:hidden" />
-
-        <BackToTopButton />
 
         {tags?.length > 0 && (
           <ul className="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
