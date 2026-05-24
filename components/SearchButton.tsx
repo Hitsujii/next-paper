@@ -1,5 +1,9 @@
 import Link from './Link'
 
+type SearchButtonProps = {
+  active?: boolean
+}
+
 const SearchIcon = ({ className = '' }: { className?: string }) => (
   <svg
     aria-hidden="true"
@@ -16,16 +20,34 @@ const SearchIcon = ({ className = '' }: { className?: string }) => (
   </svg>
 )
 
-const SearchButton = () => {
+const UnderlineIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 8"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+  >
+    <path d="M2 6c4-4 8-4 12 0s6 0 8-2" />
+  </svg>
+)
+
+const SearchButton = ({ active = false }: SearchButtonProps) => {
   return (
     <Link
       href="/search"
-      className="focus-outline relative flex size-12 items-center justify-center p-4 hover:text-[var(--accent)] sm:size-8 sm:p-0"
+      className={[
+        'focus-outline relative size-8 hover:text-[var(--accent)]',
+        active ? 'text-[var(--accent)]' : '',
+      ].join(' ')}
       aria-label="Search"
       title="Search"
     >
-      <SearchIcon className="size-6" />
+      <SearchIcon className="absolute top-1/2 left-1/2 size-6 -translate-x-1/2 -translate-y-1/2" />
       <span className="sr-only">Search</span>
+      {active && <UnderlineIcon className="absolute bottom-0 w-6 scale-125 max-sm:inset-x-2" />}
     </Link>
   )
 }

@@ -10,8 +10,9 @@ import ThemeSwitch from './ThemeSwitch'
 
 const normalizePath = (path: string) => path.replace(/\/$/, '') || '/'
 
-const MenuIcon = ({ className = '' }: { className?: string }) => (
+const MenuIcon = ({ className = '', id }: { className?: string; id?: string }) => (
   <svg
+    id={id}
     aria-hidden="true"
     className={className}
     viewBox="0 0 24 24"
@@ -21,14 +22,15 @@ const MenuIcon = ({ className = '' }: { className?: string }) => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <path d="M4 7h16" />
-    <path d="M4 12h16" />
-    <path d="M4 17h16" />
+    <path d="M4 6h16" />
+    <path d="M7 12h13" />
+    <path d="M10 18h10" />
   </svg>
 )
 
-const CloseIcon = ({ className = '' }: { className?: string }) => (
+const CloseIcon = ({ className = '', id }: { className?: string; id?: string }) => (
   <svg
+    id={id}
     aria-hidden="true"
     className={className}
     viewBox="0 0 24 24"
@@ -62,6 +64,20 @@ const ArchiveIcon = ({ className = '' }: { className?: string }) => (
   </svg>
 )
 
+const UnderlineIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 8"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+  >
+    <path d="M2 6c4-4 8-4 12 0s6 0 8-2" />
+  </svg>
+)
+
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = normalizePath(usePathname() || '/')
@@ -75,6 +91,9 @@ const Header = () => {
     if (target === '/') return current === '/'
     return current === target || current.startsWith(`${target}/`)
   }
+
+  const projectsActive = isActive('/projects')
+  const searchActive = isActive('/search')
 
   return (
     <>
@@ -104,36 +123,24 @@ const Header = () => {
           >
             <button
               id="menu-btn"
-              className="focus-outline relative flex size-10 items-center justify-center self-end p-2 sm:hidden"
+              className="focus-outline self-end p-2 sm:hidden"
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
               aria-controls="menu-items"
               onClick={() => setMenuOpen((open) => !open)}
               type="button"
             >
-              <CloseIcon
-                className={[
-                  'absolute size-6 transition-all duration-200',
-                  menuOpen ? 'scale-100 rotate-0 opacity-100' : 'scale-75 -rotate-90 opacity-0',
-                ].join(' ')}
-              />
-              <MenuIcon
-                className={[
-                  'absolute size-6 transition-all duration-200',
-                  menuOpen ? 'scale-75 rotate-90 opacity-0' : 'scale-100 rotate-0 opacity-100',
-                ].join(' ')}
-              />
+              <CloseIcon id="close-icon" className={menuOpen ? '' : 'hidden'} />
+              <MenuIcon id="menu-icon" className={menuOpen ? 'hidden' : ''} />
             </button>
 
             <ul
               id="menu-items"
               className={[
-                'grid w-44 grid-cols-2 place-content-center gap-2 overflow-hidden transition-all duration-200 ease-out sm:mt-0 sm:flex sm:w-auto sm:translate-y-0 sm:scale-100 sm:gap-x-5 sm:gap-y-0 sm:overflow-visible sm:opacity-100 sm:[&>li]:h-8',
+                'mt-4 w-44 grid-cols-2 place-content-center gap-2 sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0 sm:[&>li]:h-8',
                 '[&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium [&>li>a]:hover:text-[var(--accent)]',
                 'sm:[&>li>a]:px-2 sm:[&>li>a]:py-1',
-                menuOpen
-                  ? 'mt-4 max-h-96 translate-y-0 scale-100 opacity-100'
-                  : 'pointer-events-none mt-0 max-h-0 -translate-y-2 scale-95 opacity-0 sm:pointer-events-auto sm:max-h-none',
+                menuOpen ? 'grid' : 'hidden',
               ].join(' ')}
             >
               {headerNavLinks.map((link) => (
@@ -148,24 +155,27 @@ const Header = () => {
                 </li>
               ))}
 
-              <li className="col-span-1 flex items-center justify-center">
+              <li className="col-span-2">
                 <Link
                   href="/projects"
                   className={[
-                    'focus-outline relative flex size-12 items-center justify-center p-4 hover:text-[var(--accent)] sm:size-8 sm:p-0',
-                    isActive('/projects') ? 'active-nav' : '',
+                    'focus-outline flex size-full justify-center p-3 hover:text-[var(--accent)] sm:relative sm:size-8 sm:p-0',
+                    projectsActive ? 'text-[var(--accent)]' : '',
                   ].join(' ')}
                   aria-label="Projects"
                   title="Projects"
                   onClick={() => setMenuOpen(false)}
                 >
-                  <ArchiveIcon className="size-6" />
-                  <span className="sr-only">Projects</span>
+                  <ArchiveIcon className="hidden sm:absolute sm:top-1/2 sm:left-1/2 sm:block sm:size-6 sm:-translate-x-1/2 sm:-translate-y-1/2" />
+                  <span className="sm:sr-only">Projects</span>
+                  {projectsActive && (
+                    <UnderlineIcon className="scale-125 max-sm:hidden sm:absolute sm:bottom-0 sm:w-6" />
+                  )}
                 </Link>
               </li>
 
               <li className="col-span-1 flex items-center justify-center">
-                <SearchButton />
+                <SearchButton active={searchActive} />
               </li>
 
               <li className="col-span-1 flex items-center justify-center">
