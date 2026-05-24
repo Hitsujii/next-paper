@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
+import Breadcrumb from '@/components/Breadcrumb'
 import Link from '@/components/Link'
 import PostCard from '@/components/PostCard'
 import RememberBackUrl from '@/components/RememberBackUrl'
-import { IconArrowLeft, IconArrowRight, IconSearch } from '@/components/icons/AstroPaperIcons'
+import { IconArrowLeft, IconArrowRight } from '@/components/icons/AstroPaperIcons'
 
 interface PaginationProps {
   totalPages: number
@@ -17,6 +17,7 @@ interface PaginationProps {
 interface ListLayoutProps {
   posts: CoreContent<Blog>[]
   title: string
+  description?: string
   initialDisplayPosts?: CoreContent<Blog>[]
   pagination?: PaginationProps
 }
@@ -79,37 +80,20 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
 export default function ListLayout({
   posts,
   title,
+  description,
   initialDisplayPosts = [],
   pagination,
 }: ListLayoutProps) {
-  const [searchValue, setSearchValue] = useState('')
-
-  const filteredBlogPosts = posts.filter((post) => {
-    const searchContent = `${post.title} ${post.summary ?? ''} ${post.tags?.join(' ') ?? ''}`
-    return searchContent.toLowerCase().includes(searchValue.toLowerCase())
-  })
-
-  const displayPosts =
-    initialDisplayPosts.length > 0 && !searchValue ? initialDisplayPosts : filteredBlogPosts
+  const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
 
   return (
     <>
       <RememberBackUrl />
-      <main id="main-content" className="app-layout pb-4">
-        <div className="pt-8 pb-6">
-          <h1 className="text-2xl font-semibold sm:text-3xl">{title}</h1>
+      <Breadcrumb />
 
-          <div className="relative mt-6 max-w-lg">
-            <input
-              aria-label="Search articles"
-              type="text"
-              onChange={(e) => setSearchValue(e.target.value)}
-              placeholder="Search articles"
-              className="block w-full rounded border border-[var(--border)] bg-[var(--background)] px-4 py-2 text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--accent)] focus:ring-[var(--accent)]"
-            />
-            <IconSearch className="absolute top-3 right-3 size-5 text-[var(--muted-foreground)]" />
-          </div>
-        </div>
+      <main id="main-content" className="app-layout pb-4">
+        <h1 className="text-2xl font-semibold sm:text-3xl">{title}</h1>
+        {description && <p className="mt-2 mb-6 italic">{description}</p>}
 
         <ul>
           {!displayPosts.length && 'No posts found.'}
@@ -119,7 +103,7 @@ export default function ListLayout({
         </ul>
       </main>
 
-      {pagination && pagination.totalPages > 1 && !searchValue && (
+      {pagination && pagination.totalPages > 1 && (
         <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
       )}
     </>
