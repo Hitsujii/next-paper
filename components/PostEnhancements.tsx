@@ -25,10 +25,18 @@ function slugifyHeading(value: string) {
     .replace(/^-|-$/g, '')
 }
 
-function headingText(heading: Element) {
+function cleanHeadingText(heading: Element) {
   const clone = heading.cloneNode(true) as HTMLElement
   clone.querySelectorAll('.heading-link').forEach((link) => link.remove())
   return clone.textContent?.trim() ?? ''
+}
+
+function ensureHeadingId(heading: HTMLElement) {
+  if (!heading.id) {
+    heading.id = slugifyHeading(cleanHeadingText(heading))
+  }
+
+  return heading.id
 }
 
 function normalizeTocHref(url: string | undefined, value: string | undefined) {
@@ -70,29 +78,53 @@ function readPreviousFileLabel(pre: HTMLPreElement) {
   return undefined
 }
 
-function enhanceTableOfContents(article: HTMLElement, toc: TocItem[], hasToc: boolean) {
-  if (!hasToc || !toc.length) return
+function findExplicitTocHeading(article: HTMLElement) {
+  return Array.from(article.querySelectorAll('h2, h3')).find((heading) => {
+    return cleanHeadingText(heading).toLowerCase() === 'table of contents'
+  }) as HTMLElement | undefined
+}
 
-  const tocHeading = Array.from(article.querySelectorAll('h2')).find(
-    (heading) => headingText(heading).toLowerCase() === 'table of contents'
-  ) as HTMLElement | undefined
+function isTocLikeList(list: HTMLElement) {
+  const links = Array.from(list.querySelectorAll('a[href^="#"]'))
+  const items = Array.from(list.querySelectorAll('li'))
 
-  if (!tocHeading || tocHeading.dataset.tocEnhanced === 'true') return
+  if (links.length < 3 || items.length < 3) return false
 
-  const details = document.createElement('details')
-  details.className = 'astro-toc'
-  details.dataset.tocEnhanced = 'true'
+  return links.length >= Math.ceil(items.length * 0.6)
+}
 
-  const summary = document.createElement('summary')
-  summary.textContent = 'Table of contents'
-  details.appendChild(summary)
+function findFallbackTocList(article: HTMLElement) {
+  const firstLists = Array.from(article.querySelectorAll('ul, ol')).slice(0, 3)
 
-  const nav = document.createElement('nav')
-  nav.setAttribute('aria-label', 'Table of contents')
+  return firstLists.find((list) => {
+    if (!(list instanceof HTMLElement)) return false
+    if (list.closest('details')) return false
+    if (list.closest('nav')) return false
 
+    return isTocLikeList(list)
+  }) as HTMLElement | undefined
+}
+
+function buildGeneratedTocList(article: HTMLElement, toc: TocItem[]) {
   const list = document.createElement('ul')
 
-  toc
+  const items =
+    toc.length > 0
+      ? toc.filter((item) => item.value && item.value.toLowerCase() !== 'table of contents')
+      : Array.from(article.querySelectorAll('h2, h3, h4, h5, h6')).map((heading) => {
+          const headingElement = heading as HTMLElement
+          const value = cleanHeadingText(headingElement)
+          const depth = Number(headingElement.tagName.slice(1))
+          const id = ensureHeadingId(headingElement)
+
+          return {
+            value,
+            url: id ? `#${id}` : undefined,
+            depth,
+          }
+        })
+
+  items
     .filter((item) => item.value && item.value.toLowerCase() !== 'table of contents')
     .forEach((item) => {
       const li = document.createElement('li')
@@ -106,18 +138,74 @@ function enhanceTableOfContents(article: HTMLElement, toc: TocItem[], hasToc: bo
       list.appendChild(li)
     })
 
-  nav.appendChild(list)
+  return list
+}
+
+function makeCollapsedToc(content: HTMLElement) {
+  const details = document.createElement('details')
+  details.className = 'astro-toc-collapse'
+  details.removeAttribute('open')
+
+  const summary = document.createElement('summary')
+  summary.textContent = 'Open Table of contents'
+
+  const nav = document.createElement('nav')
+  nav.setAttribute('aria-label', 'Table of contents')
+  nav.appendChild(content)
+
+  details.appendChild(summary)
   details.appendChild(nav)
 
-  let next = tocHeading.nextElementSibling as HTMLElement | null
+  return details
+}
 
-  if (next && ['UL', 'OL'].includes(next.tagName)) {
-    const toRemove = next
-    next = next.nextElementSibling as HTMLElement | null
-    toRemove.remove()
+function enhanceTableOfContents(article: HTMLElement, toc: TocItem[]) {
+  if (article.querySelector('details.astro-toc-collapse')) return
+
+  const explicitHeading = findExplicitTocHeading(article)
+
+  if (explicitHeading) {
+    const next = explicitHeading.nextElementSibling as HTMLElement | null
+
+    if (next && ['UL', 'OL', 'NAV'].includes(next.tagName)) {
+      explicitHeading.insertAdjacentElement('afterend', makeCollapsedToc(next))
+      return
+    }
+
+    explicitHeading.insertAdjacentElement('afterend', makeCollapsedToc(buildGeneratedTocList(article, toc)))
+    return
   }
 
-  tocHeading.replaceWith(details)
+  const fallbackList = findFallbackTocList(article)
+
+  if (!fallbackList) return
+
+  const heading = document.createElement('h2')
+  heading.textContent = 'Table of contents'
+
+  fallbackList.insertAdjacentElement('beforebegin', heading)
+  heading.insertAdjacentElement('afterend', makeCollapsedToc(fallbackList))
+}
+
+function removeGeneratedHeadingAnchors(heading: HTMLElement, id: string) {
+  const expectedHref = `#${id}`
+
+  Array.from(heading.querySelectorAll(':scope > a')).forEach((anchor) => {
+    if (!(anchor instanceof HTMLAnchorElement)) return
+
+    const href = anchor.getAttribute('href')
+    const text = anchor.textContent?.trim() ?? ''
+    const hasIcon = Boolean(anchor.querySelector('svg'))
+    const isKnownGeneratedAnchor =
+      anchor.classList.contains('anchor') ||
+      anchor.classList.contains('heading-link') ||
+      anchor.classList.contains('icon-link') ||
+      anchor.getAttribute('aria-hidden') === 'true'
+
+    if (href === expectedHref && (isKnownGeneratedAnchor || hasIcon || text === '' || text === '#')) {
+      anchor.remove()
+    }
+  })
 }
 
 function enhanceHeadings(article: HTMLElement) {
@@ -125,27 +213,24 @@ function enhanceHeadings(article: HTMLElement) {
 
   for (const heading of headings) {
     if (!(heading instanceof HTMLElement)) continue
-    if (heading.dataset.headingEnhanced === 'true') continue
-    if (heading.closest('.astro-toc')) continue
+    if (heading.closest('.astro-toc-collapse')) continue
 
-    if (!heading.id) {
-      const id = slugifyHeading(headingText(heading))
-      if (id) heading.id = id
-    }
+    const id = ensureHeadingId(heading)
+    if (!id) continue
 
-    if (!heading.id) continue
+    removeGeneratedHeadingAnchors(heading, id)
 
     heading.classList.add('group')
     heading.dataset.headingEnhanced = 'true'
 
     const link = document.createElement('a')
     link.className = 'heading-link'
-    link.href = `#${heading.id}`
-    link.setAttribute('aria-label', `Link to ${headingText(heading)}`)
+    link.href = `#${id}`
+    link.setAttribute('aria-label', `Link to ${cleanHeadingText(heading)}`)
 
     const span = document.createElement('span')
-    span.ariaHidden = 'true'
-    span.innerText = '#'
+    span.setAttribute('aria-hidden', 'true')
+    span.textContent = '#'
 
     link.appendChild(span)
     heading.appendChild(link)
@@ -170,18 +255,37 @@ function enhanceCodeBlocks(article: HTMLElement) {
       extractFileNameFromMeta(code?.dataset.meta) ||
       previousFileLabel?.fileName
 
+    const languageClass =
+      Array.from(code?.classList ?? []).find((className) => className.startsWith('language-')) ??
+      Array.from(codeBlock.classList).find((className) => className.startsWith('language-'))
+
+    const language = languageClass?.replace(/^language-/, '')
+
     codeBlock.dataset.copyEnhanced = 'true'
     codeBlock.setAttribute('tabindex', '0')
 
+    if (language) {
+      codeBlock.dataset.language = language
+    }
+
+    codeBlock.classList.add('astro-code', 'astro-code-themes', 'min-light', 'night-owl', 'mt-8')
+
+    codeBlock.style.setProperty('--shiki-light', '#24292eff')
+    codeBlock.style.setProperty('--shiki-dark', '#d6deeb')
+    codeBlock.style.setProperty('--shiki-light-bg', '#ffffff')
+    codeBlock.style.setProperty('--shiki-dark-bg', '#011627')
+    codeBlock.style.setProperty('--file-name-offset', '-0.75rem')
+    codeBlock.style.overflowX = 'auto'
+
     const wrapper = document.createElement('div')
     wrapper.className = 'code-block-wrapper'
+    wrapper.style.position = 'relative'
 
     if (fileName) {
       wrapper.dataset.file = fileName
     }
 
     const parent = codeBlock.parentNode
-
     if (!parent) continue
 
     if (previousFileLabel?.element) {
@@ -189,32 +293,31 @@ function enhanceCodeBlocks(article: HTMLElement) {
     }
 
     parent.insertBefore(wrapper, codeBlock)
+    wrapper.appendChild(codeBlock)
 
     if (fileName) {
-      const fileLabel = document.createElement('div')
+      const fileLabel = document.createElement('span')
       fileLabel.className = 'code-file-name'
       fileLabel.textContent = fileName
       wrapper.appendChild(fileLabel)
     }
 
-    wrapper.appendChild(codeBlock)
-
     const copyButton = document.createElement('button')
     copyButton.type = 'button'
     copyButton.className = 'copy-code'
-    copyButton.innerHTML = 'Copy'
+    copyButton.textContent = 'Copy'
 
     copyButton.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(codeText(codeBlock))
-        copyButton.innerHTML = 'Copied!'
+        copyButton.textContent = 'Copied!'
         window.setTimeout(() => {
-          copyButton.innerHTML = 'Copy'
+          copyButton.textContent = 'Copy'
         }, 1600)
       } catch {
-        copyButton.innerHTML = 'Error'
+        copyButton.textContent = 'Error'
         window.setTimeout(() => {
-          copyButton.innerHTML = 'Copy'
+          copyButton.textContent = 'Copy'
         }, 1600)
       }
     })
@@ -223,15 +326,15 @@ function enhanceCodeBlocks(article: HTMLElement) {
   }
 }
 
-export default function PostEnhancements({ toc = [], hasToc = false }: PostEnhancementsProps) {
+export default function PostEnhancements({ toc = [] }: PostEnhancementsProps) {
   useEffect(() => {
     const article = document.getElementById('article')
     if (!article) return
 
-    enhanceTableOfContents(article, Array.isArray(toc) ? toc : [], hasToc)
+    enhanceTableOfContents(article, Array.isArray(toc) ? toc : [])
     enhanceHeadings(article)
     enhanceCodeBlocks(article)
-  }, [toc, hasToc])
+  }, [toc])
 
   return null
 }
