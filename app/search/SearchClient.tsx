@@ -101,7 +101,7 @@ export default function SearchClient() {
           onChange={(event) => setQuery(event.target.value)}
           autoFocus
           placeholder="Search"
-          className="w-full rounded border border-[var(--border)] bg-[var(--background)] py-3 pr-12 pl-4 text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--accent)] focus:ring-[var(--accent)]"
+          className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] py-3 pr-12 pl-4 font-normal text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--accent)] focus:outline-1 focus:outline-[var(--accent)] focus:ring-0"
         />
         <SearchIcon className="absolute top-1/2 right-4 size-5 -translate-y-1/2 text-[var(--muted-foreground)]" />
       </div>

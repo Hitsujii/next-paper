@@ -1,13 +1,12 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { slug } from 'github-slugger'
 import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
+import Breadcrumb from '@/components/Breadcrumb'
 import Link from '@/components/Link'
 import siteMetadata from '@/data/siteMetadata'
-import tagData from 'app/tag-data.json'
 import RememberBackUrl from '@/components/RememberBackUrl'
 import PostTitleTransition from '@/components/PostTitleTransition'
 
@@ -19,6 +18,7 @@ interface PaginationProps {
 interface ListLayoutProps {
   posts: CoreContent<Blog>[]
   title: string
+  description?: string
   initialDisplayPosts?: CoreContent<Blog>[]
   pagination?: PaginationProps
 }
@@ -38,6 +38,38 @@ const CalendarIcon = ({ className = '' }: { className?: string }) => (
     <path d="M16 2v4" />
     <rect width="18" height="18" x="3" y="4" rx="2" />
     <path d="M3 10h18" />
+  </svg>
+)
+
+const ArrowLeftIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M19 12H5" />
+    <path d="m12 19-7-7 7-7" />
+  </svg>
+)
+
+const ArrowRightIcon = ({ className = '' }: { className?: string }) => (
+  <svg
+    aria-hidden="true"
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
   </svg>
 )
 
@@ -61,12 +93,16 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
         <Link
           href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
           rel="prev"
-          className="select-none hover:text-[var(--accent)]"
+          className="inline-flex select-none items-center gap-1 hover:text-[var(--accent)]"
         >
-          ← Previous
+          <ArrowLeftIcon className="inline-block size-5" />
+          Previous
         </Link>
       ) : (
-        <span className="opacity-50 select-none">← Previous</span>
+        <span className="inline-flex select-none items-center gap-1 opacity-50">
+          <ArrowLeftIcon className="inline-block size-5" />
+          Previous
+        </span>
       )}
 
       <span>
@@ -77,43 +113,48 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
         <Link
           href={`/${basePath}/page/${currentPage + 1}`}
           rel="next"
-          className="select-none hover:text-[var(--accent)]"
+          className="inline-flex select-none items-center gap-1 hover:text-[var(--accent)]"
         >
-          Next →
+          Next
+          <ArrowRightIcon className="inline-block size-5" />
         </Link>
       ) : (
-        <span className="opacity-50 select-none">Next →</span>
+        <span className="inline-flex select-none items-center gap-1 opacity-50">
+          Next
+          <ArrowRightIcon className="inline-block size-5" />
+        </span>
       )}
     </nav>
   )
 }
 
 function PostListItem({ post }: { post: CoreContent<Blog> }) {
-  const { date, path, slug, summary, title } = post
+  const { date, lastmod, path, slug, summary, title } = post
   const href = path ? `/${path}` : `/blog/${slug}`
+  const isModified = Boolean(lastmod && lastmod > date)
+  const displayDate = isModified ? lastmod : date
 
   return (
     <li className="my-6">
-      <article>
-        <Link
-          href={href}
-          className="inline-block text-lg font-medium text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
-        >
-          <PostTitleTransition title={title}>
-            <h2>{title}</h2>
-          </PostTitleTransition>
-        </Link>
+      <Link
+        href={href}
+        className="inline-block text-lg font-medium text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
+      >
+        <PostTitleTransition title={title}>
+          <h2>{title}</h2>
+        </PostTitleTransition>
+      </Link>
 
-        <dl className="mt-1">
-          <dt className="sr-only">Published on</dt>
-          <dd className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)]">
-            <CalendarIcon className="inline-block size-5 min-w-5" />
-            <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-          </dd>
-        </dl>
+      <dl className="mt-1">
+        <dt className="sr-only">{isModified ? 'Updated on' : 'Published on'}</dt>
+        <dd className="flex items-center gap-x-2 text-sm text-[var(--muted-foreground)]">
+          <CalendarIcon className="inline-block size-6 min-w-5.5 scale-90" />
+          {isModified && <span>Updated:</span>}
+          <time dateTime={displayDate}>{formatDate(displayDate, siteMetadata.locale)}</time>
+        </dd>
+      </dl>
 
-        {summary && <p>{summary}</p>}
-      </article>
+      {summary && <p>{summary}</p>}
     </li>
   )
 }
@@ -121,65 +162,20 @@ function PostListItem({ post }: { post: CoreContent<Blog> }) {
 export default function ListLayoutWithTags({
   posts,
   title,
+  description,
   initialDisplayPosts = [],
   pagination,
 }: ListLayoutProps) {
-  const pathname = usePathname()
-  const tagCounts = tagData as Record<string, number>
-  const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a])
   const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
-
-  const currentTag = decodeURI(pathname.split('/tags/')[1]?.split('/')[0] ?? '')
 
   return (
     <>
       <RememberBackUrl />
+      <Breadcrumb />
+
       <main id="main-content" className="app-layout pb-4">
-        <div className="pt-8 pb-6">
-          <h1 className="text-2xl font-semibold sm:text-3xl">{title}</h1>
-
-          <nav aria-label="Tags" className="mt-6">
-            <ul className="flex flex-wrap gap-x-4 gap-y-2">
-              <li>
-                {pathname.startsWith('/blog') ? (
-                  <span className="font-medium text-[var(--accent)]">All Posts</span>
-                ) : (
-                  <Link href="/blog" className="font-medium underline decoration-dashed underline-offset-4 hover:text-[var(--accent)]">
-                    All Posts
-                  </Link>
-                )}
-              </li>
-
-              {sortedTags.map((tag) => {
-                const tagSlug = slug(tag)
-                const isActive = currentTag === tagSlug
-
-                return (
-                  <li key={tag}>
-                    {isActive ? (
-                      <span className="font-medium text-[var(--accent)]">
-                        #{tag}{' '}
-                        <span className="text-sm text-[var(--muted-foreground)]">
-                          ({tagCounts[tag]})
-                        </span>
-                      </span>
-                    ) : (
-                      <Link
-                        href={`/tags/${tagSlug}`}
-                        className="font-medium underline decoration-dashed underline-offset-4 hover:text-[var(--accent)]"
-                      >
-                        #{tag}{' '}
-                        <span className="text-sm text-[var(--muted-foreground)]">
-                          ({tagCounts[tag]})
-                        </span>
-                      </Link>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
-          </nav>
-        </div>
+        <h1 className="text-2xl font-semibold sm:text-3xl">{title}</h1>
+        {description && <p className="mt-2 mb-6 italic">{description}</p>}
 
         <ul>
           {!displayPosts.length && 'No posts found.'}
