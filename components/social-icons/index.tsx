@@ -8,15 +8,7 @@ import {
   SocialWhatsapp,
   SocialX,
 } from '@/components/icons/AstroPaperSocialIcons'
-import {
-  Bluesky,
-  Instagram,
-  Mastodon,
-  Medium,
-  Threads,
-  Twitter,
-  Youtube,
-} from './icons'
+import { Bluesky, Instagram, Mastodon, Medium, Threads, Twitter, Youtube } from './icons'
 
 const components = {
   mail: SocialMail,
@@ -64,7 +56,7 @@ export default function SocialIcon({ kind, href, size = 24 }: SocialIconProps) {
       <span className="sr-only">{label}</span>
       <SocialSvg
         aria-hidden="true"
-        className="inline-block fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent"
+        className="inline-block scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"
         style={{ width: size, height: size }}
       />
     </a>
