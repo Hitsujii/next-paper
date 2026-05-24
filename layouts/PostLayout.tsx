@@ -52,9 +52,7 @@ function AdjacentPostNav({
           <div className="min-w-0">
             <span className="block">Previous post</span>
             <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
-              <PostTitleTransition title={prev.title}>
-                <span className="break-words">{prev.title}</span>
-              </PostTitleTransition>
+              <span className="break-words">{prev.title}</span>
             </div>
           </div>
         </Link>
@@ -68,9 +66,7 @@ function AdjacentPostNav({
           <div className="min-w-0">
             <span className="block">Next post</span>
             <div className="text-sm text-[color-mix(in_srgb,var(--accent)_85%,transparent)]">
-              <PostTitleTransition title={next.title}>
-                <span className="break-words">{next.title}</span>
-              </PostTitleTransition>
+              <span className="break-words">{next.title}</span>
             </div>
           </div>
           <IconArrowRight className="inline-block flex-none rtl:rotate-180" />
