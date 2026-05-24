@@ -560,6 +560,7 @@ footer svg {
 }
 
 .code-block-wrapper {
+  overflow: visible;
   position: relative;
   margin-block: 2rem;
 }

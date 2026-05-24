@@ -295,6 +295,7 @@ function enhanceCodeBlocks(article: HTMLElement) {
 
     if (fileName) {
       wrapper.dataset.file = fileName
+      wrapper.style.setProperty('--file-name-offset', '-0.75rem')
       codeBlock.dataset.file = fileName
     }
 
@@ -312,7 +313,7 @@ function enhanceCodeBlocks(article: HTMLElement) {
       const fileLabel = document.createElement('span')
       fileLabel.className = 'code-file-name'
       fileLabel.textContent = fileName
-      codeBlock.appendChild(fileLabel)
+      wrapper.appendChild(fileLabel)
     }
 
     const copyButton = document.createElement('button')
@@ -335,7 +336,7 @@ function enhanceCodeBlocks(article: HTMLElement) {
       }
     })
 
-    codeBlock.appendChild(copyButton)
+    wrapper.appendChild(copyButton)
   }
 }
 
