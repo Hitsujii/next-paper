@@ -8,6 +8,7 @@ import Link from './Link'
 import SearchButton from './SearchButton'
 import ThemeSwitch from './ThemeSwitch'
 import { IconArchive, IconMenuDeep, IconUnderline, IconX } from './icons/AstroPaperIcons'
+import { withBasePath } from './path-utils'
 
 const normalizePath = (path: string) => path.replace(/\/$/, '') || '/'
 
@@ -16,7 +17,7 @@ export default function Header() {
   const pathname = normalizePath(usePathname() || '/')
   const title =
     typeof siteMetadata.headerTitle === 'string' ? siteMetadata.headerTitle : siteMetadata.title
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+  const iconPath = withBasePath('/static/favicons/favicon.svg')
 
   const isActive = (href: string) => {
     const current = normalizePath(pathname)
@@ -52,8 +53,8 @@ export default function Header() {
               <span
                 className="inline-block size-[0.9em] flex-none bg-current align-[-0.08em] dark:bg-[#ff6b01]"
                 style={{
-                  WebkitMaskImage: `url(${basePath}/static/favicons/favicon.svg)`,
-                  maskImage: `url(${basePath}/static/favicons/favicon.svg)`,
+                  WebkitMaskImage: `url(${iconPath})`,
+                  maskImage: `url(${iconPath})`,
                   WebkitMaskRepeat: 'no-repeat',
                   maskRepeat: 'no-repeat',
                   WebkitMaskPosition: 'center',
