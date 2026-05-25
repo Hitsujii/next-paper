@@ -5,6 +5,8 @@ import Link from '@/components/Link'
 import { normalizeAppPath } from '@/components/path-utils'
 import { IconSearch } from '@/components/icons/AstroPaperIcons'
 
+const searchIndexPath = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/search.json`
+
 type SearchDocument = {
   title?: string
   summary?: string
@@ -147,7 +149,7 @@ export default function SearchClient() {
     const params = new URLSearchParams(window.location.search)
     setQuery(params.get('q') ?? '')
 
-    fetch('/search.json')
+    fetch(searchIndexPath)
       .then((response) => {
         if (!response.ok) throw new Error('Search index not found')
         return response.json()
