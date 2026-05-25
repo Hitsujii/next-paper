@@ -67,7 +67,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-openGraph: {
+  openGraph: {
     title: siteMetadata.title,
     description: siteMetadata.description,
     url: './',
