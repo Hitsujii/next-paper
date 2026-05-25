@@ -1,5 +1,5 @@
 {
-  "name": "nextpaper",
+  "name": "next-paper",
   "version": "2.4.0",
   "private": true,
   "scripts": {
@@ -79,11 +79,11 @@
   "author": "Hitsujii <dev.hitsuji@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Hitsujii/NextPaper.git"
+    "url": "https://github.com/Hitsujii/next-paper.git"
   },
   "bugs": {
-    "url": "https://github.com/Hitsujii/NextPaper/issues"
+    "url": "https://github.com/Hitsujii/next-paper/issues"
   },
-  "homepage": "https://github.com/Hitsujii/NextPaper#readme",
+  "homepage": "https://github.com/Hitsujii/next-paper#readme",
   "license": "MIT"
 }

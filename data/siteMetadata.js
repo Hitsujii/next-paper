@@ -6,8 +6,8 @@ const siteMetadata = {
   description: 'A minimal Next.js blog starter inspired by AstroPaper and built on top of Tailwind Nextjs Starter Blog.',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://github.com/Hitsujii/NextPaper',
-  siteRepo: 'https://github.com/Hitsujii/NextPaper',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://hitsujii.github.io/next-paper',
+  siteRepo: 'https://github.com/Hitsujii/next-paper',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
   mastodon: '',

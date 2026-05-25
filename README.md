@@ -2,7 +2,7 @@
 
 > AstroPaper, but for Next.js.
 
-[Live demo](https://hitsujii.github.io/NextPaper)
+[Live demo](https://hitsujii.github.io/next-paper)
 
 NextPaper is a minimal Next.js blog starter inspired by [AstroPaper](https://github.com/satnaing/astro-paper) and built on top of [Tailwind Nextjs Starter Blog](https://github.com/timlrx/tailwind-nextjs-starter-blog).
 
