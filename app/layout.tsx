@@ -39,25 +39,25 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: `${metadataBasePath}/static/favicons/favicon.svg?v=10`,
+        url: `${metadataBasePath}/static/favicons/favicon.svg?v=11`,
         type: 'image/svg+xml',
         sizes: 'any',
       },
       {
-        url: `${metadataBasePath}/static/favicons/favicon-32x32.png?v=10`,
+        url: `${metadataBasePath}/static/favicons/favicon-32x32.png?v=11`,
         type: 'image/png',
         sizes: '32x32',
       },
       {
-        url: `${metadataBasePath}/static/favicons/favicon-16x16.png?v=10`,
+        url: `${metadataBasePath}/static/favicons/favicon-16x16.png?v=11`,
         type: 'image/png',
         sizes: '16x16',
       },
     ],
-    shortcut: [`${metadataBasePath}/static/favicons/favicon.ico?v=10`],
+    shortcut: [`${metadataBasePath}/static/favicons/favicon.ico?v=11`],
     apple: [
       {
-        url: `${metadataBasePath}/static/favicons/apple-touch-icon.png?v=10`,
+        url: `${metadataBasePath}/static/favicons/apple-touch-icon.png?v=11`,
         sizes: '180x180',
         type: 'image/png',
       },
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     other: [
       {
         rel: 'mask-icon',
-        url: `${metadataBasePath}/static/favicons/safari-pinned-tab.svg?v=10`,
+        url: `${metadataBasePath}/static/favicons/safari-pinned-tab.svg?v=11`,
         color: '#5bbad5',
       },
     ],
