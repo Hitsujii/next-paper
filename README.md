@@ -2,6 +2,8 @@
 
 > AstroPaper, but for Next.js.
 
+[Live demo](https://hitsujii.github.io/NextPaper)
+
 NextPaper is a minimal Next.js blog starter inspired by [AstroPaper](https://github.com/satnaing/astro-paper) and built on top of [Tailwind Nextjs Starter Blog](https://github.com/timlrx/tailwind-nextjs-starter-blog).
 
 It is for people who want the calm, readable feel of AstroPaper without leaving the Next.js ecosystem. You get Contentlayer, MDX, tags, archives, local search, newsletter support, comments, RSS, sitemap and a clean layout that works well for personal blogs, technical writing and small portfolio sites.
