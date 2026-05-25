@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Authors, Blog } from 'contentlayer/generated'
+import Comments from '@/components/Comments'
 import BackButton from '@/components/BackButton'
 import BackToTopButton from '@/components/BackToTopButton'
 import Datetime from '@/components/Datetime'
@@ -8,6 +9,7 @@ import EditPost from '@/components/EditPost'
 import Link from '@/components/Link'
 import ShareLinks from '@/components/ShareLinks'
 import Tag from '@/components/Tag'
+import siteMetadata from '@/data/siteMetadata'
 import PostTitleTransition from '@/components/PostTitleTransition'
 import PostEnhancements from '@/components/PostEnhancements'
 import { IconArrowLeft, IconArrowRight } from '@/components/icons/AstroPaperIcons'
@@ -77,7 +79,7 @@ function AdjacentPostNav({
 }
 
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
-  const { path, date, lastmod, title, tags } = content
+  const { path, slug, date, lastmod, title, tags } = content
 
   return (
     <>
@@ -127,6 +129,15 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
         <div className="clear-both">
           <ShareLinks path={path} title={title} />
         </div>
+
+        {siteMetadata.comments?.provider && (
+          <div
+            id="comment"
+            className="clear-both pt-6 pb-6 text-center text-gray-700 dark:text-gray-300"
+          >
+            <Comments slug={slug} />
+          </div>
+        )}
 
         <hr className="my-8 border-dashed" />
 
