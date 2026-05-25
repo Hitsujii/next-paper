@@ -50,7 +50,7 @@ export default function Header() {
             <span aria-hidden="true" className="inline-flex items-center">
               <span>Ne</span>
               <span
-                className="inline-block size-[0.9em] flex-none bg-current align-[-0.08em]"
+                className="inline-block size-[0.9em] flex-none bg-current align-[-0.08em] dark:bg-[#ff6b01]"
                 style={{
                   WebkitMaskImage: `url(${basePath}/static/favicons/favicon.svg)`,
                   maskImage: `url(${basePath}/static/favicons/favicon.svg)`,
