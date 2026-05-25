@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from '@/components/Link'
+import { normalizeAppPath } from '@/components/path-utils'
 import { IconSearch } from '@/components/icons/AstroPaperIcons'
 
 type SearchDocument = {
@@ -170,7 +171,7 @@ export default function SearchClient() {
     const search = params.toString()
     const nextUrl = search ? `/search?${search}` : '/search'
     window.history.replaceState(window.history.state, '', nextUrl)
-    sessionStorage.setItem('backUrl', nextUrl)
+    sessionStorage.setItem('backUrl', normalizeAppPath(nextUrl))
   }, [query])
 
   const results = useMemo(() => {
