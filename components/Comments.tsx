@@ -1,24 +1,23 @@
 'use client'
 
-import { Comments as CommentsComponent } from 'pliny/comments'
+import { Comments as CommentsComponent, type CommentsConfig } from 'pliny/comments'
 import { useTheme } from 'next-themes'
 import { useEffect, useMemo, useState } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 
-type GiscusConfig = {
+type GiscusCommentsConfig = CommentsConfig & {
   provider?: string
   giscusConfig?: {
     theme?: string
     darkTheme?: string
     [key: string]: unknown
   }
-  [key: string]: unknown
 }
 
-const commentsConfig = siteMetadata.comments as GiscusConfig | undefined
+const baseCommentsConfig = siteMetadata.comments as GiscusCommentsConfig | undefined
 
 function getGiscusTheme(resolvedTheme?: string) {
-  const giscusConfig = commentsConfig?.giscusConfig
+  const giscusConfig = baseCommentsConfig?.giscusConfig
 
   if (resolvedTheme === 'dark') {
     return giscusConfig?.darkTheme || 'transparent_dark'
@@ -48,16 +47,16 @@ export default function Comments({ slug }: { slug: string }) {
   const [loadComments, setLoadComments] = useState(false)
   const { resolvedTheme } = useTheme()
 
-  const resolvedCommentsConfig = useMemo(() => {
-    if (!commentsConfig) return commentsConfig
+  const commentsConfig = useMemo<CommentsConfig | undefined>(() => {
+    if (!baseCommentsConfig) return undefined
 
     return {
-      ...commentsConfig,
+      ...baseCommentsConfig,
       giscusConfig: {
-        ...commentsConfig.giscusConfig,
+        ...baseCommentsConfig.giscusConfig,
         theme: getGiscusTheme(resolvedTheme),
       },
-    }
+    } as CommentsConfig
   }, [resolvedTheme])
 
   useEffect(() => {
@@ -66,14 +65,14 @@ export default function Comments({ slug }: { slug: string }) {
     updateGiscusTheme(getGiscusTheme(resolvedTheme))
   }, [loadComments, resolvedTheme])
 
-  if (!commentsConfig?.provider) {
+  if (!commentsConfig) {
     return null
   }
 
   return (
     <>
       {loadComments ? (
-        <CommentsComponent commentsConfig={resolvedCommentsConfig} slug={slug} />
+        <CommentsComponent commentsConfig={commentsConfig} slug={slug} />
       ) : (
         <button onClick={() => setLoadComments(true)}>Load Comments</button>
       )}
