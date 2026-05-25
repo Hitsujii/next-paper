@@ -107,6 +107,14 @@ NextPaper uses a generated local search index at `public/search.json`.
 
 The search UI is inspired by AstroPaper and Pagefind-style result lists, while keeping the original NextPaper search pipeline.
 
+## Comments
+
+NextPaper supports comments through [Pliny](https://github.com/timlrx/pliny). The default setup uses [Giscus](https://giscus.app/), which connects blog posts to GitHub Discussions.
+
+Comment settings live in `data/siteMetadata.js`.
+
+For Giscus, enable Discussions in your GitHub repository, install the Giscus app and provide the required `NEXT_PUBLIC_GISCUS_*` values in your deployment environment.
+
 ## Credits
 
 NextPaper stands on the shoulders of two great open-source projects:
