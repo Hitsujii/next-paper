@@ -131,11 +131,9 @@ export default function Link({
     }
   }
 
-  const renderedHref = typeof href === 'string' && href.startsWith('/') ? addBasePath(href) : href
-
   return (
     <NextLink
-      href={renderedHref}
+      href={href}
       replace={replace}
       scroll={scroll}
       target={target}
