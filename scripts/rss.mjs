@@ -3,11 +3,25 @@ import path from 'path'
 import { slug } from 'github-slugger'
 import { escape } from 'pliny/utils/htmlEscaper.js'
 import siteMetadata from '../data/siteMetadata.js'
-import tagData from '../app/tag-data.json' with { type: 'json' }
 import { allBlogs } from '../.contentlayer/generated/index.mjs'
 import { sortPosts } from 'pliny/utils/contentlayer.js'
 
 const outputFolder = process.env.EXPORT ? 'out' : 'public'
+
+const getTagCounts = (posts) => {
+  const tagCount = {}
+
+  posts.forEach((post) => {
+    if (!post.tags || post.draft === true) return
+
+    post.tags.forEach((tag) => {
+      const formattedTag = slug(tag)
+      tagCount[formattedTag] = (tagCount[formattedTag] || 0) + 1
+    })
+  })
+
+  return tagCount
+}
 
 const generateRssItem = (config, post) => `
   <item>
@@ -46,8 +60,12 @@ async function generateRSS(config, allBlogs, page = 'feed.xml') {
   }
 
   if (publishPosts.length > 0) {
+    const tagData = getTagCounts(publishPosts)
+
     for (const tag of Object.keys(tagData)) {
-      const filteredPosts = allBlogs.filter((post) => post.tags.map((t) => slug(t)).includes(tag))
+      const filteredPosts = publishPosts.filter((post) =>
+        post.tags.map((t) => slug(t)).includes(tag)
+      )
       const rss = generateRss(config, filteredPosts, `tags/${tag}/${page}`)
       const rssPath = path.join(outputFolder, 'tags', tag)
       mkdirSync(rssPath, { recursive: true })

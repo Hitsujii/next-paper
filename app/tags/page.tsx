@@ -1,7 +1,7 @@
 import Breadcrumb from '@/components/Breadcrumb'
 import PageMain from '@/components/PageMain'
 import Tag from '@/components/Tag'
-import tagData from 'app/tag-data.json'
+import { getTagCounts } from 'app/tag-data'
 import { genPageMetadata } from 'app/seo'
 
 export const metadata = genPageMetadata({
@@ -10,7 +10,7 @@ export const metadata = genPageMetadata({
 })
 
 export default async function Page() {
-  const tagCounts = tagData as Record<string, number>
+  const tagCounts = getTagCounts()
   const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a])
 
   return (

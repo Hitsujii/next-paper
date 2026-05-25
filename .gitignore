@@ -50,3 +50,9 @@ yarn-error.log*
 
 # Local audit notes
 notes/
+
+# TypeScript
+tsconfig.tsbuildinfo
+
+# Generated tag data
+/app/tag-data.json
