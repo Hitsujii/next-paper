@@ -4,7 +4,7 @@ import NextLink, { type LinkProps } from 'next/link'
 import { useRouter as useNextRouter } from 'next/navigation'
 import { useTransitionRouter } from 'next-view-transitions'
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from 'react'
-import { addBasePath, normalizeAppPath } from './path-utils'
+import { normalizeAppPath } from './path-utils'
 
 type Props = LinkProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps | 'href'> & {

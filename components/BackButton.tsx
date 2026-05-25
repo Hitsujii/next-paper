@@ -1,23 +1,34 @@
 'use client'
 
-import { addBasePath, normalizeAppPath } from './path-utils'
 import { useEffect, useState } from 'react'
 import Link from './Link'
 import { IconChevronLeft } from './icons/AstroPaperIcons'
+import { normalizeAppPath } from './path-utils'
 
 type BackButtonProps = {
   fallbackHref: string
 }
 
 export default function BackButton({ fallbackHref }: BackButtonProps) {
-  const [href, setHref] = useState(fallbackHref)
+  const [href, setHref] = useState(normalizeAppPath(fallbackHref))
 
   useEffect(() => {
     const storedBackUrl = sessionStorage.getItem('backUrl')
+    const currentHref = normalizeAppPath(
+      `${window.location.pathname}${window.location.search}${window.location.hash}`
+    )
+    const fallback = normalizeAppPath(fallbackHref)
 
-    if (storedBackUrl && storedBackUrl !== window.location.pathname) {
-      setHref(storedBackUrl)
+    if (storedBackUrl) {
+      const normalizedStoredBackUrl = normalizeAppPath(storedBackUrl)
+
+      if (normalizedStoredBackUrl !== currentHref) {
+        setHref(normalizedStoredBackUrl)
+        return
+      }
     }
+
+    setHref(fallback)
   }, [fallbackHref])
 
   return (

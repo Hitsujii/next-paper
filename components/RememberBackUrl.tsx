@@ -1,7 +1,7 @@
 'use client'
 
-import { normalizeAppPath } from './path-utils'
 import { useEffect } from 'react'
+import { normalizeAppPath } from './path-utils'
 
 type RememberBackUrlProps = {
   value?: string
@@ -9,7 +9,8 @@ type RememberBackUrlProps = {
 
 export default function RememberBackUrl({ value }: RememberBackUrlProps) {
   useEffect(() => {
-    const backUrl = value || `${window.location.pathname}${window.location.search}`
+    const rawBackUrl = value || `${window.location.pathname}${window.location.search}`
+    const backUrl = normalizeAppPath(rawBackUrl)
 
     sessionStorage.setItem('backUrl', backUrl)
   }, [value])
