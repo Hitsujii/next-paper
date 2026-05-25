@@ -34,6 +34,39 @@ export const metadata: Metadata = {
     template: `%s | ${siteMetadata.title}`,
   },
   description: siteMetadata.description,
+  icons: {
+    icon: [
+      {
+        url: '/static/favicons/favicon.svg?v=5',
+        type: 'image/svg+xml',
+      },
+      {
+        url: '/static/favicons/favicon-32x32.png?v=5',
+        sizes: '32x32',
+        type: 'image/png',
+      },
+      {
+        url: '/static/favicons/favicon-16x16.png?v=5',
+        sizes: '16x16',
+        type: 'image/png',
+      },
+    ],
+    shortcut: ['/static/favicons/favicon.ico?v=5'],
+    apple: [
+      {
+        url: '/static/favicons/apple-touch-icon.png?v=5',
+        sizes: '180x180',
+        type: 'image/png',
+      },
+    ],
+    other: [
+      {
+        rel: 'mask-icon',
+        url: '/static/favicons/safari-pinned-tab.svg?v=5',
+        color: '#100f0d',
+      },
+    ],
+  },
   openGraph: {
     title: siteMetadata.title,
     description: siteMetadata.description,
