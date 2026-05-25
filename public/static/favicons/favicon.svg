@@ -11,15 +11,17 @@
    xmlns:svg="http://www.w3.org/2000/svg">
   <style id="theme-aware-favicon">
     :root {
-      color: #100f0d;
+      --accent: #ff6b01;
+      color: var(--accent);
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        color: #ff6b01;
+        color: var(--accent);
       }
     }
   </style>
+
 
 
 
