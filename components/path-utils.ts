@@ -8,14 +8,31 @@ function getOrigin() {
   return typeof window === 'undefined' ? 'https://nextpaper.local' : window.location.origin
 }
 
+function fallbackBasePath() {
+  if (configuredBasePath) return configuredBasePath
+
+  if (typeof window === 'undefined') return ''
+
+  // GitHub Pages project site fallback.
+  // Example:
+  // https://hitsujii.github.io/next-paper/blog/code-sample
+  // logical app path should be /blog/code-sample
+  if (window.location.hostname.endsWith('github.io')) {
+    const firstSegment = window.location.pathname.split('/').filter(Boolean)[0]
+    return firstSegment ? `/${firstSegment}` : ''
+  }
+
+  return ''
+}
+
 export function stripBasePath(path: string) {
-  if (!configuredBasePath) return path || '/'
+  const basePath = fallbackBasePath()
+  if (!basePath) return path || '/'
 
   let nextPath = path || '/'
 
-  while (nextPath === configuredBasePath || nextPath.startsWith(`${configuredBasePath}/`)) {
-    nextPath =
-      nextPath === configuredBasePath ? '/' : nextPath.slice(configuredBasePath.length) || '/'
+  while (nextPath === basePath || nextPath.startsWith(`${basePath}/`)) {
+    nextPath = nextPath === basePath ? '/' : nextPath.slice(basePath.length) || '/'
   }
 
   return nextPath || '/'
@@ -36,10 +53,4 @@ export function normalizeAppPath(value: string) {
   } catch {
     return stripBasePath(value)
   }
-}
-
-// Keep this exported for older imports, but do not manually prefix NextLink hrefs.
-// Next applies basePath itself.
-export function addBasePath(path: string) {
-  return path
 }
