@@ -44,24 +44,26 @@ export default function Header() {
           <Link
             href="/"
             aria-label={title}
-            className="absolute inline-flex items-center gap-2 py-1 text-xl leading-8 font-semibold whitespace-nowrap text-[var(--foreground)] hover:text-[var(--accent)] sm:static sm:my-auto sm:text-2xl sm:leading-none"
+            className="absolute inline-flex items-center py-1 text-xl leading-8 font-semibold tracking-wide whitespace-nowrap text-[var(--foreground)] hover:text-[var(--accent)] sm:static sm:my-auto sm:text-2xl sm:leading-none"
             onClick={() => setMenuOpen(false)}
           >
-            <span
-              aria-hidden="true"
-              className="inline-block size-5 flex-none bg-current sm:size-6"
-              style={{
-                WebkitMaskImage: `url(${basePath}/static/favicons/favicon.svg)`,
-                maskImage: `url(${basePath}/static/favicons/favicon.svg)`,
-                WebkitMaskRepeat: 'no-repeat',
-                maskRepeat: 'no-repeat',
-                WebkitMaskPosition: 'center',
-                maskPosition: 'center',
-                WebkitMaskSize: 'contain',
-                maskSize: 'contain',
-              }}
-            />
-            <span>{title}</span>
+            <span aria-hidden="true" className="inline-flex items-center">
+              <span>Ne</span>
+              <span
+                className="inline-block size-[0.9em] flex-none bg-current align-[-0.08em]"
+                style={{
+                  WebkitMaskImage: `url(${basePath}/static/favicons/favicon.svg)`,
+                  maskImage: `url(${basePath}/static/favicons/favicon.svg)`,
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskPosition: 'center',
+                  WebkitMaskSize: 'contain',
+                  maskSize: 'contain',
+                }}
+              />
+              <span>tPaper</span>
+            </span>
           </Link>
 
           <nav
