@@ -8,7 +8,6 @@ import Link from './Link'
 import SearchButton from './SearchButton'
 import ThemeSwitch from './ThemeSwitch'
 import { IconArchive, IconMenuDeep, IconUnderline, IconX } from './icons/AstroPaperIcons'
-import { withBasePath } from './path-utils'
 
 const normalizePath = (path: string) => path.replace(/\/$/, '') || '/'
 
@@ -17,7 +16,6 @@ export default function Header() {
   const pathname = normalizePath(usePathname() || '/')
   const title =
     typeof siteMetadata.headerTitle === 'string' ? siteMetadata.headerTitle : siteMetadata.title
-  const iconPath = withBasePath('/static/favicons/favicon.svg')
 
   const isActive = (href: string) => {
     const current = normalizePath(pathname)
@@ -45,26 +43,10 @@ export default function Header() {
           <Link
             href="/"
             aria-label={title}
-            className="absolute inline-flex items-center py-1 text-xl leading-8 font-semibold tracking-wide whitespace-nowrap text-[var(--foreground)] hover:text-[var(--accent)] sm:static sm:my-auto sm:text-2xl sm:leading-none"
+            className="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap text-[var(--foreground)] hover:text-[var(--accent)] sm:static sm:my-auto sm:text-2xl sm:leading-none"
             onClick={() => setMenuOpen(false)}
           >
-            <span aria-hidden="true" className="inline-flex items-center">
-              <span>Ne</span>
-              <span
-                className="inline-block size-[0.9em] flex-none bg-[#006cac] align-[-0.08em] dark:bg-[#ff6b01]"
-                style={{
-                  WebkitMaskImage: `url(${iconPath})`,
-                  maskImage: `url(${iconPath})`,
-                  WebkitMaskRepeat: 'no-repeat',
-                  maskRepeat: 'no-repeat',
-                  WebkitMaskPosition: 'center',
-                  maskPosition: 'center',
-                  WebkitMaskSize: 'contain',
-                  maskSize: 'contain',
-                }}
-              />
-              <span>tPaper</span>
-            </span>
+            {title}
           </Link>
 
           <nav
