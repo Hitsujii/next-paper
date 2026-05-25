@@ -5,8 +5,20 @@ import { useTheme } from 'next-themes'
 import { useEffect, useMemo, useState } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 
+type GiscusConfig = {
+  provider?: string
+  giscusConfig?: {
+    theme?: string
+    darkTheme?: string
+    [key: string]: unknown
+  }
+  [key: string]: unknown
+}
+
+const commentsConfig = siteMetadata.comments as GiscusConfig | undefined
+
 function getGiscusTheme(resolvedTheme?: string) {
-  const giscusConfig = siteMetadata.comments?.giscusConfig
+  const giscusConfig = commentsConfig?.giscusConfig
 
   if (resolvedTheme === 'dark') {
     return giscusConfig?.darkTheme || 'transparent_dark'
@@ -36,13 +48,13 @@ export default function Comments({ slug }: { slug: string }) {
   const [loadComments, setLoadComments] = useState(false)
   const { resolvedTheme } = useTheme()
 
-  const commentsConfig = useMemo(() => {
-    if (!siteMetadata.comments) return siteMetadata.comments
+  const resolvedCommentsConfig = useMemo(() => {
+    if (!commentsConfig) return commentsConfig
 
     return {
-      ...siteMetadata.comments,
+      ...commentsConfig,
       giscusConfig: {
-        ...siteMetadata.comments.giscusConfig,
+        ...commentsConfig.giscusConfig,
         theme: getGiscusTheme(resolvedTheme),
       },
     }
@@ -54,14 +66,14 @@ export default function Comments({ slug }: { slug: string }) {
     updateGiscusTheme(getGiscusTheme(resolvedTheme))
   }, [loadComments, resolvedTheme])
 
-  if (!siteMetadata.comments?.provider) {
+  if (!commentsConfig?.provider) {
     return null
   }
 
   return (
     <>
       {loadComments ? (
-        <CommentsComponent commentsConfig={commentsConfig} slug={slug} />
+        <CommentsComponent commentsConfig={resolvedCommentsConfig} slug={slug} />
       ) : (
         <button onClick={() => setLoadComments(true)}>Load Comments</button>
       )}
