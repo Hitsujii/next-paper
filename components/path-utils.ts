@@ -8,15 +8,13 @@ function getOrigin() {
   return typeof window === 'undefined' ? 'https://nextpaper.local' : window.location.origin
 }
 
-function fallbackBasePath() {
+export function getBasePath() {
   if (configuredBasePath) return configuredBasePath
 
   if (typeof window === 'undefined') return ''
 
   // GitHub Pages project site fallback.
-  // Example:
-  // https://hitsujii.github.io/next-paper/blog/code-sample
-  // logical app path should be /blog/code-sample
+  // https://hitsujii.github.io/next-paper/search -> basePath is /next-paper
   if (window.location.hostname.endsWith('github.io')) {
     const firstSegment = window.location.pathname.split('/').filter(Boolean)[0]
     return firstSegment ? `/${firstSegment}` : ''
@@ -25,8 +23,17 @@ function fallbackBasePath() {
   return ''
 }
 
+export function withBasePath(path: string) {
+  const basePath = getBasePath()
+
+  if (!basePath || !path.startsWith('/')) return path
+  if (path === basePath || path.startsWith(`${basePath}/`)) return path
+
+  return `${basePath}${path}`
+}
+
 export function stripBasePath(path: string) {
-  const basePath = fallbackBasePath()
+  const basePath = getBasePath()
   if (!basePath) return path || '/'
 
   let nextPath = path || '/'

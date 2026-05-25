@@ -2,10 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from '@/components/Link'
-import { normalizeAppPath } from '@/components/path-utils'
+import { normalizeAppPath, withBasePath } from '@/components/path-utils'
 import { IconSearch } from '@/components/icons/AstroPaperIcons'
 
-const searchIndexPath = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/search.json`
+const getSearchIndexPath = () => withBasePath('/search.json')
 
 type SearchDocument = {
   title?: string
@@ -149,7 +149,7 @@ export default function SearchClient() {
     const params = new URLSearchParams(window.location.search)
     setQuery(params.get('q') ?? '')
 
-    fetch(searchIndexPath)
+    fetch(getSearchIndexPath())
       .then((response) => {
         if (!response.ok) throw new Error('Search index not found')
         return response.json()
@@ -172,7 +172,7 @@ export default function SearchClient() {
 
     const search = params.toString()
     const nextUrl = search ? `/search?${search}` : '/search'
-    window.history.replaceState(window.history.state, '', nextUrl)
+    window.history.replaceState(window.history.state, '', withBasePath(nextUrl))
     sessionStorage.setItem('backUrl', normalizeAppPath(nextUrl))
   }, [query])
 
