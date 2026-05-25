@@ -1,5 +1,6 @@
 'use client'
 
+import { normalizeAppPath } from './path-utils'
 import { useEffect } from 'react'
 
 type RememberBackUrlProps = {

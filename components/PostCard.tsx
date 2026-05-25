@@ -12,6 +12,10 @@ type PostCardData = {
   title: string
 }
 
+function transitionName(title: string) {
+  return title.replaceAll('.', '-')
+}
+
 type PostCardProps = {
   post: PostCardData
   heading?: 'h2' | 'h3'
@@ -28,7 +32,7 @@ export default function PostCard({ post, heading = 'h2' }: PostCardProps) {
         href={href}
         className="inline-block text-lg font-medium text-[var(--accent)] underline-offset-4 hover:underline hover:decoration-dashed focus-visible:no-underline focus-visible:underline-offset-0"
       >
-        <PostTitleTransition title={title}>
+        <PostTitleTransition title={transitionName(title)}>
           <Heading>{title}</Heading>
         </PostTitleTransition>
       </Link>

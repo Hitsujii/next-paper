@@ -1,5 +1,6 @@
 'use client'
 
+import { addBasePath, normalizeAppPath } from './path-utils'
 import { useEffect, useState } from 'react'
 import Link from './Link'
 import { IconChevronLeft } from './icons/AstroPaperIcons'

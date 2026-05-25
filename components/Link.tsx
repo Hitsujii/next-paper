@@ -4,6 +4,7 @@ import NextLink, { type LinkProps } from 'next/link'
 import { useRouter as useNextRouter } from 'next/navigation'
 import { useTransitionRouter } from 'next-view-transitions'
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from 'react'
+import { addBasePath, normalizeAppPath } from './path-utils'
 
 type Props = LinkProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps | 'href'> & {
@@ -48,10 +49,10 @@ function isInternalHref(href: string) {
 }
 
 function toRouterHref(href: string) {
-  if (href.startsWith('/')) return href
+  if (href.startsWith('/')) return normalizeAppPath(href)
 
   const url = new URL(href, window.location.href)
-  return `${url.pathname}${url.search}${url.hash}`
+  return `${normalizeAppPath(url.pathname)}${url.search}${url.hash}`
 }
 
 function lockTransitions() {
@@ -96,7 +97,7 @@ export default function Link({
     if (!isInternalHref(hrefString)) return
 
     const routerHref = toRouterHref(hrefString)
-    const currentHref = `${window.location.pathname}${window.location.search}${window.location.hash}`
+    const currentHref = `${normalizeAppPath(window.location.pathname)}${window.location.search}${window.location.hash}`
 
     if (routerHref === currentHref) {
       event.preventDefault()
@@ -130,9 +131,11 @@ export default function Link({
     }
   }
 
+  const renderedHref = typeof href === 'string' && href.startsWith('/') ? addBasePath(href) : href
+
   return (
     <NextLink
-      href={href}
+      href={renderedHref}
       replace={replace}
       scroll={scroll}
       target={target}
