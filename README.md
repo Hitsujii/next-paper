@@ -109,3 +109,7 @@ NextPaper stands on the shoulders of two great open-source projects:
 ## License
 
 Licensed under the MIT License.
+
+---
+
+Made with 🤍 by [Hitsujii](https://hitsujii.github.io/NextPaper/) 👨🏻‍💻
