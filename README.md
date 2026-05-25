@@ -1,3 +1,11 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./public/static/images/nextpaper-wordmark-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./public/static/images/nextpaper-wordmark-light.svg">
+    <img alt="NextPaper" src="./public/static/images/nextpaper-wordmark-light.svg" width="760">
+  </picture>
+</p>
+
 # NextPaper
 
 > AstroPaper, but for Next.js.
