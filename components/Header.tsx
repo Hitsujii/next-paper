@@ -16,6 +16,7 @@ export default function Header() {
   const pathname = normalizePath(usePathname() || '/')
   const title =
     typeof siteMetadata.headerTitle === 'string' ? siteMetadata.headerTitle : siteMetadata.title
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
   const isActive = (href: string) => {
     const current = normalizePath(pathname)
@@ -43,10 +44,24 @@ export default function Header() {
           <Link
             href="/"
             aria-label={title}
-            className="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap text-[var(--foreground)] hover:text-[var(--accent)] sm:static sm:my-auto sm:text-2xl sm:leading-none"
+            className="absolute inline-flex items-center gap-2 py-1 text-xl leading-8 font-semibold whitespace-nowrap text-[var(--foreground)] hover:text-[var(--accent)] sm:static sm:my-auto sm:text-2xl sm:leading-none"
             onClick={() => setMenuOpen(false)}
           >
-            {title}
+            <span
+              aria-hidden="true"
+              className="inline-block size-5 flex-none bg-current sm:size-6"
+              style={{
+                WebkitMaskImage: `url(${basePath}/static/favicons/favicon.svg)`,
+                maskImage: `url(${basePath}/static/favicons/favicon.svg)`,
+                WebkitMaskRepeat: 'no-repeat',
+                maskRepeat: 'no-repeat',
+                WebkitMaskPosition: 'center',
+                maskPosition: 'center',
+                WebkitMaskSize: 'contain',
+                maskSize: 'contain',
+              }}
+            />
+            <span>{title}</span>
           </Link>
 
           <nav
