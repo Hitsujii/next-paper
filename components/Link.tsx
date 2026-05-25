@@ -131,9 +131,12 @@ export default function Link({
     }
   }
 
+  const normalizedHref =
+    typeof href === 'string' && href.startsWith('/') ? normalizeAppPath(href) : href
+
   return (
     <NextLink
-      href={href}
+      href={normalizedHref}
       replace={replace}
       scroll={scroll}
       target={target}
