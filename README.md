@@ -6,9 +6,9 @@
 
 NextPaper is a minimal Next.js blog starter inspired by [AstroPaper](https://github.com/satnaing/astro-paper) and built on top of [Tailwind Nextjs Starter Blog](https://github.com/timlrx/tailwind-nextjs-starter-blog).
 
-It is for people who want the calm, readable feel of AstroPaper without leaving the Next.js ecosystem. You get Contentlayer, MDX, tags, archives, local search, newsletter support, comments, RSS, sitemap and a clean layout that works well for personal blogs, technical writing and small portfolio sites.
+It is for people who like the calm, readable style of AstroPaper, but want to stay in the Next.js ecosystem. You get Contentlayer, MDX, tags, archives, local search, newsletter support, comments, RSS, sitemap and a clean layout for personal blogs, technical writing and small portfolio sites.
 
-NextPaper is not an Astro theme. It is a Next.js starter that treats AstroPaper as the visual baseline and gives full credit to the projects it builds on.
+NextPaper is not an Astro theme. It is a Next.js starter that treats AstroPaper as the visual baseline and gives credit to the projects it builds on.
 
 ## Features
 
@@ -18,7 +18,7 @@ NextPaper is not an Astro theme. It is a Next.js starter that treats AstroPaper 
 - Projects page
 - Local search
 - Newsletter support
-- Comments support
+- Comments support with Giscus
 - Dark mode
 - RSS and sitemap
 - SEO metadata
@@ -36,6 +36,21 @@ NextPaper is not an Astro theme. It is a Next.js starter that treats AstroPaper 
 - [MDX](https://mdxjs.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Pliny](https://github.com/timlrx/pliny)
+
+## Use as a template
+
+Click **Use this template** on GitHub, then update the project with your own content and settings.
+
+The main files to edit are:
+
+- `data/siteMetadata.js`
+- `data/authors/default.mdx`
+- `data/projectsData.ts`
+- `data/headerNavLinks.ts`
+- `data/blog`
+- `public/static`
+
+If you use comments, newsletter or analytics, add your provider settings and environment variables in your deployment platform.
 
 ## Getting started
 
@@ -97,7 +112,7 @@ Static assets live in `public`.
 
 NextPaper uses a generated local search index at `public/search.json`.
 
-The search UI is inspired by AstroPaper and Pagefind-style result lists, while keeping the original NextPaper search pipeline.
+The search UI is inspired by AstroPaper and Pagefind-style result lists, while keeping the original local search pipeline.
 
 ## Comments
 
@@ -105,7 +120,26 @@ NextPaper supports comments through [Pliny](https://github.com/timlrx/pliny). Th
 
 Comment settings live in `data/siteMetadata.js`.
 
-For Giscus, enable Discussions in your GitHub repository, install the Giscus app and provide the required `NEXT_PUBLIC_GISCUS_*` values in your deployment environment.
+For Giscus, enable Discussions in your GitHub repository, install the Giscus app and provide these values in your deployment environment:
+
+```txt
+NEXT_PUBLIC_GISCUS_REPO
+NEXT_PUBLIC_GISCUS_REPOSITORY_ID
+NEXT_PUBLIC_GISCUS_CATEGORY
+NEXT_PUBLIC_GISCUS_CATEGORY_ID
+```
+
+## Newsletter and analytics
+
+Newsletter and analytics settings are inherited from Tailwind Nextjs Starter Blog through Pliny.
+
+Configure them in `data/siteMetadata.js` and provide the required environment variables in `.env.local` or your deployment platform.
+
+## Deployment
+
+NextPaper can be deployed to any platform that supports Next.js.
+
+It also supports static export for GitHub Pages. If you deploy under a repository path, make sure `BASE_PATH` is set correctly in your build environment.
 
 ## Credits
 
