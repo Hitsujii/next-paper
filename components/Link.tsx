@@ -1,9 +1,9 @@
 'use client'
 
 import NextLink, { type LinkProps } from 'next/link'
-import { useRouter as useNextRouter } from 'next/navigation'
+import { usePathname, useRouter as useNextRouter } from 'next/navigation'
 import { useTransitionRouter } from 'next-view-transitions'
-import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from 'react'
+import { useEffect, type AnchorHTMLAttributes, type MouseEvent, type ReactNode } from 'react'
 import { normalizeAppPath } from './path-utils'
 
 type Props = LinkProps &
@@ -55,6 +55,17 @@ function toRouterHref(href: string) {
   return `${normalizeAppPath(url.pathname)}${url.search}${url.hash}`
 }
 
+function unlockTransitions() {
+  transitionLocked = false
+
+  if (unlockTimer) {
+    clearTimeout(unlockTimer)
+    unlockTimer = undefined
+  }
+
+  delete document.documentElement.dataset.viewTransition
+}
+
 function lockTransitions() {
   transitionLocked = true
   document.documentElement.dataset.viewTransition = 'running'
@@ -62,9 +73,8 @@ function lockTransitions() {
   if (unlockTimer) clearTimeout(unlockTimer)
 
   unlockTimer = setTimeout(() => {
-    transitionLocked = false
-    delete document.documentElement.dataset.viewTransition
-  }, 900)
+    unlockTransitions()
+  }, 250)
 }
 
 export default function Link({
@@ -79,6 +89,11 @@ export default function Link({
 }: Props) {
   const transitionRouter = useTransitionRouter()
   const fallbackRouter = useNextRouter()
+  const pathname = usePathname()
+
+  useEffect(() => {
+    unlockTransitions()
+  }, [pathname])
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(event)
