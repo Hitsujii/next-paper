@@ -11,6 +11,34 @@ github: https://github.com/Hitsujii
 
 Hi, I’m Hitsuji, the creator and maintainer of NextPaper.
 
+
+<div className="my-8">
+  <img
+    alt="NextPaper"
+    src={`${process.env.BASE_PATH || ''}/static/images/nextpaper-about-banner-light.svg?v=1`}
+    className="w-full dark:hidden"
+    loading="lazy"
+    decoding="async"
+  />
+  <img
+    alt="NextPaper"
+    src={`${process.env.BASE_PATH || ''}/static/images/nextpaper-about-banner-dark.svg?v=1`}
+    className="hidden w-full dark:block"
+    loading="lazy"
+    decoding="async"
+  />
+</div>
+
+
+
+
+
+
+
+
+
+
+
 NextPaper is my Next.js take on a minimal, readable blog theme inspired by [AstroPaper](https://github.com/satnaing/astro-paper). It keeps the practical publishing setup from [Tailwind Nextjs Starter Blog](https://github.com/timlrx/tailwind-nextjs-starter-blog), but reshapes the interface into something simpler and calmer.
 
 It is built around the things I actually want in a personal blog: MDX, Contentlayer, tags, archives, local search, comments, RSS and sitemap.
