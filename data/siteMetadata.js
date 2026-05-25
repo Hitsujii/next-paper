@@ -1,7 +1,7 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
   title: 'NextPaper',
-  author: 'Hitsujii',
+  author: 'Hitsuji',
   headerTitle: 'NextPaper',
   description: 'A minimal Next.js blog starter inspired by AstroPaper and built on top of Tailwind Nextjs Starter Blog.',
   language: 'en-us',

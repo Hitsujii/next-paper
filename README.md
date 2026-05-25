@@ -112,4 +112,4 @@ Licensed under the MIT License.
 
 ---
 
-Made with 🤍 by [Hitsujii](https://hitsujii.github.io/NextPaper/) 👨🏻‍💻
+Made with 🤍 by [Hitsuji](https://hitsujii.github.io/next-paper/) 👨🏻‍💻
