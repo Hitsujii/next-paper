@@ -139,7 +139,19 @@ Configure them in `data/siteMetadata.js` and provide the required environment va
 
 NextPaper can be deployed to any platform that supports Next.js.
 
-It also supports static export for GitHub Pages. If you deploy under a repository path, make sure `BASE_PATH` is set correctly in your build environment.
+It also supports static export for GitHub Pages.
+
+For a GitHub Pages project site, such as `https://username.github.io/repo-name/`, keep the default workflow behavior. The workflow will use the repository base path automatically.
+
+For a custom domain, such as `https://example.com/`, set this GitHub Actions variable:
+
+```txt
+CUSTOM_DOMAIN=true
+```
+
+This makes the workflow build the site from the root path instead of `/repo-name`.
+
+You can also set `BASE_PATH` as a GitHub Actions variable if you need a custom path manually.
 
 ## Credits
 

@@ -28,6 +28,19 @@ jobs:
           cache: yarn
       - id: configurepages
         uses: actions/configure-pages@v5
+      - name: Resolve base path
+        run: |
+          if [ "${CUSTOM_DOMAIN:-false}" = "true" ]; then
+            echo "BASE_PATH=" >> "$GITHUB_ENV"
+          elif [ -n "${BASE_PATH_OVERRIDE:-}" ]; then
+            echo "BASE_PATH=$BASE_PATH_OVERRIDE" >> "$GITHUB_ENV"
+          else
+            echo "BASE_PATH=$CONFIGURED_BASE_PATH" >> "$GITHUB_ENV"
+          fi
+        env:
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
+          BASE_PATH_OVERRIDE: ${{ vars.BASE_PATH }}
+          CONFIGURED_BASE_PATH: ${{ steps.configurepages.outputs.base_path }}
       - name: Restore cache
         uses: actions/cache@v4
         with:
@@ -40,7 +53,6 @@ jobs:
         env:
           EXPORT: 1
           UNOPTIMIZED: 1
-          BASE_PATH: ${{ steps.configurepages.outputs.base_path }}
           NEXT_PUBLIC_GISCUS_REPO: ${{ vars.NEXT_PUBLIC_GISCUS_REPO }}
           NEXT_PUBLIC_GISCUS_REPOSITORY_ID: ${{ vars.NEXT_PUBLIC_GISCUS_REPOSITORY_ID }}
           NEXT_PUBLIC_GISCUS_CATEGORY: ${{ vars.NEXT_PUBLIC_GISCUS_CATEGORY }}
